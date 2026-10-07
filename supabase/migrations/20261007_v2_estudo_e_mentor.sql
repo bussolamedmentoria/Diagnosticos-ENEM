@@ -81,3 +81,18 @@ end $$;
 
 revoke execute on function public.mentor_students(), public.mentor_questions(), public.mentor_motivos() from public, anon;
 grant execute on function public.mentor_students(), public.mentor_questions(), public.mentor_motivos() to authenticated;
+
+-- mentor vinculado à conta: o e-mail só vale para a primeira conta criada com ele
+alter table public.admins add column if not exists user_id uuid references auth.users(id) on delete set null;
+create or replace function public.is_admin()
+returns boolean language sql stable security definer set search_path = ''
+as $$ select exists (select 1 from public.admins a
+  where a.email = lower(coalesce(auth.jwt() ->> 'email', ''))
+    and (a.user_id is null or a.user_id = auth.uid())) $$;
+create or replace function public.bind_admin_on_signup()
+returns trigger language plpgsql security definer set search_path = ''
+as $$ begin
+  update public.admins set user_id = new.id where email = lower(new.email) and user_id is null;
+  return new;
+end $$;
+create trigger bind_admin_on_signup after insert on auth.users for each row execute function public.bind_admin_on_signup();
