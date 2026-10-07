@@ -9,7 +9,7 @@
 .authbrand > *{position:relative}
 .authbrand h1.v{color:#fff;margin:0}
 .authbrand .lede{color:#D7E0F3}
-.alogo{width:170px;margin-bottom:8px}
+.alogo{width:min(230px,60%);height:auto;margin-bottom:8px}
 .authlist{margin:6px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px;color:#D7E0F3;font-weight:600}
 .authlist li::before{content:"";display:inline-block;width:10px;height:10px;background:var(--lime);margin-right:10px;border-radius:2px}
 .authcard{padding:clamp(24px,5vw,64px);display:flex;flex-direction:column;justify-content:center;gap:16px;max-width:520px;width:100%;margin:0 auto}
