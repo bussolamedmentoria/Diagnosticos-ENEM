@@ -768,6 +768,25 @@ function simCoach(box, k) {
 }
 
 // ---------------------------------------------------------------- tutor chat
+// Envia ao tutor só o começo do capítulo e os trechos ligados à pergunta (menos texto = custo menor)
+const norm = t => t.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+const STOP = new Set('para como qual quais porque sobre entre esse essa isso este esta pela pelo mais menos muito quando onde tambem ainda pode podem deve explique explica resuma faca perguntas rapidas sobre este padrao conteudo'.split(' '));
+function relevantExcerpt(docEl, question, max = 3500) {
+  const blocks = Array.from(docEl.children).map(el => (el.innerText || '').replace(/\n{2,}/g, '\n').trim()).filter(Boolean);
+  if (!blocks.length) return '';
+  const words = norm(question).split(/[^a-z0-9]+/).filter(w => w.length > 3 && !STOP.has(w));
+  const scored = blocks.map((b, i) => { const nb = norm(b); let sc = 0; for (const w of words) if (nb.includes(w)) sc++; return { i, b, sc }; });
+  const keep = new Set();
+  let size = 0;
+  for (let i = 0; i < blocks.length && size < 900; i++) { keep.add(i); size += blocks[i].length; }
+  for (const x of scored.filter(x => x.sc > 0).sort((a, b) => b.sc - a.sc || a.i - b.i)) {
+    if (keep.has(x.i)) continue;
+    if (size + x.b.length > max) continue;
+    keep.add(x.i); size += x.b.length;
+  }
+  for (let i = 0; i < blocks.length && size < max * 0.6; i++) if (!keep.has(i) && size + blocks[i].length <= max) { keep.add(i); size += blocks[i].length; }
+  return [...keep].sort((a, b) => a - b).map(i => blocks[i]).join('\n\n').slice(0, max);
+}
 const CHATS = {};
 async function tutorSend(sec, text) {
   if (!text.trim()) return;
@@ -775,7 +794,7 @@ async function tutorSend(sec, text) {
   const turns = CHATS[key] = CHATS[key] || [];
   const chat = sec.querySelector('.chat');
   const docEl = document.getElementById('doc');
-  const excerpt = docEl ? docEl.innerText.replace(/\n{3,}/g, '\n\n').slice(0, 9000) : '';
+  const excerpt = docEl ? relevantExcerpt(docEl, text + ' ' + turns.slice(-3).map(t => t.content).join(' ')) : '';
   const title = kind === 'p' ? `Padrão ${CHI[cid].name} (${CHI[cid].what})` : `${META.teo[cid].title} (base do padrão ${CHI[cid].name})`;
   turns.push({ role: 'user', content: text });
   const u = document.createElement('div'); u.className = 'msg u'; u.textContent = text; chat.append(u);
@@ -783,7 +802,7 @@ async function tutorSend(sec, text) {
   const stop = sec.querySelector('[data-act=tutor-stop]'); stop.hidden = false;
   const ctl = new AbortController(); sec._ctl = ctl;
   try {
-    const r = await callAI({ kind: 'tutor', title, excerpt, messages: turns.slice(-10) }, t => { a.innerHTML = md(t); chat.scrollTop = chat.scrollHeight; }, ctl.signal);
+    const r = await callAI({ kind: 'tutor', title, excerpt, messages: turns.slice(-6) }, t => { a.innerHTML = md(t); chat.scrollTop = chat.scrollHeight; }, ctl.signal);
     a.innerHTML = md(r); turns.push({ role: 'assistant', content: r });
   } catch (e) {
     if (e && e.text) { a.innerHTML = md(e.text); turns.push({ role: 'assistant', content: e.text }); }

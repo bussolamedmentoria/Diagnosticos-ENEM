@@ -16,7 +16,7 @@ web/                 site estático publicado na Vercel (Root Directory = web)
   termos.html        termos de uso e política de privacidade
 supabase/
   migrations/        esquema do banco (perfis, progresso, respostas, uso e cache da IA) com RLS
-  functions/ai/      Edge Function que chama a API da Anthropic
+  functions/ai/      Edge Function que chama a API do Gemini
 ```
 
 ## Banco (Supabase)
@@ -31,9 +31,11 @@ Para ver os leads: Supabase → SQL Editor → `select * from admin.leads order 
 
 ## IA
 
-A Edge Function `ai` usa o segredo `ANTHROPIC_API_KEY` (Supabase → Project Settings → Edge Functions → Secrets).
-Opcionais: `AI_DAILY_LIMIT` (padrão 40 pedidos/dia por aluno), `MODEL_EXPLAIN`, `MODEL_TUTOR`, `MODEL_COACH`.
+A Edge Function `ai` usa o Gemini (`gemini-3.8-flash`). A chave fica no Vault do Supabase (segredo `gemini_api_key`);
+se existir o segredo `GEMINI_API_KEY` em Edge Functions → Secrets, ele tem prioridade.
+Opcionais: `AI_DAILY_LIMIT` (padrão 20 pedidos/dia por aluno) e `GEMINI_MODEL`.
 Explicações de questões ficam em cache e são reaproveitadas entre alunos (não contam no limite).
+O tutor envia só o trecho do capítulo ligado à pergunta e as últimas 6 mensagens, para reduzir custo.
 
 ## Origem do cadastro
 

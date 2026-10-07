@@ -101,3 +101,14 @@ select p.id, p.nome, u.email, p.whatsapp, p.cidade, p.uf, p.escolaridade, p.curs
 from public.profiles p
 join auth.users u on u.id = p.id
 left join public.progress g on g.user_id = p.id;
+
+-- Leitura de segredos do Vault, só para a função de IA (service role).
+-- A chave do Gemini foi gravada à parte com vault.create_secret(<chave>, 'gemini_api_key').
+create or replace function public.get_secret(p_name text)
+returns text
+language sql
+security definer
+set search_path = ''
+as $$ select decrypted_secret from vault.decrypted_secrets where name = p_name limit 1 $$;
+revoke execute on function public.get_secret(text) from public, anon, authenticated;
+grant execute on function public.get_secret(text) to service_role;
