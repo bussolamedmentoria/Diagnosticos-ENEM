@@ -1,0 +1,535 @@
+<div class="blk opener" data-toc="teo-c01" id="teo-c01"><div class="band"><div class="rt">Supermaterial · Natureza 40+</div><span class="tag">Embasamento teórico · Física · F1</span><h1>Mecânica</h1><div class="sub">Base do <a href="#sec-c01" style="color:var(--lime);text-decoration:underline">Padrão do Movimento</a> · capítulo 01</div><div class="big">F1</div></div></div><p class="lead">Mecânica é descobrir <b>qual grandeza manda</b> na situação. O movimento se descreve com posição, velocidade e aceleração; quem <b>muda</b> o movimento é a força resultante (F = m·a); e, quando as forças ficam complicadas, use o que se conserva ou se transfere: <b>energia</b> (alturas, molas, rampas), <b>impulso</b> (choques rápidos) e <b>pressão</b> (fluidos). É o padrão mais cobrado de Natureza: de 4 a 6 questões em todas as oito provas regulares analisadas.</p><h2 class="kwn">1. Grandezas, unidades e vetores</h2><p class="">Toda grandeza física é <b>número + unidade</b>. “O carro andou 20” não diz nada; “20 m/s” diz. O ENEM usa o Sistema Internacional (SI), e muitos erros de prova são só uma unidade não convertida.</p><table class="t"><colgroup><col style="width:26%"><col style="width:34%"><col style="width:40%"></colgroup><tr><th>Grandeza</th><th>Unidade no SI</th><th>O que significa</th></tr><tr><td>Comprimento · tempo · massa</td><td>metro (m) · segundo (s) · quilograma (kg)</td><td>as três unidades de base da mecânica</td></tr><tr><td>Velocidade · aceleração</td><td>m/s · m/s²</td><td>metros por segundo · quanto a velocidade muda a cada segundo</td></tr><tr><td>Força</td><td>newton (N) = kg·m/s²</td><td>1 N acelera 1 kg a 1 m/s²; um corpo de 1 kg pesa cerca de 10 N</td></tr><tr><td>Energia e trabalho</td><td>joule (J) = N·m</td><td>força de 1 N agindo ao longo de 1 m</td></tr><tr><td>Potência</td><td>watt (W) = J/s</td><td>energia transferida por segundo</td></tr><tr><td>Pressão</td><td>pascal (Pa) = N/m²</td><td>força distribuída por área; 1 atm ≈ 1 × 10⁵ Pa</td></tr></table><div class="grid2"><div class="card"><h3>km/h ↔ m/s</h3><p>1 km/h = 1 000 m ÷ 3 600 s. Então <b>km/h ÷ 3,6 = m/s</b> e <b>m/s × 3,6 = km/h</b>. Ex.: 72 km/h = 20 m/s; 108 km/h = 30 m/s.</p></div><div class="card"><h3>Prefixos e potências de 10</h3><p><b>k</b> = 10³ · <b>M</b> = 10⁶ · <b>c</b> = 10⁻² · <b>m</b> = 10⁻³ · <b>μ</b> = 10⁻⁶. Ex.: 2 ms = 2 × 10⁻³ s; 5 cm² = 5 × 10⁻⁴ m². Multiplicou: some os expoentes; dividiu: subtraia.</p></div></div><p class=""><b>Escalar × vetorial.</b> Massa, tempo, temperatura e energia ficam completos com número e unidade: são <b>grandezas escalares</b>. Deslocamento, velocidade, aceleração, força e quantidade de movimento precisam também de <b>direção e sentido</b>: são <b>grandezas vetoriais</b>, desenhadas como setas. Por isso 3 N + 4 N pode dar 7 N, 1 N ou 5 N, conforme a direção das forças.</p><figure class="fig"><div class="fsvg" style="width:160mm"><svg viewBox="0 0 600 225" xmlns="http://www.w3.org/2000/svg" font-family="Montserrat" font-size="13">
+<defs>
+<marker id="c01-vb" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#2563EB"/></marker>
+<marker id="c01-vg" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#22C55E"/></marker>
+<marker id="c01-vr" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#E5484D"/></marker>
+<marker id="c01-vn" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#0A1C44"/></marker>
+</defs>
+<rect x="4" y="4" width="142" height="215" rx="6" fill="#EEF2FA"/>
+<rect x="154" y="4" width="142" height="215" rx="6" fill="#EEF2FA"/>
+<rect x="304" y="4" width="142" height="215" rx="6" fill="#EEF2FA"/>
+<rect x="454" y="4" width="142" height="215" rx="6" fill="#EEF2FA"/>
+<g font-weight="700" fill="#0A1C44" text-anchor="middle">
+<text x="75" y="28">Mesmo sentido</text><text x="225" y="28">Sentidos opostos</text>
+<text x="375" y="28">Perpendiculares</text><text x="525" y="28">Componentes</text></g>
+<line x1="20" y1="85" x2="68" y2="85" stroke="#2563EB" stroke-width="4" marker-end="url(#c01-vb)"/>
+<line x1="68" y1="85" x2="132" y2="85" stroke="#22C55E" stroke-width="4" marker-end="url(#c01-vg)"/>
+<text x="44" y="73" text-anchor="middle" fill="#2563EB" font-weight="700">3 N</text>
+<text x="100" y="73" text-anchor="middle" fill="#14532D" font-weight="700">4 N</text>
+<line x1="20" y1="125" x2="132" y2="125" stroke="#E5484D" stroke-width="4" marker-end="url(#c01-vr)"/>
+<text x="75" y="152" text-anchor="middle" fill="#E5484D" font-weight="700">R = 7 N</text>
+<text x="75" y="205" text-anchor="middle" fill="#5B6478" font-size="12">somam: 3 + 4</text>
+<line x1="170" y1="85" x2="234" y2="85" stroke="#22C55E" stroke-width="4" marker-end="url(#c01-vg)"/>
+<text x="202" y="73" text-anchor="middle" fill="#14532D" font-weight="700">4 N</text>
+<line x1="234" y1="102" x2="186" y2="102" stroke="#2563EB" stroke-width="4" marker-end="url(#c01-vb)"/>
+<text x="248" y="107" fill="#2563EB" font-weight="700">3 N</text>
+<line x1="170" y1="140" x2="187" y2="140" stroke="#E5484D" stroke-width="4" marker-end="url(#c01-vr)"/>
+<text x="197" y="145" fill="#E5484D" font-weight="700">R = 1 N</text>
+<text x="225" y="205" text-anchor="middle" fill="#5B6478" font-size="12">subtraem: 4 − 3</text>
+<line x1="322" y1="170" x2="386" y2="170" stroke="#22C55E" stroke-width="4" marker-end="url(#c01-vg)"/>
+<text x="354" y="189" text-anchor="middle" fill="#14532D" font-weight="700">4 N</text>
+<line x1="386" y1="170" x2="386" y2="122" stroke="#2563EB" stroke-width="4" marker-end="url(#c01-vb)"/>
+<text x="396" y="152" fill="#2563EB" font-weight="700">3 N</text>
+<line x1="322" y1="170" x2="385" y2="123" stroke="#E5484D" stroke-width="4" marker-end="url(#c01-vr)"/>
+<text x="314" y="112" fill="#E5484D" font-weight="700">R = 5 N</text>
+<text x="375" y="208" text-anchor="middle" fill="#5B6478" font-size="12">√(3² + 4²) = 5</text>
+<line x1="472" y1="170" x2="552" y2="170" stroke="#2563EB" stroke-width="3" stroke-dasharray="6 4" marker-end="url(#c01-vb)"/>
+<line x1="552" y1="170" x2="552" y2="112" stroke="#22C55E" stroke-width="3" stroke-dasharray="6 4" marker-end="url(#c01-vg)"/>
+<line x1="472" y1="170" x2="551" y2="111" stroke="#0A1C44" stroke-width="4" marker-end="url(#c01-vn)"/>
+<path d="M500,170 A28,28 0 0,0 494.4,153.2" fill="none" stroke="#0A1C44" stroke-width="1.5"/>
+<text x="505" y="163" fill="#0A1C44" font-size="12">θ</text>
+<text x="498" y="126" fill="#0A1C44" font-weight="700">v</text>
+<text x="525" y="192" text-anchor="middle" fill="#2563EB" font-weight="700" font-size="12">v<tspan font-size="9" dy="3">x</tspan><tspan dy="-3"> = v · cos θ</tspan></text>
+<text x="525" y="209" text-anchor="middle" fill="#14532D" font-weight="700" font-size="12">v<tspan font-size="9" dy="3">y</tspan><tspan dy="-3"> = v · sen θ</tspan></text>
+</svg></div><figcaption><b>Soma de vetores.</b> O resultado depende da direção: mesmo sentido soma, sentidos opostos subtrai, perpendiculares se combinam pelo teorema de Pitágoras. À direita: um vetor inclinado pode ser trocado por duas <b>componentes</b> perpendiculares.</figcaption></figure><h2 class="kwn">2. Cinemática: descrever o movimento</h2><p class=""><b>Posição (s)</b> é onde o corpo está numa trajetória (o “quilômetro 120” da estrada). <b>Deslocamento</b> é Δs = s − s₀ (posição final menos inicial) e não é o mesmo que distância percorrida: quem vai e volta ao ponto de partida tem deslocamento zero. <b>Velocidade média</b> é v<sub>m</sub> = Δs ÷ Δt; a <b>velocidade instantânea</b> é a do velocímetro, num instante. <b>Aceleração</b> é a = Δv ÷ Δt: a = 2 m/s² quer dizer que a velocidade cresce 2 m/s a cada segundo.</p><div class="grid2"><div class="card"><h3>MU (MRU) — movimento uniforme</h3><p>Velocidade constante, <b>a = 0</b>: distâncias iguais em tempos iguais.</p><p><b>s = s₀ + v·t</b>. No gráfico s × t, uma reta inclinada; no v × t, uma reta horizontal.</p></div><div class="card"><h3>MUV (MRUV) — uniformemente variado</h3><p>Aceleração constante: a velocidade muda o mesmo tanto a cada segundo.</p><p><b>v = v₀ + a·t</b> · <b>s = s₀ + v₀·t + a·t²/2</b> · <b>v² = v₀² + 2·a·Δs</b> (Torricelli: use quando o tempo não aparece).</p></div></div><figure class="fig"><div class="fsvg" style="width:160mm"><svg viewBox="0 0 600 250" xmlns="http://www.w3.org/2000/svg" font-family="Montserrat" font-size="13">
+<defs>
+<marker id="c01-gax" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#0A1C44"/></marker>
+</defs>
+<text x="170" y="22" text-anchor="middle" font-weight="700" fill="#0A1C44">Posição × tempo (s × t)</text>
+<text x="475" y="22" text-anchor="middle" font-weight="700" fill="#0A1C44">Velocidade × tempo (v × t)</text>
+<line x1="50" y1="215" x2="50" y2="38" stroke="#0A1C44" stroke-width="2" marker-end="url(#c01-gax)"/>
+<line x1="50" y1="215" x2="290" y2="215" stroke="#0A1C44" stroke-width="2" marker-end="url(#c01-gax)"/>
+<text x="58" y="46" fill="#0A1C44" font-weight="700">s</text>
+<text x="288" y="234" text-anchor="end" fill="#0A1C44" font-weight="700">t</text>
+<line x1="50" y1="175" x2="262" y2="101" stroke="#2563EB" stroke-width="3.5"/>
+<path d="M50,205 Q156,205 262,58" fill="none" stroke="#7C3AED" stroke-width="3.5"/>
+<text x="266" y="106" fill="#2563EB" font-weight="700">MU</text>
+<text x="266" y="62" fill="#7C3AED" font-weight="700">MUV</text>
+<text x="58" y="68" fill="#5B6478" font-size="12">inclinação = velocidade</text>
+<text x="96" y="234" fill="#2563EB" font-size="12">reta</text>
+<text x="160" y="234" fill="#7C3AED" font-size="12">parábola</text>
+<polygon points="360,215 360,175 560,75 560,215" fill="#22C55E" fill-opacity="0.22"/>
+<line x1="360" y1="215" x2="360" y2="38" stroke="#0A1C44" stroke-width="2" marker-end="url(#c01-gax)"/>
+<line x1="360" y1="215" x2="592" y2="215" stroke="#0A1C44" stroke-width="2" marker-end="url(#c01-gax)"/>
+<text x="368" y="46" fill="#0A1C44" font-weight="700">v</text>
+<text x="590" y="234" text-anchor="end" fill="#0A1C44" font-weight="700">t</text>
+<line x1="360" y1="75" x2="560" y2="75" stroke="#5B6478" stroke-width="1.2" stroke-dasharray="4 3"/>
+<line x1="360" y1="175" x2="560" y2="75" stroke="#7C3AED" stroke-width="3.5"/>
+<line x1="420" y1="145" x2="500" y2="145" stroke="#0A1C44" stroke-width="1.6" stroke-dasharray="5 3"/>
+<line x1="500" y1="145" x2="500" y2="105" stroke="#0A1C44" stroke-width="1.6" stroke-dasharray="5 3"/>
+<text x="460" y="161" text-anchor="middle" fill="#0A1C44" font-size="12" font-weight="700">Δt</text>
+<text x="506" y="130" fill="#0A1C44" font-size="12" font-weight="700">Δv</text>
+<text x="352" y="180" text-anchor="end" fill="#5B6478" font-size="12">v₀</text>
+<text x="352" y="80" text-anchor="end" fill="#5B6478" font-size="12">v</text>
+<text x="470" y="198" text-anchor="middle" fill="#14532D" font-weight="700">área = deslocamento Δs</text>
+<text x="372" y="60" fill="#5B6478" font-size="12">inclinação = aceleração = Δv/Δt</text>
+</svg></div><figcaption><b>Como ler os gráficos.</b> No s × t, a inclinação é a velocidade (reta = MU; parábola = MUV). No v × t, a <b>inclinação</b> é a aceleração e a <b>área</b> entre a reta e o eixo do tempo é o deslocamento.</figcaption></figure><div class="limebox"><h3>Exemplo — distância de parada</h3><p>Carro a 72 km/h (20 m/s). O motorista leva 0,7 s para reagir (<b>tempo de reação</b>) e o freio dá a = −5 m/s². <b>Reação</b> (MU, o carro ainda não freia): 20 × 0,7 = 14 m. <b>Frenagem</b> (Torricelli, até v = 0): 0 = 20² − 2 · 5 · Δs → Δs = 40 m. <b>Total: 54 m.</b> Como Δs ∝ v², a 40 m/s a frenagem seria 4 vezes maior (160 m).</p></div><h3 class="kwn tsub">Queda livre e lançamento vertical</h3><p class="">Sem resistência do ar, todo corpo perto da Terra cai com a mesma aceleração: <b>a = g ≈ 10 m/s², vertical, para baixo</b>, qualquer que seja a massa (no vácuo, martelo e pena caem juntos). Partindo do repouso: <b>v = g·t</b>, <b>h = g·t²/2</b> e <b>v = √(2·g·h)</b>. No ar, a diferença entre corpos leves e pesados vem da <b>resistência do ar</b>, não da massa.</p><figure class="fig"><div class="fsvg" style="width:150mm"><svg viewBox="0 0 600 345" xmlns="http://www.w3.org/2000/svg" font-family="Montserrat" font-size="13">
+<defs>
+<marker id="c01-tg" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#22C55E"/></marker>
+<marker id="c01-tr" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#E5484D"/></marker>
+</defs>
+<rect x="4" y="4" width="286" height="337" rx="6" fill="#EEF2FA"/>
+<rect x="304" y="4" width="292" height="337" rx="6" fill="#EEF2FA"/>
+<text x="147" y="26" text-anchor="middle" font-weight="700" fill="#0A1C44">Lançamento vertical (v₀ = 30 m/s)</text>
+<text x="95" y="48" text-anchor="middle" fill="#5B6478" font-size="12">subindo</text>
+<text x="205" y="48" text-anchor="middle" fill="#5B6478" font-size="12">descendo</text>
+<line x1="20" y1="300" x2="275" y2="300" stroke="#0A1C44" stroke-width="2"/>
+<g fill="#1B3C73"><circle cx="95" cy="288" r="10"/><circle cx="95" cy="178" r="10"/><circle cx="95" cy="112" r="10"/>
+<circle cx="150" cy="90" r="10"/><circle cx="205" cy="112" r="10"/><circle cx="205" cy="178" r="10"/><circle cx="205" cy="288" r="10"/></g>
+<g stroke="#22C55E" stroke-width="3.5">
+<line x1="111" y1="288" x2="111" y2="240" marker-end="url(#c01-tg)"/>
+<line x1="111" y1="178" x2="111" y2="146" marker-end="url(#c01-tg)"/>
+<line x1="111" y1="112" x2="111" y2="94" marker-end="url(#c01-tg)"/>
+<line x1="221" y1="112" x2="221" y2="130" marker-end="url(#c01-tg)"/>
+<line x1="221" y1="178" x2="221" y2="210" marker-end="url(#c01-tg)"/>
+<line x1="221" y1="288" x2="221" y2="336" marker-end="url(#c01-tg)"/></g>
+<g stroke="#E5484D" stroke-width="2.5">
+<line x1="79" y1="278" x2="79" y2="304" marker-end="url(#c01-tr)"/>
+<line x1="79" y1="168" x2="79" y2="194" marker-end="url(#c01-tr)"/>
+<line x1="79" y1="102" x2="79" y2="128" marker-end="url(#c01-tr)"/>
+<line x1="134" y1="84" x2="134" y2="110" marker-end="url(#c01-tr)"/>
+<line x1="189" y1="102" x2="189" y2="128" marker-end="url(#c01-tr)"/>
+<line x1="189" y1="168" x2="189" y2="194" marker-end="url(#c01-tr)"/>
+<line x1="189" y1="278" x2="189" y2="304" marker-end="url(#c01-tr)"/></g>
+<g fill="#14532D" font-size="12" font-weight="700">
+<text x="117" y="270">30 m/s</text><text x="117" y="166">20 m/s</text><text x="117" y="108">10 m/s</text>
+<text x="229" y="126">10 m/s</text><text x="229" y="198">20 m/s</text><text x="229" y="324">30 m/s</text></g>
+<text x="160" y="72" text-anchor="middle" fill="#0A1C44" font-size="12" font-weight="700">topo: v = 0, mas a = g</text>
+<text x="20" y="232" fill="#E5484D" font-size="12" font-weight="700">a = g</text>
+<text x="20" y="247" fill="#E5484D" font-size="12" font-weight="700">sempre ↓</text>
+<text x="450" y="26" text-anchor="middle" font-weight="700" fill="#0A1C44">Queda livre a partir do repouso</text>
+<line x1="320" y1="297" x2="585" y2="297" stroke="#0A1C44" stroke-width="2"/>
+<line x1="400" y1="60" x2="400" y2="285" stroke="#5B6478" stroke-width="1" stroke-dasharray="3 4"/>
+<g fill="#1B3C73"><circle cx="400" cy="60" r="9"/><circle cx="400" cy="85" r="9"/><circle cx="400" cy="160" r="9"/><circle cx="400" cy="285" r="9"/></g>
+<g fill="#0A1C44" font-size="12" text-anchor="end" font-weight="700">
+<text x="384" y="64">t = 0</text><text x="384" y="89">1 s</text><text x="384" y="164">2 s</text><text x="384" y="289">3 s</text></g>
+<g fill="#0A1C44" font-size="12">
+<text x="416" y="64">v = 0 · caiu 0</text><text x="416" y="89">v = 10 m/s · caiu 5 m</text>
+<text x="416" y="164">v = 20 m/s · caiu 20 m</text><text x="416" y="289">v = 30 m/s · caiu 45 m</text></g>
+<g fill="#7C3AED" font-size="12" font-weight="700">
+<text x="330" y="77">+5 m</text><text x="330" y="127">+15 m</text><text x="330" y="227">+25 m</text></g>
+</svg></div><figcaption><b>Esquerda:</b> bola lançada para cima a 30 m/s. A velocidade (verde) perde 10 m/s a cada segundo, zera no topo e cresce na descida; a aceleração (vermelho) é g, para baixo, em <b>todos</b> os instantes. <b>Direita:</b> na queda livre, as distâncias em segundos sucessivos seguem 5 : 15 : 25 (1 : 3 : 5).</figcaption></figure><div class="trap"><h3>O ponto mais alto</h3><p>No topo, <b>v = 0 por um instante</b>, mas <b>a = g, para baixo</b>, porque a única força continua sendo o peso. Velocidade zero não significa aceleração zero — se fosse, a bola ficaria parada lá em cima. Tempo de subida = v₀ ÷ g; altura máxima H = v₀² ÷ (2g). Com v₀ = 30 m/s: sobe por 3 s e atinge 45 m.</p></div><h3 class="kwn tsub">Lançamento horizontal e oblíquo: dois movimentos independentes</h3><p class="">O movimento horizontal e o vertical acontecem <b>ao mesmo tempo, sem um interferir no outro</b>. Na horizontal não há força (sem ar): é um <b>MU</b>, com v<sub>x</sub> constante. Na vertical age o peso: é uma <b>queda livre</b> (ou um lançamento vertical), com a = g. O tempo no ar depende só da altura e da velocidade vertical — por isso uma bala disparada na horizontal e outra largada da mesma altura tocam o chão juntas.</p><figure class="fig"><div class="fsvg" style="width:160mm"><svg viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg" font-family="Montserrat" font-size="13">
+<defs>
+<marker id="c01-pb" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#2563EB"/></marker>
+<marker id="c01-pg" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#22C55E"/></marker>
+<marker id="c01-pr" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#E5484D"/></marker>
+<marker id="c01-pn" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#0A1C44"/></marker>
+</defs>
+<line x1="10" y1="207" x2="590" y2="207" stroke="#5B6478" stroke-width="1.5" stroke-dasharray="6 4"/>
+<path d="M30,200 Q280,-120 530,200" fill="none" stroke="#5B6478" stroke-width="2" stroke-dasharray="2 4"/>
+<g stroke-width="2" stroke="#0A1C44" stroke-dasharray="5 3">
+<line x1="30" y1="200" x2="79" y2="137" marker-end="url(#c01-pn)"/>
+<line x1="155" y1="80" x2="204" y2="49" marker-end="url(#c01-pn)"/>
+<line x1="405" y1="80" x2="454" y2="111" marker-end="url(#c01-pn)"/>
+<line x1="530" y1="200" x2="579" y2="263" marker-end="url(#c01-pn)"/></g>
+<g stroke="#2563EB" stroke-width="3.5">
+<line x1="30" y1="200" x2="80" y2="200" marker-end="url(#c01-pb)"/>
+<line x1="155" y1="80" x2="205" y2="80" marker-end="url(#c01-pb)"/>
+<line x1="280" y1="40" x2="330" y2="40" marker-end="url(#c01-pb)"/>
+<line x1="405" y1="80" x2="455" y2="80" marker-end="url(#c01-pb)"/>
+<line x1="530" y1="200" x2="580" y2="200" marker-end="url(#c01-pb)"/></g>
+<g stroke="#22C55E" stroke-width="3.5">
+<line x1="30" y1="200" x2="30" y2="136" marker-end="url(#c01-pg)"/>
+<line x1="155" y1="80" x2="155" y2="48" marker-end="url(#c01-pg)"/>
+<line x1="405" y1="80" x2="405" y2="112" marker-end="url(#c01-pg)"/>
+<line x1="530" y1="200" x2="530" y2="264" marker-end="url(#c01-pg)"/></g>
+<g stroke="#E5484D" stroke-width="2.5">
+<line x1="17" y1="210" x2="17" y2="242" marker-end="url(#c01-pr)"/>
+<line x1="142" y1="88" x2="142" y2="120" marker-end="url(#c01-pr)"/>
+<line x1="267" y1="48" x2="267" y2="80" marker-end="url(#c01-pr)"/>
+<line x1="392" y1="88" x2="392" y2="120" marker-end="url(#c01-pr)"/>
+<line x1="517" y1="210" x2="517" y2="242" marker-end="url(#c01-pr)"/></g>
+<g fill="#0A1C44"><circle cx="30" cy="200" r="7"/><circle cx="155" cy="80" r="7"/><circle cx="280" cy="40" r="7"/><circle cx="405" cy="80" r="7"/><circle cx="530" cy="200" r="7"/></g>
+<text x="280" y="20" text-anchor="middle" fill="#0A1C44" font-weight="700" font-size="12">no topo: v<tspan font-size="9" dy="3">y</tspan><tspan dy="-3"> = 0 e v = v</tspan><tspan font-size="9" dy="3">x</tspan><tspan dy="-3"> (mínima, mas não zero)</tspan></text>
+<text x="60" y="160" fill="#0A1C44" font-size="12" font-weight="700">v</text>
+<text x="300" y="140" text-anchor="middle" fill="#5B6478" font-size="12">tempo de subida = tempo de descida</text>
+<rect x="20" y="279" width="14" height="10" fill="#2563EB"/>
+<text x="40" y="289" fill="#0A1C44" font-size="12">v<tspan font-size="9" dy="3">x</tspan><tspan dy="-3">: constante (MU)</tspan></text>
+<rect x="175" y="279" width="14" height="10" fill="#22C55E"/>
+<text x="195" y="289" fill="#0A1C44" font-size="12">v<tspan font-size="9" dy="3">y</tspan><tspan dy="-3">: muda 10 m/s a cada 1 s</tspan></text>
+<rect x="390" y="279" width="14" height="10" fill="#E5484D"/>
+<text x="410" y="289" fill="#0A1C44" font-size="12">a = g, para baixo, sempre</text>
+</svg></div><figcaption><b>Lançamento oblíquo.</b> Decomponha v₀ em v<sub>x</sub> = v₀·cos θ e v<sub>y</sub> = v₀·sen θ. A componente horizontal (azul) não muda; a vertical (verde) diminui na subida, zera no topo e cresce na descida. A aceleração (vermelho) é a mesma em todos os pontos.</figcaption></figure><p class="">No <b>topo</b>, só a componente vertical zera: a velocidade ali é <b>mínima, igual a v<sub>x</sub></b>, não zero. Sem ar (e com saída e chegada na mesma altura), o alcance máximo ocorre a 45°, e ângulos complementares (30° e 60°) dão o mesmo alcance. No lançamento horizontal (avião soltando uma caixa, bola rolando para fora da mesa), v<sub>y</sub> começa em zero: o tempo de queda é o mesmo de uma queda livre da mesma altura.</p><div class="enembox"><div class="eh">Como isso cai no ENEM <span><a class="plink" href="#sec-c01">Padrão 01 · Movimento</a></span></div><p>O ENEM gosta de perguntar o <b>módulo e o sentido</b> da velocidade e da aceleração num instante especial (o topo do lançamento — questão-modelo do padrão) e de comparar corpos leves e pesados caindo (2018 PPL e 2021). A resposta do senso comum <span class="pill m">Mito do senso comum</span> — “no topo nada atua”, “o mais pesado cai antes” — está sempre entre as alternativas. Nos problemas de trânsito, a armadilha é a etapa esquecida <span class="pill c">Erro de conta</span>: tempo de reação, km/h não convertido, ou o tamanho do próprio objeto.</p></div><h2 class="kwn">3. Forças e as leis de Newton</h2><p class=""><b>Força</b> é uma interação — um puxão ou um empurrão — entre dois corpos. É vetor e se mede em newtons (N). O que decide o movimento é a <b>força resultante</b> (F<sub>R</sub>): a soma vetorial de todas as forças que agem sobre o corpo.</p><div class="grid3"><div class="dark"><h3>1ª lei — inércia</h3><p>Se F<sub>R</sub> = 0, o corpo fica em repouso ou em <b>MU em linha reta</b>. Não é preciso força para continuar andando; é preciso força para <b>mudar</b> a velocidade. Na freada, o passageiro “vai para a frente” porque mantém a velocidade que tinha.</p></div><div class="dark"><h3>2ª lei — F = m·a</h3><p><b>F<sub>R</sub> = m·a</b>. A aceleração tem a direção e o sentido da força resultante — não necessariamente o da velocidade. Mesma força, massa dobrada → aceleração pela metade.</p></div><div class="dark"><h3>3ª lei — ação e reação</h3><p>Se A empurra B, B empurra A com força de <b>mesmo módulo e sentido oposto</b>. As duas agem em <b>corpos diferentes</b>, por isso não se anulam. O foguete empurra os gases para trás; os gases empurram o foguete para a frente.</p></div></div><p class="">Para resolver qualquer problema de força, faça o <b>diagrama de corpo livre</b>: isole o corpo e desenhe só as forças que agem <b>sobre ele</b>, cada uma com quem a aplica. Depois some: se o corpo está parado ou em MU, a resultante é zero; se acelera, F<sub>R</sub> = m·a.</p><figure class="fig"><div class="fsvg" style="width:160mm"><svg viewBox="0 0 600 252" xmlns="http://www.w3.org/2000/svg" font-family="Montserrat" font-size="13">
+<defs>
+<marker id="c01-fb" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#2563EB"/></marker>
+<marker id="c01-fr" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#E5484D"/></marker>
+<marker id="c01-fp" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#7C3AED"/></marker>
+<marker id="c01-fo" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#D97706"/></marker>
+<marker id="c01-fg" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#22C55E"/></marker>
+</defs>
+<rect x="4" y="4" width="142" height="244" rx="6" fill="#EEF2FA"/>
+<rect x="154" y="4" width="142" height="244" rx="6" fill="#EEF2FA"/>
+<rect x="304" y="4" width="142" height="244" rx="6" fill="#EEF2FA"/>
+<rect x="454" y="4" width="142" height="244" rx="6" fill="#EEF2FA"/>
+<g font-weight="700" fill="#0A1C44" text-anchor="middle">
+<text x="75" y="26">Apoiado</text><text x="225" y="26">Puxado, com atrito</text>
+<text x="375" y="26">Pendurado</text><text x="525" y="26">Ação e reação</text></g>
+<line x1="18" y1="172" x2="132" y2="172" stroke="#5B6478" stroke-width="4"/>
+<rect x="52" y="132" width="46" height="40" fill="#1B3C73"/>
+<line x1="75" y1="152" x2="75" y2="74" stroke="#2563EB" stroke-width="3.5" marker-end="url(#c01-fb)"/>
+<line x1="75" y1="152" x2="75" y2="226" stroke="#E5484D" stroke-width="3.5" marker-end="url(#c01-fr)"/>
+<text x="84" y="88" fill="#2563EB" font-weight="700">N</text>
+<text x="84" y="222" fill="#E5484D" font-weight="700">P</text>
+<text x="34" y="242" fill="#0A1C44" font-size="12" font-weight="700">N = P</text>
+<line x1="160" y1="176" x2="292" y2="176" stroke="#5B6478" stroke-width="4"/>
+<rect x="210" y="140" width="40" height="36" fill="#1B3C73"/>
+<line x1="250" y1="158" x2="290" y2="158" stroke="#7C3AED" stroke-width="3.5" marker-end="url(#c01-fp)"/>
+<line x1="210" y1="170" x2="168" y2="170" stroke="#D97706" stroke-width="3.5" marker-end="url(#c01-fo)"/>
+<line x1="230" y1="158" x2="230" y2="94" stroke="#2563EB" stroke-width="3.5" marker-end="url(#c01-fb)"/>
+<line x1="230" y1="158" x2="230" y2="222" stroke="#E5484D" stroke-width="3.5" marker-end="url(#c01-fr)"/>
+<text x="282" y="146" text-anchor="end" fill="#7C3AED" font-weight="700">T</text>
+<text x="166" y="160" fill="#D97706" font-weight="700">Fat</text>
+<text x="238" y="106" fill="#2563EB" font-weight="700">N</text>
+<text x="238" y="218" fill="#E5484D" font-weight="700">P</text>
+<text x="225" y="242" text-anchor="middle" fill="#0A1C44" font-size="12" font-weight="700">acelera se T &gt; Fat</text>
+<line x1="330" y1="50" x2="420" y2="50" stroke="#5B6478" stroke-width="4"/>
+<line x1="375" y1="50" x2="375" y2="122" stroke="#5B6478" stroke-width="2"/>
+<rect x="355" y="122" width="40" height="40" fill="#1B3C73"/>
+<line x1="375" y1="142" x2="375" y2="70" stroke="#7C3AED" stroke-width="3.5" marker-end="url(#c01-fp)"/>
+<line x1="375" y1="142" x2="375" y2="214" stroke="#E5484D" stroke-width="3.5" marker-end="url(#c01-fr)"/>
+<text x="384" y="84" fill="#7C3AED" font-weight="700">T</text>
+<text x="384" y="210" fill="#E5484D" font-weight="700">P</text>
+<text x="375" y="242" text-anchor="middle" fill="#0A1C44" font-size="12" font-weight="700">parado: T = P</text>
+<line x1="462" y1="172" x2="588" y2="172" stroke="#5B6478" stroke-width="4"/>
+<rect x="465" y="132" width="40" height="40" fill="#1B3C73"/>
+<rect x="505" y="132" width="40" height="40" fill="#0E7490"/>
+<text x="485" y="157" text-anchor="middle" fill="#fff" font-weight="700">A</text>
+<text x="525" y="157" text-anchor="middle" fill="#fff" font-weight="700">B</text>
+<line x1="512" y1="116" x2="566" y2="116" stroke="#22C55E" stroke-width="3.5" marker-end="url(#c01-fg)"/>
+<line x1="498" y1="116" x2="464" y2="116" stroke="#22C55E" stroke-width="3.5" marker-end="url(#c01-fg)"/>
+<text x="474" y="100" text-anchor="middle" fill="#14532D" font-size="12" font-weight="700">B em A</text>
+<text x="545" y="100" text-anchor="middle" fill="#14532D" font-size="12" font-weight="700">A em B</text>
+<text x="525" y="208" text-anchor="middle" fill="#0A1C44" font-size="12" font-weight="700">mesmo módulo,</text>
+<text x="525" y="224" text-anchor="middle" fill="#0A1C44" font-size="12" font-weight="700">sentidos opostos,</text>
+<text x="525" y="240" text-anchor="middle" fill="#E5484D" font-size="12" font-weight="700">corpos diferentes</text>
+</svg></div><figcaption><b>Diagramas de corpo livre.</b> Peso (P), normal (N), tração (T) e atrito (Fat) num corpo apoiado, puxado e pendurado. No último quadro, o par de ação e reação: cada força age num corpo diferente.</figcaption></figure><table class="t"><colgroup><col style="width:20%"><col style="width:40%"><col style="width:40%"></colgroup><tr><th>Força</th><th>Quem aplica e para onde aponta</th><th>Cuidado</th></tr><tr><td>Peso (P = m·g)</td><td>a Terra; vertical, para baixo</td><td>massa (kg) não muda de lugar para lugar; o peso (N) muda (na Lua, g ≈ 1,6 m/s²)</td></tr><tr><td>Normal (N)</td><td>a superfície de apoio; perpendicular a ela</td><td>não é a reação do peso; só vale N = P em piso horizontal sem outras forças verticais</td></tr><tr><td>Tração (T)</td><td>um fio, cabo ou corda; ao longo do fio, puxando</td><td>fio ideal transmite a mesma tração de ponta a ponta</td></tr><tr><td>Elástica (F = k·x)</td><td>mola deformada de x; aponta para o tamanho natural</td><td>k é a constante da mola (N/m): mola dura, k grande</td></tr><tr><td>Atrito (Fat)</td><td>a superfície; paralelo a ela, contra o deslizamento (ou a tendência)</td><td>estático: sem deslizar; cinético: deslizando</td></tr></table><h3 class="kwn tsub">Atrito estático × atrito cinético</h3><p class="">Enquanto não há deslizamento, o atrito <b>estático</b> se ajusta à força que tenta mover o corpo, de zero até um máximo <b>Fat<sub>máx</sub> = μ<sub>e</sub>·N</b> (μ<sub>e</sub> é o coeficiente de atrito estático, que depende das superfícies). Passou disso, o corpo desliza e o atrito vira <b>cinético</b>, Fat = μ<sub>c</sub>·N, com <b>μ<sub>c</sub> &lt; μ<sub>e</sub></b>: é mais difícil tirar o guarda-roupa do lugar do que mantê-lo andando.</p><figure class="fig"><div class="fsvg" style="width:150mm"><svg viewBox="0 0 600 245" xmlns="http://www.w3.org/2000/svg" font-family="Montserrat" font-size="13">
+<defs>
+<marker id="c01-aax" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#0A1C44"/></marker>
+</defs>
+<polygon points="60,205 300,70 300,205" fill="#2563EB" fill-opacity="0.08"/>
+<line x1="60" y1="205" x2="60" y2="28" stroke="#0A1C44" stroke-width="2" marker-end="url(#c01-aax)"/>
+<line x1="60" y1="205" x2="585" y2="205" stroke="#0A1C44" stroke-width="2" marker-end="url(#c01-aax)"/>
+<text x="68" y="36" fill="#0A1C44" font-weight="700">força de atrito</text>
+<text x="583" y="225" text-anchor="end" fill="#0A1C44" font-weight="700">força aplicada F</text>
+<line x1="60" y1="205" x2="300" y2="70" stroke="#2563EB" stroke-width="4"/>
+<line x1="300" y1="70" x2="300" y2="115" stroke="#D97706" stroke-width="2" stroke-dasharray="5 3"/>
+<line x1="300" y1="115" x2="565" y2="115" stroke="#D97706" stroke-width="4"/>
+<line x1="300" y1="125" x2="300" y2="205" stroke="#5B6478" stroke-width="1.2" stroke-dasharray="3 4"/>
+<line x1="60" y1="70" x2="294" y2="70" stroke="#5B6478" stroke-width="1.2" stroke-dasharray="3 4"/>
+<line x1="60" y1="115" x2="294" y2="115" stroke="#5B6478" stroke-width="1.2" stroke-dasharray="3 4"/>
+<circle cx="300" cy="70" r="6" fill="#2563EB"/>
+<text x="52" y="74" text-anchor="end" fill="#2563EB" font-size="12" font-weight="700">μe·N</text>
+<text x="52" y="119" text-anchor="end" fill="#D97706" font-size="12" font-weight="700">μc·N</text>
+<text x="312" y="62" fill="#2563EB" font-weight="700">atrito estático máximo</text>
+<text x="160" y="185" text-anchor="middle" fill="#2563EB" font-weight="700">ESTÁTICO</text>
+<text x="160" y="201" text-anchor="middle" fill="#2563EB" font-size="12">parado: Fat = F</text>
+<text x="440" y="105" text-anchor="middle" fill="#D97706" font-weight="700">CINÉTICO: desliza, Fat = μc·N</text>
+<text x="440" y="150" text-anchor="middle" fill="#5B6478" font-size="12">μc &lt; μe: depois que começa a deslizar,</text>
+<text x="440" y="166" text-anchor="middle" fill="#5B6478" font-size="12">fica mais fácil manter o movimento</text>
+<text x="300" y="225" text-anchor="middle" fill="#0A1C44" font-size="12">começa a deslizar</text>
+</svg></div><figcaption><b>O atrito em função da força aplicada.</b> Parado, o atrito estático cresce junto com a força (Fat = F). Ao atingir μ<sub>e</sub>·N, o corpo começa a deslizar e o atrito cai para o valor cinético, μ<sub>c</sub>·N, que fica constante.</figcaption></figure><p class=""><b>Atrito também faz as coisas andarem.</b> Para andar, o pé empurra o chão para trás e o atrito <b>estático</b> do chão empurra você <b>para a frente</b>; o mesmo vale para o pneu de tração de um carro. Uma roda que gira <b>sem deslizar</b> usa atrito estático; uma roda travada que derrapa usa atrito cinético — por isso o freio ABS, que impede o travamento, freia em distância menor.</p><h3 class="kwn tsub">Plano inclinado</h3><p class="">Num plano inclinado de ângulo θ, troque o peso por duas componentes: <b>P·sen θ</b>, ao longo do plano (puxa o corpo ladeira abaixo), e <b>P·cos θ</b>, perpendicular ao plano (aperta o corpo contra ele). A normal equilibra P·cos θ; o atrito, se houver, aponta contra a tendência de deslizar.</p><figure class="fig"><div class="fsvg" style="width:150mm"><svg viewBox="0 0 600 262" xmlns="http://www.w3.org/2000/svg" font-family="Montserrat" font-size="13">
+<defs>
+<marker id="c01-ir" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#E5484D"/></marker>
+<marker id="c01-ib" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#2563EB"/></marker>
+<marker id="c01-io" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#D97706"/></marker>
+</defs>
+<polygon points="40,250 420,250 420,30.6" fill="#EEF2FA" stroke="#0A1C44" stroke-width="2"/>
+<path d="M90,250 A50,50 0 0,0 83.3,225" fill="none" stroke="#0A1C44" stroke-width="1.5"/>
+<text x="98" y="243" fill="#0A1C44" font-weight="700">θ</text>
+<polygon points="189.0,164.0 254.8,126.0 230.8,84.4 165.0,122.4" fill="#1B3C73"/>
+<line x1="209.9" y1="124.2" x2="209.9" y2="244.2" stroke="#E5484D" stroke-width="3.5" marker-end="url(#c01-ir)"/>
+<line x1="209.9" y1="124.2" x2="157.9" y2="154.2" stroke="#E5484D" stroke-width="2.5" stroke-dasharray="6 4" marker-end="url(#c01-ir)"/>
+<line x1="209.9" y1="124.2" x2="261.9" y2="214.2" stroke="#E5484D" stroke-width="2.5" stroke-dasharray="6 4" marker-end="url(#c01-ir)"/>
+<line x1="209.9" y1="124.2" x2="157.9" y2="34.2" stroke="#2563EB" stroke-width="3.5" marker-end="url(#c01-ib)"/>
+<line x1="209.9" y1="124.2" x2="261.9" y2="94.2" stroke="#D97706" stroke-width="3.5" marker-end="url(#c01-io)"/>
+<text x="218" y="240" fill="#E5484D" font-weight="700">P</text>
+<text x="150" y="172" text-anchor="end" fill="#E5484D" font-weight="700">P·sen θ</text>
+<text x="270" y="220" fill="#E5484D" font-weight="700">P·cos θ</text>
+<text x="148" y="40" text-anchor="end" fill="#2563EB" font-weight="700">N</text>
+<text x="268" y="92" fill="#D97706" font-weight="700">Fat</text>
+<rect x="440" y="36" width="155" height="200" rx="6" fill="#0A1C44"/>
+<g font-size="12.5" fill="#fff">
+<text x="452" y="62" fill="#D6FF00" font-weight="700">Perpendicular ao plano:</text>
+<text x="452" y="80">N = P·cos θ</text>
+<text x="452" y="108" fill="#D6FF00" font-weight="700">Ao longo do plano:</text>
+<text x="452" y="126">P·sen θ puxa para</text>
+<text x="452" y="142">baixo da rampa</text>
+<text x="452" y="170" fill="#D6FF00" font-weight="700">Parado:</text>
+<text x="452" y="188">Fat = P·sen θ</text>
+<text x="452" y="212" fill="#D6FF00" font-weight="700">Desliza se:</text>
+<text x="452" y="229">P·sen θ &gt; μe·N</text></g>
+</svg></div><figcaption><b>Bloco parado num plano inclinado.</b> As componentes tracejadas substituem o peso: não some P com elas. Quanto maior θ, maior P·sen θ e menor N — por isso rampas íngremes fazem as coisas escorregarem.</figcaption></figure><div class="limebox"><h3>Exemplo — vai deslizar?</h3><p>Bloco de 10 kg num plano de 30° (sen 30° = 0,5; cos 30° ≈ 0,87), com μ<sub>e</sub> = 0,6. P = 100 N; P·sen θ = 50 N; N = P·cos θ ≈ 87 N; Fat<sub>máx</sub> = 0,6 × 87 ≈ 52 N. Como 50 N &lt; 52 N, o atrito estático segura: <b>o bloco fica parado</b>, com Fat = 50 N (e não 52 N: o estático só faz a força necessária).</p></div><div class="enembox"><div class="eh">Como isso cai no ENEM <span><a class="plink" href="#sec-c01">Padrão 01 · Movimento</a></span></div><p>Atrito estático × cinético é distrator clássico de conceito vizinho <span class="pill n">Conceito vizinho</span>: o carro que acelera, a pessoa que anda e o pneu com ABS usam atrito <b>estático</b>. Outro vizinho é o par ação e reação trocado pelo par peso–normal. Quando a questão tiver várias forças, faça o diagrama: a alternativa certa costuma sair da soma das forças, não de uma fórmula decorada.</p></div><h2 class="kwn">4. Torque, alavancas e centro de massa</h2><p class="">Uma força pode <b>girar</b> um corpo em torno de um eixo. O efeito de giro é o <b>torque</b> (ou momento): <b>M = F·d</b>, em que d é o <b>braço</b> — a distância do eixo até a linha de ação da força. Braço maior, mesma força, mais torque: por isso a maçaneta fica longe da dobradiça e um cano na chave de roda ajuda a soltar o parafuso. Corpo em equilíbrio de rotação: <b>soma dos torques horários = soma dos anti-horários</b>.</p><figure class="fig"><div class="fsvg" style="width:160mm"><svg viewBox="0 0 600 290" xmlns="http://www.w3.org/2000/svg" font-family="Montserrat" font-size="13">
+<defs>
+<marker id="c01-lr" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#E5484D"/></marker>
+</defs>
+<rect x="4" y="4" width="286" height="282" rx="6" fill="#EEF2FA"/>
+<rect x="304" y="4" width="292" height="282" rx="6" fill="#EEF2FA"/>
+<text x="147" y="26" text-anchor="middle" font-weight="700" fill="#0A1C44">Alavanca: torque M = F · d</text>
+<text x="147" y="50" text-anchor="middle" fill="#1B3C73" font-weight="700" font-size="12">600 N × 1 m = 300 N × 2 m</text>
+<line x1="20" y1="230" x2="275" y2="230" stroke="#5B6478" stroke-width="2"/>
+<polygon points="135,230 165,230 150,200" fill="#0A1C44"/>
+<rect x="40" y="192" width="225" height="8" fill="#5B6478"/>
+<rect x="80" y="152" width="40" height="40" fill="#1B3C73"/>
+<rect x="236" y="164" width="28" height="28" fill="#0E7490"/>
+<text x="100" y="177" text-anchor="middle" fill="#fff" font-size="11" font-weight="700">600 N</text>
+<line x1="100" y1="120" x2="100" y2="148" stroke="#E5484D" stroke-width="3" marker-end="url(#c01-lr)"/>
+<line x1="250" y1="132" x2="250" y2="160" stroke="#E5484D" stroke-width="3" marker-end="url(#c01-lr)"/>
+<text x="100" y="112" text-anchor="middle" fill="#E5484D" font-size="12" font-weight="700">600 N</text>
+<text x="250" y="124" text-anchor="middle" fill="#E5484D" font-size="12" font-weight="700">300 N</text>
+<g stroke="#0A1C44" stroke-width="1.5">
+<line x1="100" y1="250" x2="150" y2="250"/><line x1="150" y1="250" x2="250" y2="250"/>
+<line x1="100" y1="244" x2="100" y2="256"/><line x1="150" y1="244" x2="150" y2="256"/><line x1="250" y1="244" x2="250" y2="256"/></g>
+<text x="125" y="272" text-anchor="middle" fill="#0A1C44" font-size="12" font-weight="700">1 m</text>
+<text x="200" y="272" text-anchor="middle" fill="#0A1C44" font-size="12" font-weight="700">2 m</text>
+<text x="150" y="190" text-anchor="middle" fill="#5B6478" font-size="11">apoio</text>
+<text x="450" y="26" text-anchor="middle" font-weight="700" fill="#0A1C44">Centro de massa e tombamento</text>
+<line x1="315" y1="230" x2="585" y2="230" stroke="#5B6478" stroke-width="2"/>
+<rect x="320" y="130" width="70" height="100" fill="none" stroke="#5B6478" stroke-width="1.2" stroke-dasharray="4 3"/>
+<rect x="476" y="110" width="44" height="120" fill="none" stroke="#5B6478" stroke-width="1.2" stroke-dasharray="4 3"/>
+<polygon points="324.2,206.1 390.0,230.0 424.2,136.0 358.4,112.1" fill="#1B3C73" fill-opacity="0.85"/>
+<polygon points="480.1,211.4 520.0,230.0 570.7,121.2 530.8,102.6" fill="#E5484D" fill-opacity="0.8"/>
+<circle cx="374.2" cy="171.0" r="5" fill="#D6FF00" stroke="#0A1C44" stroke-width="1.5"/>
+<circle cx="525.4" cy="166.3" r="5" fill="#D6FF00" stroke="#0A1C44" stroke-width="1.5"/>
+<line x1="374.2" y1="171" x2="374.2" y2="230" stroke="#0A1C44" stroke-width="2" stroke-dasharray="4 3"/>
+<line x1="525.4" y1="166.3" x2="525.4" y2="230" stroke="#0A1C44" stroke-width="2" stroke-dasharray="4 3"/>
+<circle cx="390" cy="230" r="4" fill="#0A1C44"/><circle cx="520" cy="230" r="4" fill="#0A1C44"/>
+<text x="370" y="252" text-anchor="middle" fill="#1B3C73" font-size="12" font-weight="700">CM cai dentro da base</text>
+<text x="370" y="270" text-anchor="middle" fill="#1B3C73" font-size="12" font-weight="700">→ volta</text>
+<text x="522" y="252" text-anchor="middle" fill="#E5484D" font-size="12" font-weight="700">CM cai fora da base</text>
+<text x="522" y="270" text-anchor="middle" fill="#E5484D" font-size="12" font-weight="700">→ tomba</text>
+<text x="450" y="50" text-anchor="middle" fill="#5B6478" font-size="11">tracejado: posição em pé · ● centro de massa</text>
+</svg></div><figcaption><b>Esquerda:</b> na gangorra, 600 N a 1 m do apoio equilibram 300 N a 2 m. <b>Direita:</b> um corpo inclinado volta se a vertical que passa pelo centro de massa cai dentro da base de apoio; tomba se cai fora.</figcaption></figure><p class=""><b>Centro de massa (CM)</b> é o ponto em que se pode considerar concentrada a massa do corpo — é nele que se desenha o peso. Quanto mais <b>baixo</b> o CM e mais <b>larga</b> a base, mais estável o corpo: carga no teto do ônibus facilita o tombamento numa curva; o equilibrista usa uma vara; o lutador afasta os pés. No corpo humano, o bíceps se prende perto do cotovelo (braço pequeno) e precisa fazer força muitas vezes maior que o peso segurado na mão.</p><h2 class="kwn">5. Trabalho, energia e potência</h2><p class=""><b>Energia</b> é a capacidade de produzir mudanças; ela nunca some, só muda de forma ou passa de um corpo para outro. Uma força transfere energia quando realiza <b>trabalho</b>: <b>τ = F·d·cos θ</b> (θ é o ângulo entre a força e o deslocamento). Força perpendicular ao movimento (a normal num piso horizontal) não realiza trabalho. O trabalho da força resultante é igual à variação da energia cinética: <b>τ<sub>R</sub> = ΔE<sub>c</sub></b>.</p><table class="t"><colgroup><col style="width:26%"><col style="width:24%"><col style="width:50%"></colgroup><tr><th>Forma</th><th>Fórmula</th><th>Leitura</th></tr><tr><td>Cinética (movimento)</td><td>E<sub>c</sub> = m·v²/2</td><td>velocidade dobra → energia × 4 (e distância de frenagem × 4)</td></tr><tr><td>Potencial gravitacional</td><td>E<sub>pg</sub> = m·g·h</td><td>cresce com a altura h em relação a um nível de referência</td></tr><tr><td>Potencial elástica</td><td>E<sub>pel</sub> = k·x²/2</td><td>mola, estilingue, arco, cama elástica: deformação dobra → energia × 4</td></tr><tr><td>Mecânica</td><td>E<sub>m</sub> = E<sub>c</sub> + E<sub>p</sub></td><td>constante se não houver atrito nem resistência do ar</td></tr></table><p class=""><b>Conservação e dissipação.</b> Na montanha-russa, no pêndulo ou no skate sem atrito, a energia mecânica é constante: o que se perde em altura vira velocidade. Descendo uma altura h a partir do repouso, <b>v = √(2gh)</b> — a massa se cancela. Com atrito, parte da energia mecânica é <b>dissipada</b>: vira energia térmica (aquecimento), som e deformação. A energia <b>total</b> continua conservada.</p><figure class="fig"><div class="fsvg" style="width:155mm"><svg viewBox="0 0 600 430" xmlns="http://www.w3.org/2000/svg" font-family="Montserrat" font-size="13">
+<rect x="300" y="14" width="12" height="12" fill="#2563EB"/><text x="317" y="25" fill="#0A1C44" font-size="12">E<tspan font-size="9" dy="3">p</tspan></text>
+<rect x="350" y="14" width="12" height="12" fill="#22C55E"/><text x="367" y="25" fill="#0A1C44" font-size="12">E<tspan font-size="9" dy="3">c</tspan></text>
+<rect x="400" y="14" width="12" height="12" fill="#D97706"/><text x="417" y="25" fill="#0A1C44" font-size="12">energia térmica (atrito)</text>
+<line x1="40" y1="60" x2="590" y2="60" stroke="#5B6478" stroke-width="1.2" stroke-dasharray="5 4"/>
+<text x="588" y="54" text-anchor="end" fill="#5B6478" font-size="11">altura que daria para voltar a atingir, sem atrito</text>
+<path d="M10,60 L40,60 C110,60 140,250 200,250 C260,250 300,155 360,155 C420,155 450,202 520,202 L590,202" fill="none" stroke="#0A1C44" stroke-width="5"/>
+<line x1="10" y1="258" x2="590" y2="258" stroke="#5B6478" stroke-width="1.5"/>
+<g fill="#D6FF00" stroke="#0A1C44" stroke-width="2"><circle cx="40" cy="60" r="7"/><circle cx="200" cy="250" r="7"/><circle cx="360" cy="155" r="7"/><circle cx="520" cy="202" r="7"/></g>
+<text x="54" y="84" fill="#0A1C44" font-size="12" font-weight="700">A · h = 20 m · v = 0</text>
+<text x="200" y="280" text-anchor="middle" fill="#0A1C44" font-size="12" font-weight="700">B · h = 0 · v = 20 m/s</text>
+<text x="360" y="140" text-anchor="middle" fill="#0A1C44" font-size="12" font-weight="700">C · h = 10 m · v ≈ 14 m/s</text>
+<text x="590" y="228" text-anchor="end" fill="#0A1C44" font-size="12" font-weight="700">D · h = 5 m · v ≈ 17 m/s</text>
+<line x1="10" y1="405" x2="590" y2="405" stroke="#0A1C44" stroke-width="1.5"/>
+<line x1="10" y1="305" x2="590" y2="305" stroke="#0A1C44" stroke-width="1" stroke-dasharray="3 3"/>
+<text x="12" y="300" fill="#5B6478" font-size="11">energia total (100%)</text>
+<rect x="16" y="305" width="22" height="100" fill="#2563EB"/>
+<rect x="42" y="305" width="22" height="100" fill="#2563EB"/>
+<rect x="176" y="305" width="22" height="100" fill="#22C55E"/>
+<rect x="202" y="325" width="22" height="80" fill="#22C55E"/><rect x="202" y="305" width="22" height="20" fill="#D97706"/>
+<rect x="336" y="355" width="22" height="50" fill="#2563EB"/><rect x="336" y="305" width="22" height="50" fill="#22C55E"/>
+<rect x="362" y="355" width="22" height="50" fill="#2563EB"/><rect x="362" y="335" width="22" height="20" fill="#22C55E"/><rect x="362" y="305" width="22" height="30" fill="#D97706"/>
+<rect x="496" y="380" width="22" height="25" fill="#2563EB"/><rect x="496" y="305" width="22" height="75" fill="#22C55E"/>
+<rect x="522" y="380" width="22" height="25" fill="#2563EB"/><rect x="522" y="345" width="22" height="35" fill="#22C55E"/><rect x="522" y="305" width="22" height="40" fill="#D97706"/>
+<g fill="#5B6478" font-size="11" text-anchor="middle">
+<text x="27" y="420">sem</text><text x="53" y="420">com</text><text x="187" y="420">sem</text><text x="213" y="420">com</text>
+<text x="347" y="420">sem</text><text x="373" y="420">com</text><text x="507" y="420">sem</text><text x="533" y="420">com</text></g>
+<g fill="#0A1C44" font-size="13" font-weight="700" text-anchor="middle">
+<text x="110" y="360">A</text><text x="270" y="360">B</text><text x="430" y="360">C</text><text x="580" y="360">D</text></g>
+</svg></div><figcaption><b>Energia na montanha-russa (carrinho solto do repouso em A).</b> Em cada ponto, a barra “sem” mostra o caso sem atrito: E<sub>p</sub> + E<sub>c</sub> é sempre 100%. A barra “com” mostra o caso real: a parte laranja, que virou energia térmica, só cresce, e sobra menos E<sub>c</sub>.</figcaption></figure><div class="limebox"><h3>Exemplos rápidos</h3><p>Skatista parte do repouso no alto de uma rampa de 5 m, sem atrito: m·g·h = m·v²/2 → v = √(2 · 10 · 5) = <b>10 m/s</b>. Uma mola de k = 200 N/m comprimida 0,10 m armazena E = 200 × 0,1² ÷ 2 = <b>1 J</b>.</p></div><p class=""><b>Potência</b> é a rapidez da transferência de energia: <b>P = E ÷ Δt</b>, em watts. Subir a mesma escada correndo exige a mesma energia, mas mais potência. Também vale P = F·v. <b>Rendimento</b> é η = energia útil ÷ energia total, sempre menor que 100%. Conversões úteis: 1 kWh = 3,6 × 10⁶ J; 1 cv ≈ 735 W.</p><h2 class="kwn">6. Impulso e quantidade de movimento</h2><p class=""><b>Quantidade de movimento</b> (ou momento linear) é <b>p = m·v</b>, em kg·m/s; é um vetor, com o sentido da velocidade. Para mudá-la, é preciso aplicar uma força durante um tempo: o <b>impulso</b>, <b>I = F·Δt = Δp</b>. Se a variação Δp está fixada (o carro vai parar de qualquer jeito), quanto <b>maior o tempo</b> da parada, <b>menor a força média</b>. É o princípio do airbag, da zona de deformação do carro, da espuma do capacete, do colchão do salto em altura e de dobrar os joelhos ao aterrissar.</p><figure class="fig"><div class="fsvg" style="width:150mm"><svg viewBox="0 0 600 245" xmlns="http://www.w3.org/2000/svg" font-family="Montserrat" font-size="13">
+<defs>
+<marker id="c01-max" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#0A1C44"/></marker>
+</defs>
+<path d="M80,215 C95,215 98,45 110,45 C122,45 125,215 140,215 Z" fill="#E5484D" fill-opacity="0.3" stroke="#E5484D" stroke-width="3"/>
+<path d="M80,215 C140,215 152,172.5 200,172.5 C248,172.5 260,215 320,215 Z" fill="#2563EB" fill-opacity="0.25" stroke="#2563EB" stroke-width="3"/>
+<line x1="60" y1="215" x2="60" y2="28" stroke="#0A1C44" stroke-width="2" marker-end="url(#c01-max)"/>
+<line x1="60" y1="215" x2="585" y2="215" stroke="#0A1C44" stroke-width="2" marker-end="url(#c01-max)"/>
+<text x="68" y="36" fill="#0A1C44" font-weight="700">força F</text>
+<text x="583" y="235" text-anchor="end" fill="#0A1C44" font-weight="700">tempo t</text>
+<text x="128" y="56" fill="#E5484D" font-weight="700">sem airbag: Δt curto → força de pico enorme</text>
+<text x="210" y="160" fill="#2563EB" font-weight="700">com airbag: Δt longo → força pequena</text>
+<text x="380" y="100" fill="#0A1C44" font-weight="700">Áreas iguais = mesmo impulso</text>
+<text x="380" y="120" fill="#0A1C44">I = F<tspan font-size="9" dy="3">média</tspan><tspan dy="-3"> · Δt = Δp</tspan></text>
+<text x="80" y="235" fill="#5B6478" font-size="12">início do choque</text>
+</svg></div><figcaption><b>Mesmo impulso, forças diferentes.</b> A área sob o gráfico F × t é o impulso. Parar o mesmo passageiro exige a mesma área; esticando o tempo, a força de pico despenca.</figcaption></figure><div class="limebox"><h3>Exemplo — airbag</h3><p>Passageiro de 70 kg a 20 m/s para: Δp = 70 × 20 = 1 400 kg·m/s. Contra o painel (Δt ≈ 0,01 s): F = 140 000 N. Com airbag (Δt ≈ 0,1 s): F = <b>14 000 N</b> — dez vezes menos. A carroceria que se deforma faz o mesmo e ainda converte energia cinética em trabalho de deformação.</p></div><p class=""><b>Conservação da quantidade de movimento.</b> Num sistema isolado (forças externas desprezíveis, como em choques e explosões rápidos), <b>p<sub>antes</sub> = p<sub>depois</sub></b>. Forças internas não mudam o p total: na arma, a bala vai para a frente e a arma recua. Nas <b>colisões</b>, p sempre se conserva; a energia cinética, não necessariamente: a colisão <b>elástica</b> conserva E<sub>c</sub> (bolas de bilhar, quase); a <b>inelástica</b> perde parte; a <b>perfeitamente inelástica</b> — os corpos saem juntos — perde o máximo.</p><figure class="fig"><div class="fsvg" style="width:150mm"><svg viewBox="0 0 600 200" xmlns="http://www.w3.org/2000/svg" font-family="Montserrat" font-size="13">
+<defs>
+<marker id="c01-cg" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#22C55E"/></marker>
+</defs>
+<rect x="4" y="4" width="592" height="88" rx="6" fill="#EEF2FA"/>
+<rect x="4" y="104" width="592" height="92" rx="6" fill="#EEF2FA"/>
+<text x="16" y="26" fill="#0A1C44" font-weight="700">ANTES</text>
+<text x="16" y="126" fill="#0A1C44" font-weight="700">DEPOIS</text>
+<line x1="40" y1="82" x2="330" y2="82" stroke="#5B6478" stroke-width="2"/>
+<rect x="60" y="40" width="70" height="34" fill="#1B3C73"/><circle cx="75" cy="77" r="5" fill="#0A1C44"/><circle cx="115" cy="77" r="5" fill="#0A1C44"/>
+<text x="95" y="62" text-anchor="middle" fill="#fff" font-weight="700">2 kg</text>
+<line x1="136" y1="57" x2="196" y2="57" stroke="#22C55E" stroke-width="3.5" marker-end="url(#c01-cg)"/>
+<text x="166" y="48" text-anchor="middle" fill="#14532D" font-weight="700" font-size="12">3 m/s</text>
+<rect x="260" y="46" width="50" height="28" fill="#0E7490"/><circle cx="272" cy="77" r="5" fill="#0A1C44"/><circle cx="298" cy="77" r="5" fill="#0A1C44"/>
+<text x="285" y="65" text-anchor="middle" fill="#fff" font-weight="700" font-size="12">1 kg</text>
+<text x="285" y="38" text-anchor="middle" fill="#5B6478" font-size="12">parado</text>
+<text x="360" y="44" fill="#0A1C44" font-weight="700">p = 2 × 3 + 1 × 0 = 6 kg·m/s</text>
+<text x="360" y="68" fill="#0A1C44">E<tspan font-size="9" dy="3">c</tspan><tspan dy="-3"> = 2 × 3² ÷ 2 = 9 J</tspan></text>
+<line x1="40" y1="182" x2="330" y2="182" stroke="#5B6478" stroke-width="2"/>
+<rect x="120" y="140" width="70" height="34" fill="#1B3C73"/><circle cx="135" cy="177" r="5" fill="#0A1C44"/><circle cx="175" cy="177" r="5" fill="#0A1C44"/>
+<rect x="190" y="146" width="50" height="28" fill="#0E7490"/><circle cx="202" cy="177" r="5" fill="#0A1C44"/><circle cx="228" cy="177" r="5" fill="#0A1C44"/>
+<text x="155" y="162" text-anchor="middle" fill="#fff" font-weight="700">2 kg</text>
+<text x="215" y="165" text-anchor="middle" fill="#fff" font-weight="700" font-size="12">1 kg</text>
+<line x1="246" y1="158" x2="296" y2="158" stroke="#22C55E" stroke-width="3.5" marker-end="url(#c01-cg)"/>
+<text x="271" y="149" text-anchor="middle" fill="#14532D" font-weight="700" font-size="12">2 m/s</text>
+<text x="360" y="144" fill="#14532D" font-weight="700">p = 3 × 2 = 6 kg·m/s (conservou)</text>
+<text x="360" y="168" fill="#E5484D">E<tspan font-size="9" dy="3">c</tspan><tspan dy="-3"> = 3 × 2² ÷ 2 = 6 J (perdeu 3 J)</tspan></text>
+</svg></div><figcaption><b>Colisão perfeitamente inelástica.</b> Os carrinhos engatam: a quantidade de movimento total se mantém (6 kg·m/s), mas um terço da energia cinética vira deformação, som e calor.</figcaption></figure><h2 class="kwn">7. Pressão e fluidos</h2><p class=""><b>Pressão</b> é força dividida pela área em que ela se distribui: <b>p = F ÷ A</b>, em pascal (Pa = N/m²). A mesma força espalhada numa área grande pressiona pouco (raquete de neve, esteira de trator, cama de pregos); concentrada numa área pequena pressiona muito (faca afiada, salto agulha, agulha de injeção). No pneu, a força que sustenta o carro é p·A: pneu murcho (p menor) precisa de mais área de contato.</p><p class="">Num líquido em repouso, a pressão cresce com a profundidade porque cada camada sustenta o peso das camadas de cima: <b>p = p₀ + d·g·h</b> (d = densidade do líquido, h = profundidade, p₀ = pressão na superfície, em geral a atmosférica). Na água (d = 1 000 kg/m³), <b>cada 10 m somam ≈ 1 atm</b>. A pressão depende só da profundidade — não da forma nem do volume do recipiente.</p><figure class="fig"><div class="fsvg" style="width:155mm"><svg viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg" font-family="Montserrat" font-size="13">
+<defs>
+<marker id="c01-hb" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="9" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#0A1C44"/></marker>
+<marker id="c01-hax" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#0A1C44"/></marker>
+</defs>
+<rect x="40" y="70" width="240" height="190" fill="#2563EB" fill-opacity="0.22"/>
+<path d="M40,40 L40,260 L280,260 L280,40" fill="none" stroke="#0A1C44" stroke-width="3"/>
+<line x1="40" y1="70" x2="280" y2="70" stroke="#2563EB" stroke-width="2"/>
+<text x="160" y="58" text-anchor="middle" fill="#0A1C44" font-size="12" font-weight="700">superfície: p₀ (atmosfera)</text>
+<circle cx="130" cy="125" r="4" fill="#0A1C44"/>
+<g stroke="#0A1C44" stroke-width="2">
+<line x1="130" y1="125" x2="130" y2="111" marker-end="url(#c01-hb)"/><line x1="130" y1="125" x2="130" y2="139" marker-end="url(#c01-hb)"/>
+<line x1="130" y1="125" x2="116" y2="125" marker-end="url(#c01-hb)"/><line x1="130" y1="125" x2="144" y2="125" marker-end="url(#c01-hb)"/></g>
+<circle cx="190" cy="215" r="4" fill="#0A1C44"/>
+<g stroke="#0A1C44" stroke-width="3">
+<line x1="190" y1="215" x2="190" y2="183" marker-end="url(#c01-hb)"/><line x1="190" y1="215" x2="190" y2="247" marker-end="url(#c01-hb)"/>
+<line x1="190" y1="215" x2="158" y2="215" marker-end="url(#c01-hb)"/><line x1="190" y1="215" x2="222" y2="215" marker-end="url(#c01-hb)"/></g>
+<g stroke="#1B3C73" stroke-width="1.5">
+<line x1="66" y1="70" x2="66" y2="125"/><line x1="60" y1="125" x2="72" y2="125"/>
+<line x1="256" y1="70" x2="256" y2="215"/><line x1="250" y1="215" x2="262" y2="215"/></g>
+<text x="74" y="104" fill="#1B3C73" font-weight="700">h₁</text>
+<text x="248" y="150" text-anchor="end" fill="#1B3C73" font-weight="700">h₂</text>
+<text x="160" y="284" text-anchor="middle" fill="#0A1C44" font-weight="700">p = p₀ + d · g · h</text>
+<line x1="360" y1="70" x2="592" y2="70" stroke="#0A1C44" stroke-width="2" marker-end="url(#c01-hax)"/>
+<line x1="360" y1="70" x2="360" y2="272" stroke="#0A1C44" stroke-width="2" marker-end="url(#c01-hax)"/>
+<text x="475" y="36" text-anchor="middle" fill="#0A1C44" font-weight="700">pressão (atm)</text>
+<g fill="#5B6478" font-size="12" text-anchor="middle"><text x="410" y="60">1</text><text x="460" y="60">2</text><text x="510" y="60">3</text><text x="560" y="60">4</text></g>
+<g fill="#5B6478" font-size="12" text-anchor="end"><text x="352" y="74">0</text><text x="352" y="137">10 m</text><text x="352" y="201">20 m</text><text x="352" y="264">30 m</text></g>
+<text x="368" y="290" fill="#0A1C44" font-weight="700" font-size="12">profundidade h (água)</text>
+<g stroke="#D5DCEA" stroke-width="1"><line x1="410" y1="72" x2="410" y2="260"/><line x1="460" y1="72" x2="460" y2="260"/><line x1="510" y1="72" x2="510" y2="260"/><line x1="560" y1="72" x2="560" y2="260"/>
+<line x1="362" y1="133.3" x2="580" y2="133.3"/><line x1="362" y1="196.7" x2="580" y2="196.7"/><line x1="362" y1="260" x2="580" y2="260"/></g>
+<line x1="410" y1="70" x2="560" y2="260" stroke="#2563EB" stroke-width="4"/>
+<g fill="#2563EB"><circle cx="410" cy="70" r="5"/><circle cx="460" cy="133.3" r="5"/><circle cx="510" cy="196.7" r="5"/><circle cx="560" cy="260" r="5"/></g>
+<text x="585" y="100" text-anchor="end" fill="#0A1C44" font-size="12" font-weight="700">cada 10 m:</text>
+<text x="585" y="116" text-anchor="end" fill="#0A1C44" font-size="12" font-weight="700">+1 atm</text>
+<text x="372" y="96" fill="#5B6478" font-size="11">p₀ = 1 atm</text>
+</svg></div><figcaption><b>Pressão hidrostática.</b> Num ponto do líquido, a pressão age em todas as direções e cresce linearmente com h. Por isso barragens são mais grossas na base e o chuveiro do térreo tem mais pressão que o do último andar (há mais coluna de água acima dele).</figcaption></figure><div class="figrow n2"><figure class="fig sm"><div class="fsvg"><svg viewBox="0 0 300 240" xmlns="http://www.w3.org/2000/svg" font-family="Montserrat" font-size="13">
+<polygon points="40,90 80,90 80,180 40,180" fill="#2563EB" fill-opacity="0.3"/>
+<polygon points="101.25,90 176.25,90 150,180 120,180" fill="#2563EB" fill-opacity="0.3"/>
+<rect x="220" y="90" width="16" height="90" fill="#2563EB" fill-opacity="0.3"/>
+<rect x="30" y="180" width="240" height="22" fill="#2563EB" fill-opacity="0.3"/>
+<g fill="none" stroke="#0A1C44" stroke-width="2.5">
+<path d="M40,60 L40,180 M80,60 L80,180"/>
+<path d="M95,60 L120,180 M185,60 L150,180"/>
+<path d="M220,40 L220,180 M236,40 L236,180"/>
+<path d="M30,180 L30,202 L270,202 L270,180 M30,180 L40,180 M80,180 L120,180 M150,180 L220,180 M236,180 L270,180"/></g>
+<line x1="15" y1="90" x2="285" y2="90" stroke="#E5484D" stroke-width="1.8" stroke-dasharray="6 4"/>
+<text x="140" y="44" text-anchor="middle" fill="#E5484D" font-weight="700" font-size="12">mesmo nível</text>
+<text x="150" y="226" text-anchor="middle" fill="#0A1C44" font-size="12">mesma altura → mesma pressão</text>
+</svg></div><figcaption><b>Vasos comunicantes.</b> O líquido para no mesmo nível em todos os ramos, qualquer que seja a forma: pontos na mesma altura têm a mesma pressão. É o princípio da caixa-d’água e da mangueira de nível do pedreiro.</figcaption></figure><figure class="fig sm"><div class="fsvg"><svg viewBox="0 0 300 240" xmlns="http://www.w3.org/2000/svg" font-family="Montserrat" font-size="13">
+<defs>
+<marker id="c01-kb" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#2563EB"/></marker>
+<marker id="c01-kg" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#14532D"/></marker>
+</defs>
+<polygon points="72,120 188,120 180,210 80,210" fill="#D97706" fill-opacity="0.35"/>
+<rect x="140" y="62" width="12" height="148" fill="#D97706" fill-opacity="0.55"/>
+<path d="M66,80 L80,210 L180,210 L194,80" fill="none" stroke="#0A1C44" stroke-width="2.5"/>
+<rect x="140" y="26" width="12" height="174" fill="none" stroke="#0A1C44" stroke-width="2"/>
+<g stroke="#2563EB" stroke-width="2.5">
+<line x1="92" y1="90" x2="92" y2="116" marker-end="url(#c01-kb)"/>
+<line x1="118" y1="90" x2="118" y2="116" marker-end="url(#c01-kb)"/>
+<line x1="172" y1="90" x2="172" y2="116" marker-end="url(#c01-kb)"/></g>
+<line x1="128" y1="170" x2="128" y2="110" stroke="#14532D" stroke-width="2.5" marker-end="url(#c01-kg)"/>
+<text x="20" y="96" fill="#2563EB" font-size="12" font-weight="700">p</text><text x="28" y="99" fill="#2563EB" font-size="9" font-weight="700">atm</text>
+<text x="162" y="38" fill="#0A1C44" font-size="12" font-weight="700">na boca: p &lt; p</text><text x="257" y="41" fill="#0A1C44" font-size="9" font-weight="700">atm</text>
+<text x="204" y="140" fill="#14532D" font-size="12" font-weight="700">a atmosfera</text>
+<text x="204" y="156" fill="#14532D" font-size="12" font-weight="700">empurra o</text>
+<text x="204" y="172" fill="#14532D" font-size="12" font-weight="700">suco para cima</text>
+<text x="150" y="230" text-anchor="middle" fill="#0A1C44" font-size="12">quem sobe o suco é a atmosfera</text>
+</svg></div><figcaption><b>Canudo.</b> Você não “puxa” o suco: reduz a pressão dentro da boca, e a pressão atmosférica, maior, empurra o líquido para cima. Com um furo no canudo acima do suco, entra ar, a pressão iguala e o suco não sobe.</figcaption></figure></div><div class="grid3"><div class="card"><h3>Pressão atmosférica</h3><p>O ar também pesa: ao nível do mar, ≈ 1 × 10⁵ Pa (equilibra 76 cm de mercúrio ou cerca de 10 m de água). Em lugares altos, há menos ar acima: a pressão é menor.</p></div><div class="card"><h3>Princípio de Pascal</h3><p>Um acréscimo de pressão num líquido fechado chega <b>igual</b> a todos os pontos. Na prensa hidráulica (elevador, freio): <b>F₁/A₁ = F₂/A₂</b>. Ganha-se força, mas o pistão grande anda menos: a energia se conserva.</p></div><div class="card"><h3>Empuxo (Arquimedes)</h3><p>O líquido empurra para cima o corpo mergulhado com <b>E = d<sub>líq</sub>·V<sub>sub</sub>·g</b> (o peso do líquido deslocado). Corpo menos denso que o líquido flutua; mais denso afunda. O navio de aço flutua porque o casco oco desloca muita água.</p></div></div><h2 class="kwn">8. Gravitação, órbitas e astronomia</h2><p class="">No <b>movimento circular uniforme</b>, o módulo da velocidade é constante, mas a direção muda o tempo todo — então <b>há aceleração</b>, apontando para o centro: a<sub>c</sub> = v²/R. A força resultante para o centro (<b>centrípeta</b>) é feita por alguém: o atrito dos pneus na curva, a tração no fio, a gravidade no satélite. Se ela some, o corpo sai pela <b>tangente</b> (inércia), não “para fora”.</p><p class=""><b>Gravitação universal.</b> Duas massas se atraem com <b>F = G·M·m/d²</b>: dobrar a distância divide a força por 4. Um satélite está em <b>queda livre contínua</b>: cai em direção à Terra, mas anda tão rápido para o lado que a superfície “foge” por baixo. Na estação espacial a gravidade ainda é cerca de 90% da daqui; os astronautas flutuam porque caem junto com a nave. Pelas leis de Kepler, as órbitas são elipses com o Sol num foco, o planeta anda mais rápido perto do Sol e, quanto mais distante, maior o período (Terra: 1 ano; Marte: ~1,9 ano).</p><figure class="fig"><div class="fsvg" style="width:160mm"><svg viewBox="0 0 600 270" xmlns="http://www.w3.org/2000/svg" font-family="Montserrat" font-size="13">
+<defs>
+<marker id="c01-eo" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#D97706"/></marker>
+</defs>
+<ellipse cx="300" cy="135" rx="190" ry="40" fill="none" stroke="#5B6478" stroke-width="1.5" stroke-dasharray="5 4"/>
+<circle cx="300" cy="135" r="40" fill="#D97706"/>
+<text x="300" y="140" text-anchor="middle" fill="#fff" font-weight="700">Sol</text>
+<g stroke="#D97706" stroke-width="2.5">
+<line x1="255" y1="122" x2="168" y2="122" marker-end="url(#c01-eo)"/><line x1="255" y1="148" x2="168" y2="148" marker-end="url(#c01-eo)"/>
+<line x1="345" y1="122" x2="432" y2="122" marker-end="url(#c01-eo)"/><line x1="345" y1="148" x2="432" y2="148" marker-end="url(#c01-eo)"/></g>
+<circle cx="110" cy="135" r="48" fill="#2563EB" fill-opacity="0.3" stroke="#0A1C44" stroke-width="2"/>
+<path d="M110,87 A48,48 0 0,0 110,183 Z" fill="#0A1C44" fill-opacity="0.45"/>
+<circle cx="490" cy="135" r="48" fill="#2563EB" fill-opacity="0.3" stroke="#0A1C44" stroke-width="2"/>
+<path d="M490,87 A48,48 0 0,1 490,183 Z" fill="#0A1C44" fill-opacity="0.45"/>
+<g stroke="#0A1C44" stroke-width="2.5"><line x1="82.9" y1="197.4" x2="137.1" y2="72.6"/><line x1="462.9" y1="197.4" x2="517.1" y2="72.6"/></g>
+<g stroke="#E5484D" stroke-width="2"><line x1="66" y1="115.8" x2="154" y2="154.2"/><line x1="446" y1="115.8" x2="534" y2="154.2"/></g>
+<g fill="#0A1C44" font-weight="700" font-size="12"><text x="142" y="72">N</text><text x="70" y="210">S</text><text x="522" y="72">N</text><text x="450" y="210">S</text></g>
+<text x="110" y="34" text-anchor="middle" fill="#0A1C44" font-weight="700">Junho</text>
+<text x="490" y="34" text-anchor="middle" fill="#0A1C44" font-weight="700">Dezembro</text>
+<text x="110" y="236" text-anchor="middle" fill="#1B3C73" font-size="12" font-weight="700">inverno no Sul</text>
+<text x="110" y="252" text-anchor="middle" fill="#5B6478" font-size="12">verão no Norte</text>
+<text x="490" y="236" text-anchor="middle" fill="#E5484D" font-size="12" font-weight="700">verão no Sul</text>
+<text x="490" y="252" text-anchor="middle" fill="#5B6478" font-size="12">inverno no Norte</text>
+<text x="300" y="214" text-anchor="middle" fill="#0A1C44" font-size="12" font-weight="700">eixo inclinado 23,5°,</text>
+<text x="300" y="230" text-anchor="middle" fill="#0A1C44" font-size="12" font-weight="700">sempre na mesma direção</text>
+<text x="300" y="56" text-anchor="middle" fill="#5B6478" font-size="11">órbita quase circular (fora de escala)</text>
+</svg></div><figcaption><b>Estações do ano.</b> A causa é a <b>inclinação do eixo</b> (23,5°), que aponta sempre para a mesma direção do espaço. Em junho, o hemisfério Sul fica voltado para longe do Sol; em dezembro, para o Sol. A distância Terra–Sol quase não muda e não explica as estações.</figcaption></figure><p class="">O hemisfério inclinado para o Sol recebe raios <b>mais perpendiculares</b> (mais energia por metro quadrado) e tem <b>dias mais longos</b>: é verão. Ao meio-dia, a sombra de uma vara é menor no verão. Entre os trópicos, o Sol passa a pino (sem sombra) em duas datas do ano. Prova de que a distância não é a causa: os dois hemisférios têm estações <b>opostas</b> ao mesmo tempo, e a Terra está mais perto do Sol em janeiro.</p><div class="figrow n2"><figure class="fig sm"><div class="fsvg"><svg viewBox="0 0 300 240" xmlns="http://www.w3.org/2000/svg" font-family="Montserrat" font-size="13">
+<defs>
+<marker id="c01-ro" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#D97706"/></marker>
+</defs>
+<line x1="10" y1="190" x2="290" y2="190" stroke="#0A1C44" stroke-width="2"/>
+<g stroke="#D97706" stroke-width="2.5">
+<line x1="30" y1="60" x2="30" y2="188" marker-end="url(#c01-ro)"/><line x1="50" y1="60" x2="50" y2="188" marker-end="url(#c01-ro)"/><line x1="70" y1="60" x2="70" y2="188" marker-end="url(#c01-ro)"/>
+<line x1="103.4" y1="138" x2="190" y2="188" marker-end="url(#c01-ro)"/><line x1="143.4" y1="138" x2="230" y2="188" marker-end="url(#c01-ro)"/><line x1="183.4" y1="138" x2="270" y2="188" marker-end="url(#c01-ro)"/></g>
+<rect x="25" y="191" width="50" height="7" fill="#E5484D"/>
+<rect x="175" y="191" width="105" height="7" fill="#D97706" fill-opacity="0.5"/>
+<text x="150" y="26" text-anchor="middle" fill="#0A1C44" font-weight="700">Mesma luz, áreas diferentes</text>
+<text x="50" y="216" text-anchor="middle" fill="#E5484D" font-size="12" font-weight="700">Sol alto</text>
+<text x="50" y="232" text-anchor="middle" fill="#E5484D" font-size="12">área pequena</text>
+<text x="228" y="216" text-anchor="middle" fill="#D97706" font-size="12" font-weight="700">Sol baixo (oblíquo)</text>
+<text x="228" y="232" text-anchor="middle" fill="#D97706" font-size="12">área maior: aquece menos</text>
+</svg></div><figcaption><b>Inclinação dos raios.</b> O mesmo feixe de luz, chegando oblíquo, se espalha numa área maior: cada metro quadrado recebe menos energia.</figcaption></figure><figure class="fig sm"><div class="fsvg"><svg viewBox="0 0 300 270" xmlns="http://www.w3.org/2000/svg" font-family="Montserrat" font-size="13">
+<defs>
+<marker id="c01-mo" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#D97706"/></marker>
+<marker id="c01-mn" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#5B6478"/></marker>
+</defs>
+<g stroke="#D97706" stroke-width="2.5">
+<line x1="296" y1="80" x2="262" y2="80" marker-end="url(#c01-mo)"/><line x1="296" y1="200" x2="262" y2="200" marker-end="url(#c01-mo)"/></g>
+<text x="296" y="66" text-anchor="end" fill="#D97706" font-size="12" font-weight="700">luz do Sol</text>
+<circle cx="140" cy="140" r="85" fill="none" stroke="#5B6478" stroke-width="1.5" stroke-dasharray="5 4"/>
+<path d="M206.3,86.8 A85,85 0 0,0 193.2,73.7" fill="none" stroke="#5B6478" stroke-width="2.5" marker-end="url(#c01-mn)"/>
+<circle cx="140" cy="140" r="20" fill="#2563EB" fill-opacity="0.5" stroke="#0A1C44" stroke-width="2"/>
+<text x="140" y="145" text-anchor="middle" fill="#0A1C44" font-size="11" font-weight="700">Terra</text>
+<g stroke="#0A1C44" stroke-width="1.5">
+<circle cx="225" cy="140" r="13" fill="#0A1C44"/><path d="M225,127 A13,13 0 0,1 225,153 Z" fill="#fff"/>
+<circle cx="140" cy="55" r="13" fill="#0A1C44"/><path d="M140,42 A13,13 0 0,1 140,68 Z" fill="#fff"/>
+<circle cx="55" cy="140" r="13" fill="#0A1C44"/><path d="M55,127 A13,13 0 0,1 55,153 Z" fill="#fff"/>
+<circle cx="140" cy="225" r="13" fill="#0A1C44"/><path d="M140,212 A13,13 0 0,1 140,238 Z" fill="#fff"/></g>
+<g fill="#0A1C44" font-size="12" font-weight="700" text-anchor="middle">
+<text x="225" y="172">nova</text><text x="140" y="30">quarto crescente</text><text x="55" y="172">cheia</text><text x="140" y="260">quarto minguante</text></g>
+</svg></div><figcaption><b>Fases da Lua</b> (vista de cima do polo Norte). A Lua não tem luz própria: metade dela está sempre iluminada; a fase é a parte dessa metade que vemos da Terra. Um ciclo dura cerca de 29,5 dias.</figcaption></figure></div><figure class="fig"><div class="fsvg" style="width:155mm"><svg viewBox="0 0 600 200" xmlns="http://www.w3.org/2000/svg" font-family="Montserrat" font-size="13">
+<rect x="4" y="4" width="292" height="192" rx="6" fill="#EEF2FA"/>
+<rect x="304" y="4" width="292" height="192" rx="6" fill="#EEF2FA"/>
+<text x="150" y="26" text-anchor="middle" fill="#0A1C44" font-weight="700">Eclipse solar (Lua nova)</text>
+<text x="450" y="26" text-anchor="middle" fill="#0A1C44" font-weight="700">Eclipse lunar (Lua cheia)</text>
+<polygon points="190,91 242,78 242,122 190,109" fill="#0A1C44" fill-opacity="0.15"/>
+<polygon points="190,91 242,97 242,103 190,109" fill="#0A1C44" fill-opacity="0.6"/>
+<circle cx="45" cy="100" r="32" fill="#D97706"/>
+<text x="45" y="105" text-anchor="middle" fill="#fff" font-weight="700" font-size="12">Sol</text>
+<circle cx="190" cy="100" r="9" fill="#5B6478"/>
+<circle cx="270" cy="100" r="28" fill="#2563EB" fill-opacity="0.45" stroke="#0A1C44" stroke-width="2"/>
+<text x="190" y="80" text-anchor="middle" fill="#0A1C44" font-size="12" font-weight="700">Lua</text>
+<text x="270" y="146" text-anchor="middle" fill="#0A1C44" font-size="12" font-weight="700">Terra</text>
+<text x="150" y="170" text-anchor="middle" fill="#0A1C44" font-size="12">a sombra da Lua cai numa faixa</text>
+<text x="150" y="186" text-anchor="middle" fill="#0A1C44" font-size="12">estreita da Terra</text>
+<polygon points="470,74 600,96.5 600,103.5 470,126" fill="#0A1C44" fill-opacity="0.55"/>
+<circle cx="335" cy="100" r="32" fill="#D97706"/>
+<text x="335" y="105" text-anchor="middle" fill="#fff" font-weight="700" font-size="12">Sol</text>
+<circle cx="470" cy="100" r="26" fill="#2563EB" fill-opacity="0.45" stroke="#0A1C44" stroke-width="2"/>
+<text x="470" y="146" text-anchor="middle" fill="#0A1C44" font-size="12" font-weight="700">Terra</text>
+<circle cx="560" cy="100" r="9" fill="#E5484D" fill-opacity="0.85"/>
+<text x="560" y="80" text-anchor="middle" fill="#0A1C44" font-size="12" font-weight="700">Lua</text>
+<text x="450" y="170" text-anchor="middle" fill="#0A1C44" font-size="12">a Lua entra na sombra da Terra</text>
+<text x="450" y="186" text-anchor="middle" fill="#0A1C44" font-size="12">(fica avermelhada, não some)</text>
+</svg></div><figcaption><b>Eclipses.</b> O solar só ocorre na Lua nova; o lunar, na Lua cheia. Não há eclipse todo mês porque a órbita da Lua é inclinada (cerca de 5°) em relação à da Terra: o alinhamento exato só acontece quando a Lua cruza esse plano. Figura fora de escala.</figcaption></figure><p class=""><b>Lei de Hubble:</b> galáxias distantes se afastam com velocidade proporcional à distância (v = H₀·d) — a principal evidência de que o Universo está em expansão. A luz dessas galáxias chega “desviada para o vermelho” (comprimento de onda maior), sinal do afastamento.</p><div class="enembox"><div class="eh">Como isso cai no ENEM <span><a class="plink" href="#sec-c01">Padrão 01 · Movimento</a></span></div><p>Estações do ano e altura do Sol voltaram em 2019 PPL e 2022: a latitude e a época do ano mudam a <b>inclinação dos raios</b> e o tamanho da sombra. O mito <span class="pill m">Mito do senso comum</span> “inverno porque a Terra está longe do Sol” é o distrator favorito. Em eclipses, desconfie da alternativa que diz que eles acontecem “todo mês” <span class="pill a">Absoluto</span>.</p></div><div class="fbox"><div class="fbt">Fórmulas e relações essenciais</div><div class="frow"><div class="fx">v<sub>m</sub> = Δs/Δt · a = Δv/Δt</div><div class="fm">velocidade média (m/s) e aceleração (m/s²); km/h ÷ 3,6 = m/s</div></div><div class="frow"><div class="fx">v = v₀ + a·t · s = s₀ + v₀·t + a·t²/2</div><div class="fm">MUV; no MU, a = 0 e s = s₀ + v·t</div></div><div class="frow"><div class="fx">v² = v₀² + 2·a·Δs</div><div class="fm">Torricelli: quando o tempo não aparece (frenagem, queda)</div></div><div class="frow"><div class="fx">F<sub>R</sub> = m·a · P = m·g · Fat = μ·N</div><div class="fm">2ª lei (N), peso, atrito (μ<sub>e</sub>: máximo estático; μ<sub>c</sub>: cinético)</div></div><div class="frow"><div class="fx">M = F·d</div><div class="fm">torque (N·m); equilíbrio: F₁·d₁ = F₂·d₂</div></div><div class="frow"><div class="fx">E<sub>c</sub> = mv²/2 · E<sub>pg</sub> = mgh · E<sub>pel</sub> = kx²/2</div><div class="fm">energias (J); sem atrito, E<sub>c</sub> + E<sub>p</sub> = constante</div></div><div class="frow"><div class="fx">τ = F·d·cos θ · P = E/Δt</div><div class="fm">trabalho (J) e potência (W)</div></div><div class="frow"><div class="fx">p = m·v · I = F·Δt = Δp</div><div class="fm">quantidade de movimento e impulso; sistema isolado: p total se conserva</div></div><div class="frow"><div class="fx">p = F/A · p = p₀ + d·g·h · E = d·V·g</div><div class="fm">pressão (Pa), hidrostática e empuxo; Pascal: F₁/A₁ = F₂/A₂</div></div><div class="frow"><div class="fx">a<sub>c</sub> = v²/R · F = G·M·m/d²</div><div class="fm">movimento circular (aceleração para o centro) e gravitação</div></div></div><div class="enembox"><div class="eh">Como isso cai no ENEM <span><a class="plink" href="#sec-c01">Padrão 01 · Movimento</a></span></div><p><b>A chave do padrão:</b> antes de qualquer conta, decida qual grandeza manda. Colisão rápida → impulso (F·Δt = Δp). Altura, rampa, mola → energia. Fluido e profundidade → pressão. Parado ou em MU → forças em equilíbrio (desenhe-as). Contextos que voltam: queda de corpos leves e pesados, a esfera no ponto mais alto, estações e sombra ao meio-dia, deformação do carro na batida, tempo de resposta.</p></div><div class="trap"><h3>Erros que o ENEM explora</h3><ul class="tul"><li>Achar que no topo do lançamento a aceleração é zero. A velocidade é zero; a aceleração continua g, para baixo <span class="pill m">Mito do senso comum</span>.</li><li>Achar que a força aponta para onde o corpo vai. Ela aponta para onde a <b>velocidade muda</b> (na curva, para o centro).</li><li>Dizer que o airbag “diminui o impulso” ou “absorve a quantidade de movimento”. O Δp é o mesmo; o airbag aumenta o Δt e reduz a força <span class="pill n">Conceito vizinho</span>.</li><li>Tratar peso e normal como ação e reação. O par do peso (a Terra puxa o corpo) é o corpo puxando a Terra.</li><li>Usar atrito cinético para quem anda ou roda sem derrapar: é estático, e aponta para a frente no pé e no pneu de tração.</li><li>Explicar as estações pela distância ao Sol. Quem manda é a inclinação do eixo.</li><li>Esquecer a pressão atmosférica quando o comando pede a pressão total — ou somá-la quando pede só a da coluna de líquido <span class="pill c">Erro de conta</span>.</li></ul></div><h2 class="kwn">Exercícios diretos</h2><p class="small kwn">Para fixar o conceito. Resolva antes de ler a resolução.</p><div class="exq kwn exd"><div class="exh"><span class="exn">01</span><span class="exk">Direto</span><span class="exp"><a class="plink" href="#sec-c01">Padrão 01 · Movimento</a> · Conta</span></div><div class="exb"><p>Um carrinho de montanha-russa parte do repouso no ponto mais alto do trilho, a 20 m do solo. Desprezando atritos e a resistência do ar (g = 10 m/s²), a velocidade do carrinho ao passar por um ponto situado a 15 m do solo é de</p></div><div class="xalts"><div class="xa"><b>A</b><span>7,1 m/s.</span></div><div class="xa"><b>B</b><span>17 m/s.</span></div><div class="xa"><b>C</b><span>10 m/s.</span></div><div class="xa"><b>D</b><span>20 m/s.</span></div><div class="xa"><b>E</b><span>100 m/s.</span></div></div></div><div class="exr"><div class="rh">Resolução <span class="rg">Gabarito: C</span></div><div class="rs"><span class="rn">1</span><div>Sem atrito, a energia mecânica se conserva: a energia potencial perdida vira energia cinética.</div></div><div class="rs"><span class="rn">2</span><div>O carrinho desceu Δh = 20 − 15 = <b>5 m</b>. Então m·g·Δh = m·v²/2 (a massa se cancela).</div></div><div class="rs"><span class="rn">3</span><div>v = √(2·g·Δh) = √(2 × 10 m/s² × 5 m) = √(100 m²/s²) = <b>10 m/s</b>.</div></div><div class="rx"><span class="pill c">Erro de conta</span> <b>A</b> esquece o fator 2 (√50); <b>B</b> usa a altura do ponto, 15 m, no lugar da descida; <b>D</b> usa a altura total, 20 m; <b>E</b> esquece a raiz quadrada.</div></div><div class="exq kwn exd"><div class="exh"><span class="exn">02</span><span class="exk">Direto</span><span class="exp"><a class="plink" href="#sec-c01">Padrão 01 · Movimento</a> · Explique</span></div><div class="exb"><p>Um livro está em repouso sobre uma mesa horizontal. Segundo a 3ª lei de Newton, a reação ao peso do livro é a força</p></div><div class="xalts"><div class="xa"><b>A</b><span>gravitacional que o livro exerce sobre a Terra.</span></div><div class="xa"><b>B</b><span>normal que a mesa exerce sobre o livro.</span></div><div class="xa"><b>C</b><span>que o livro exerce sobre a mesa, comprimindo-a.</span></div><div class="xa"><b>D</b><span>peso da mesa, que sustenta o livro.</span></div><div class="xa"><b>E</b><span>nenhuma, pois o livro está em repouso.</span></div></div></div><div class="exr"><div class="rh">Resolução <span class="rg">Gabarito: A</span></div><div class="rs"><span class="rn">1</span><div>O peso é a força com que <b>a Terra atrai o livro</b>.</div></div><div class="rs"><span class="rn">2</span><div>O par de ação e reação troca os papéis dos corpos: <b>o livro atrai a Terra</b>, com força de mesmo módulo, para cima, aplicada na Terra.</div></div><div class="rs"><span class="rn">3</span><div>A normal tem aqui o mesmo módulo do peso, mas age <b>no mesmo corpo</b> (o livro) e vem de outra interação (o contato com a mesa): ela <b>equilibra</b> o peso, não é sua reação.</div></div><div class="rx"><span class="pill n">Conceito vizinho</span> <b>B</b>: normal e peso agem no mesmo corpo, não formam par. <span class="pill n">Conceito vizinho</span> <b>C</b>: é a reação da <b>normal</b>, não do peso. <b>D</b> mistura o peso de outro corpo. <span class="pill m">Mito do senso comum</span> <b>E</b>: ação e reação existem com o corpo parado ou não.</div></div><div class="exq kwn exd"><div class="exh"><span class="exn">03</span><span class="exk">Direto</span><span class="exp"><a class="plink" href="#sec-c01">Padrão 01 · Movimento</a> · Conta</span></div><div class="exb"><p>Um mergulhador está a 20 m de profundidade num lago de água doce (d = 1 000 kg/m³). A pressão atmosférica local é 1,0 × 10⁵ Pa e g = 10 m/s². A pressão total sobre o mergulhador é de</p></div><div class="xalts"><div class="xa"><b>A</b><span>2,0 × 10⁴ Pa.</span></div><div class="xa"><b>B</b><span>1,0 × 10⁵ Pa.</span></div><div class="xa"><b>C</b><span>1,2 × 10⁵ Pa.</span></div><div class="xa"><b>D</b><span>2,0 × 10⁵ Pa.</span></div><div class="xa"><b>E</b><span>3,0 × 10⁵ Pa.</span></div></div></div><div class="exr"><div class="rh">Resolução <span class="rg">Gabarito: E</span></div><div class="rs"><span class="rn">1</span><div>Pressão da coluna de água: d·g·h = 1 000 kg/m³ × 10 m/s² × 20 m = <b>2,0 × 10⁵ Pa</b> (≈ 2 atm: 1 atm a cada 10 m).</div></div><div class="rs"><span class="rn">2</span><div>Pressão total: p = p₀ + d·g·h = 1,0 × 10⁵ Pa + 2,0 × 10⁵ Pa = <b>3,0 × 10⁵ Pa</b>.</div></div><div class="rx"><span class="pill c">Erro de conta</span> <b>D</b> é só a coluna de água (esqueceu a atmosfera); <b>B</b> é só a atmosfera; <b>A</b> esqueceu o g (1 000 × 20); <b>C</b> somou p₀ a esse valor sem g.</div></div><h2 class="kwn">Exercícios contextualizados (estilo ENEM)</h2><p class="small kwn">Contexto do cotidiano escondendo o conceito — o jeito do ENEM. Use o método: gatilho → comando reformulado → conceito → eliminação.</p><div class="exq kwn exc"><div class="exh"><span class="exn">04</span><span class="exk">Contextualizado</span><span class="exp"><a class="plink" href="#sec-c01">Padrão 01 · Movimento</a> · Explique</span></div><div class="exb"><p>Em testes de capacetes de ciclismo, uma cabeça de manequim é solta sobre uma base rígida. Sensores mostram que, sem capacete, a cabeça para em cerca de 2 milésimos de segundo; com capacete, a espuma se esmaga e a parada dura cerca de 12 milésimos de segundo. Nos dois casos, a cabeça chega à base com a mesma velocidade e para completamente.</p><p>O capacete reduz o risco de lesão porque</p></div><div class="xalts"><div class="xa"><b>A</b><span>diminui a variação da quantidade de movimento da cabeça durante o choque.</span></div><div class="xa"><b>B</b><span>aumenta o tempo de interação, reduzindo a força média sobre a cabeça para a mesma variação da quantidade de movimento.</span></div><div class="xa"><b>C</b><span>reduz a velocidade da cabeça antes do choque, por aumentar a resistência do ar.</span></div><div class="xa"><b>D</b><span>anula o impulso recebido pela cabeça, já que a espuma absorve toda a força.</span></div><div class="xa"><b>E</b><span>aumenta a massa do conjunto, o que diminui a aceleração da cabeça no choque.</span></div></div></div><div class="exr"><div class="rh">Resolução <span class="rg">Gabarito: B</span></div><div class="rs"><span class="rn">1</span><div>Gatilho: choque rápido, “tempo de parada”. A grandeza que manda é o <b>impulso</b>: F<sub>média</sub>·Δt = Δp.</div></div><div class="rs"><span class="rn">2</span><div>Δp é igual nos dois casos: mesma massa, mesma velocidade de chegada, parada completa.</div></div><div class="rs"><span class="rn">3</span><div>Se Δt passa de 2 ms para 12 ms (6 vezes maior), a força média fica <b>6 vezes menor</b>.</div></div><div class="rx"><span class="pill n">Conceito vizinho</span> <b>A</b>: Δp não muda. <span class="pill v">Verdadeiro que não responde</span> <b>C</b>: o próprio texto diz que a velocidade de chegada é a mesma. <span class="pill a">Absoluto</span> <b>D</b>: o impulso não é anulado; é o mesmo, distribuído num tempo maior. <span class="pill n">Conceito vizinho</span> <b>E</b>: a massa do capacete é pequena e não é o mecanismo.</div></div><div class="exq kwn exc"><div class="exh"><span class="exn">05</span><span class="exk">Contextualizado</span><span class="exp"><a class="plink" href="#sec-c01">Padrão 01 · Movimento</a> · Dados</span></div><div class="exb"><p>Uma campanha contra o álcool ao volante divulgou o resultado de um teste num simulador de direção:</p><table class="t"><colgroup><col style="width:28%"><col style="width:22%"><col style="width:20%"><col style="width:30%"></colgroup><tr><th>Situação</th><th>Tempo de reação</th><th>Velocidade</th><th>Desaceleração na frenagem</th></tr><tr><td>Motorista sóbrio</td><td>0,7 s</td><td>72 km/h</td><td>8,0 m/s²</td></tr><tr><td>Após ingerir álcool</td><td>1,2 s</td><td>72 km/h</td><td>8,0 m/s²</td></tr></table><p>Durante o tempo de reação, o carro mantém a velocidade. Após ingerir álcool, a distância total percorrida desde que o motorista vê o obstáculo até o carro parar é de</p></div><div class="xalts"><div class="xa"><b>A</b><span>24 m.</span></div><div class="xa"><b>B</b><span>25 m.</span></div><div class="xa"><b>C</b><span>39 m.</span></div><div class="xa"><b>D</b><span>49 m.</span></div><div class="xa"><b>E</b><span>74 m.</span></div></div></div><div class="exr"><div class="rh">Resolução <span class="rg">Gabarito: D</span></div><div class="rs"><span class="rn">1</span><div>Converta: 72 km/h ÷ 3,6 = <b>20 m/s</b>.</div></div><div class="rs"><span class="rn">2</span><div><b>Reação</b> (MU): 20 m/s × 1,2 s = 24 m.</div></div><div class="rs"><span class="rn">3</span><div><b>Frenagem</b> (Torricelli, até v = 0): Δs = v² ÷ (2a) = (20 m/s)² ÷ (2 × 8,0 m/s²) = 25 m.</div></div><div class="rs"><span class="rn">4</span><div>Total: 24 m + 25 m = <b>49 m</b>. Sóbrio seriam 14 m + 25 m = 39 m: o álcool acrescentou 10 m só pelo atraso na reação.</div></div><div class="rx"><span class="pill c">Erro de conta</span> <b>A</b> e <b>B</b> são só uma das etapas; <b>E</b> usa v²/a (esqueceu o 2): 24 + 50 = 74 m. <span class="pill v">Verdadeiro que não responde</span> <b>C</b> é a distância do motorista sóbrio — um valor correto que não responde ao comando.</div></div><div class="exq kwn exc"><div class="exh"><span class="exn">06</span><span class="exk">Contextualizado</span><span class="exp"><a class="plink" href="#sec-c01">Padrão 01 · Movimento</a> · Explique</span></div><div class="exb"><p>Numa freada brusca sem ABS, as rodas travam e os pneus deslizam sobre o asfalto, deixando marcas. O sistema ABS alivia e reaplica a pressão nos freios várias vezes por segundo, mantendo as rodas girando no limite do travamento. Em asfalto seco, testes mostram que o ABS reduz a distância de frenagem.</p><p>Essa redução ocorre porque, com o ABS,</p></div><div class="xalts"><div class="xa"><b>A</b><span>o atrito entre pneu e pista permanece estático, cujo valor máximo é maior que o do atrito cinético.</span></div><div class="xa"><b>B</b><span>o atrito entre pneu e pista desaparece, e o carro passa a ser freado apenas pelo motor.</span></div><div class="xa"><b>C</b><span>a força normal sobre os pneus aumenta, já que as rodas continuam girando.</span></div><div class="xa"><b>D</b><span>a inércia do carro diminui, pois parte da energia é dissipada nos discos de freio.</span></div><div class="xa"><b>E</b><span>o coeficiente de atrito cinético aumenta, pois o pneu esquenta ao deslizar.</span></div></div></div><div class="exr"><div class="rh">Resolução <span class="rg">Gabarito: A</span></div><div class="rs"><span class="rn">1</span><div>Roda que gira sem deslizar: o ponto do pneu em contato com o chão está, naquele instante, parado em relação a ele → atrito <b>estático</b>.</div></div><div class="rs"><span class="rn">2</span><div>Roda travada que arrasta: há deslizamento → atrito <b>cinético</b>, com μ<sub>c</sub> &lt; μ<sub>e</sub>.</div></div><div class="rs"><span class="rn">3</span><div>Mantendo o pneu no limite do estático, o ABS usa a maior força de atrito disponível (μ<sub>e</sub>·N): desaceleração maior, distância menor. Bônus: a roda que gira continua permitindo esterçar.</div></div><div class="rx"><span class="pill a">Absoluto</span> <b>B</b>: sem atrito não haveria frenagem alguma. <span class="pill n">Conceito vizinho</span> <b>C</b>: a normal depende do peso, não do giro. <span class="pill m">Mito do senso comum</span> <b>D</b>: inércia é a massa, que não muda. <span class="pill n">Conceito vizinho</span> <b>E</b>: é justamente o deslizamento que o ABS evita.</div></div><div class="exq kwn exc"><div class="exh"><span class="exn">07</span><span class="exk">Contextualizado</span><span class="exp"><a class="plink" href="#sec-c01">Padrão 01 · Movimento</a> · Conta</span></div><div class="exb"><p>Um avião de ajuda humanitária voa na horizontal a 500 m de altura, com velocidade de 80 m/s, e precisa soltar uma caixa de suprimentos que deve cair num ponto marcado no solo. Despreze a resistência do ar e use g = 10 m/s².</p><p>A que distância horizontal do ponto marcado, antes de passar sobre ele, o piloto deve soltar a caixa?</p></div><div class="xalts"><div class="xa"><b>A</b><span>80 m</span></div><div class="xa"><b>B</b><span>500 m</span></div><div class="xa"><b>C</b><span>566 m</span></div><div class="xa"><b>D</b><span>800 m</span></div><div class="xa"><b>E</b><span>4 000 m</span></div></div></div><div class="exr"><div class="rh">Resolução <span class="rg">Gabarito: D</span></div><div class="rs"><span class="rn">1</span><div>Separe os movimentos. <b>Vertical</b>: a caixa sai com a velocidade do avião, que é horizontal, então v<sub>y</sub> começa em zero: queda livre. h = g·t²/2 → 500 m = 5 m/s² × t² → t² = 100 s² → <b>t = 10 s</b>.</div></div><div class="rs"><span class="rn">2</span><div><b>Horizontal</b>: MU com a velocidade do avião. Em 10 s: x = 80 m/s × 10 s = <b>800 m</b>.</div></div><div class="rs"><span class="rn">3</span><div>Como a caixa e o avião têm a mesma v<sub>x</sub>, a caixa cai sempre exatamente <b>embaixo</b> do avião.</div></div><div class="rx"><span class="pill c">Erro de conta</span> <b>C</b> usa h = g·t² (esqueceu o ½: t ≈ 7,1 s); <b>E</b> divide h por g (t = 50 s); <b>A</b> usa t = 1 s. <span class="pill n">Conceito vizinho</span> <b>B</b> confunde altura com alcance.</div></div><div class="exq kwn exc"><div class="exh"><span class="exn">08</span><span class="exk">Contextualizado</span><span class="exp"><a class="plink" href="#sec-c01">Padrão 01 · Movimento</a> · Explique</span></div><div class="exb"><p>Uma reportagem afirmou: “No inverno faz frio porque a Terra está mais longe do Sol”. Um professor comentou que, de fato, a Terra passa pelo afélio (ponto da órbita mais distante do Sol) no início de julho, mas que a explicação da reportagem está errada.</p><p>Qual observação sustenta a crítica do professor?</p></div><div class="xalts"><div class="xa"><b>A</b><span>Em julho, a Terra se move mais devagar na órbita e, por isso, recebe menos luz solar.</span></div><div class="xa"><b>B</b><span>Quando é inverno no hemisfério Sul, é verão no hemisfério Norte, embora a distância ao Sol seja praticamente a mesma para os dois hemisférios.</span></div><div class="xa"><b>C</b><span>A distância entre a Terra e o Sol não varia ao longo do ano, porque a órbita terrestre é circular.</span></div><div class="xa"><b>D</b><span>No inverno, a Lua bloqueia parte da luz solar que chega ao hemisfério Sul.</span></div><div class="xa"><b>E</b><span>Em julho, a Terra está mais próxima do Sol, e não mais distante.</span></div></div></div><div class="exr"><div class="rh">Resolução <span class="rg">Gabarito: B</span></div><div class="rs"><span class="rn">1</span><div>Se a distância fosse a causa, os dois hemisférios teriam inverno <b>ao mesmo tempo</b>. Mas as estações são <b>opostas</b>: julho é inverno no Sul e verão no Norte.</div></div><div class="rs"><span class="rn">2</span><div>A causa real é a <b>inclinação do eixo</b> (23,5°): em julho o hemisfério Sul está voltado para longe do Sol, recebe raios mais oblíquos e tem dias mais curtos.</div></div><div class="rx"><span class="pill v">Verdadeiro que não responde</span> <b>A</b>: a Terra anda mesmo mais devagar no afélio, mas isso não explica estações opostas. <span class="pill a">Absoluto</span> <b>C</b>: a órbita é quase circular, mas a distância varia cerca de 3%. <span class="pill m">Mito do senso comum</span> <b>D</b>: a Lua não tem esse papel. <b>E</b> contradiz o próprio enunciado (afélio em julho).</div></div><h2 class="kwn">Exercícios de aprofundamento</h2><p class="small kwn">Questões de várias etapas, para quem quer chegar ao 40+.</p><div class="exq kwn exa"><div class="exh"><span class="exn">09</span><span class="exk">Aprofundamento</span><span class="exp"><a class="plink" href="#sec-c01">Padrão 01 · Movimento</a> · Conta</span></div><div class="exb"><p>Numa cena de ação, um dublê de 80 kg salta, a partir do repouso, de uma altura de 5,0 m sobre um colchão de ar. Do primeiro contato até parar, ele afunda no colchão durante 0,50 s. Despreze a resistência do ar e use g = 10 m/s².</p><p>A força média que o colchão exerce sobre o dublê durante a frenagem é de</p></div><div class="xalts"><div class="xa"><b>A</b><span>800 N.</span></div><div class="xa"><b>B</b><span>1 600 N.</span></div><div class="xa"><b>C</b><span>2 400 N.</span></div><div class="xa"><b>D</b><span>4 000 N.</span></div><div class="xa"><b>E</b><span>16 000 N.</span></div></div></div><div class="exr"><div class="rh">Resolução <span class="rg">Gabarito: C</span></div><div class="rs"><span class="rn">1</span><div><b>Energia</b> (queda): m·g·h = m·v²/2 → v = √(2 × 10 m/s² × 5,0 m) = <b>10 m/s</b> ao tocar o colchão.</div></div><div class="rs"><span class="rn">2</span><div><b>Impulso</b> (frenagem): Δp = m·Δv = 80 kg × 10 m/s = 800 kg·m/s, para cima.</div></div><div class="rs"><span class="rn">3</span><div>Durante a frenagem agem <b>duas</b> forças: a do colchão (F, para cima) e o peso (800 N, para baixo). A resultante produz o Δp: (F − 800 N) × 0,50 s = 800 kg·m/s → F − 800 N = 1 600 N → <b>F = 2 400 N</b> (3 vezes o peso).</div></div><div class="rx"><span class="pill c">Erro de conta</span> <b>B</b> é a força <b>resultante</b>, não a do colchão (esqueceu o peso); <b>A</b> é só o peso. <span class="pill n">Conceito vizinho</span> <b>D</b> confunde energia (m·g·h = 4 000 J) com força. <span class="pill c">Erro de conta</span> <b>E</b> esquece a raiz (v = 100 m/s) e o peso.</div></div><div class="exq kwn exa"><div class="exh"><span class="exn">10</span><span class="exk">Aprofundamento</span><span class="exp"><a class="plink" href="#sec-c01">Padrão 01 · Movimento</a> · Conta</span></div><div class="exb"><p>Numa oficina, um elevador hidráulico tem pistão de entrada com área de 4,0 cm² e pistão de saída com área de 400 cm². Sobre o pistão de saída está um carro de 1 200 kg. Despreze as massas dos pistões e os atritos, e use g = 10 m/s².</p><p>A força mínima que deve ser aplicada no pistão de entrada para sustentar o carro e quanto o carro sobe quando o pistão de entrada desce 50 cm são, respectivamente,</p></div><div class="xalts"><div class="xa"><b>A</b><span>1,2 N e 50 cm.</span></div><div class="xa"><b>B</b><span>120 N e 50 cm.</span></div><div class="xa"><b>C</b><span>120 N e 5,0 m.</span></div><div class="xa"><b>D</b><span>12 000 N e 0,5 cm.</span></div><div class="xa"><b>E</b><span>120 N e 0,5 cm.</span></div></div></div><div class="exr"><div class="rh">Resolução <span class="rg">Gabarito: E</span></div><div class="rs"><span class="rn">1</span><div><b>Pascal</b>: F₁/A₁ = F₂/A₂. Peso do carro: F₂ = 1 200 kg × 10 m/s² = 12 000 N. Razão das áreas: 400 cm² ÷ 4,0 cm² = 100. Então <b>F₁ = 12 000 N ÷ 100 = 120 N</b>.</div></div><div class="rs"><span class="rn">2</span><div><b>Volume</b> (o óleo não se comprime): o volume que sai de um cilindro entra no outro. 4,0 cm² × 50 cm = 200 cm³ = 400 cm² × d → <b>d = 0,5 cm</b>.</div></div><div class="rs"><span class="rn">3</span><div><b>Conferência pela energia</b>: trabalho na entrada = 120 N × 0,50 m = 60 J; trabalho na saída = 12 000 N × 0,005 m = 60 J. A prensa multiplica a força, não a energia.</div></div><div class="rx"><span class="pill m">Mito do senso comum</span> <b>B</b> acha que a prensa multiplica a força sem “cobrar” nada no deslocamento. <span class="pill c">Erro de conta</span> <b>C</b> inverteu a razão dos deslocamentos; <b>A</b> errou a potência de 10. <span class="pill n">Conceito vizinho</span> <b>D</b> ignora o princípio de Pascal (força de entrada igual ao peso).</div></div><div><a class="backlink" href="#sec-c01">← Voltar ao Padrão Movimento</a></div>

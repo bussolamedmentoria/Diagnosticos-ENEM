@@ -1,0 +1,30 @@
+/* Entrada: marca à esquerda, formulário à direita; empilha no celular. */
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+#auth{min-height:100vh;background:var(--ground)}
+#auth > .empty{padding-top:30vh}
+.authwrap{display:grid;grid-template-columns:1.1fr 1fr;min-height:100vh}
+.authbrand{background:var(--navy);color:#fff;padding:clamp(28px,6vw,72px);display:flex;flex-direction:column;justify-content:center;gap:14px;position:relative;overflow:hidden}
+.authbrand::before{content:"";position:absolute;right:-120px;top:-160px;width:520px;height:560px;background:var(--navy2);transform:skewX(-34deg);opacity:.8}
+.authbrand > *{position:relative}
+.authbrand h1.v{color:#fff;margin:0}
+.authbrand .lede{color:#D7E0F3}
+.alogo{width:170px;margin-bottom:8px}
+.authlist{margin:6px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px;color:#D7E0F3;font-weight:600}
+.authlist li::before{content:"";display:inline-block;width:10px;height:10px;background:var(--lime);margin-right:10px;border-radius:2px}
+.authcard{padding:clamp(24px,5vw,64px);display:flex;flex-direction:column;justify-content:center;gap:16px;max-width:520px;width:100%;margin:0 auto}
+.fl{display:flex;flex-direction:column;gap:6px;font-weight:700;font-size:13.5px;color:var(--navy);border:0;padding:0;margin:0;min-width:0}
+.fl legend{font-weight:700;font-size:13.5px;color:var(--navy);margin-bottom:6px;padding:0}
+.fl input,.fl select{font-weight:500}
+.frow{display:flex;gap:12px}
+.chk{display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:1.4;cursor:pointer}
+.chk input{width:18px;height:18px;margin-top:1px;accent-color:var(--navy);flex:none}
+.sidebar .who{display:flex;align-items:center;gap:8px;margin:10px 6px 0;color:#C9D3EA;font-size:13px;font-weight:600}
+.sidebar .who button{margin-left:auto;background:none;border:1px solid #2C4479;color:#C9D3EA;border-radius:7px;padding:3px 9px;font-size:12px}
+.sidebar .who button:hover{color:#fff;border-color:#fff}
+.sidebar .count{margin-top:10px}
+.sidebar .nav{margin-bottom:auto}
+@media (max-width:820px){.authwrap{grid-template-columns:1fr}.authbrand{padding-block:28px}.authbrand .lede,.authlist{display:none}.authbrand .big40{font-size:56px}}
+.fl input{font:inherit;font-size:15px;font-weight:500;color:var(--ink);border:1.5px solid var(--line);border-radius:9px;padding:11px 12px;background:#fff;width:100%;min-width:0}
+.fl input:focus,.fl select:focus{border-color:var(--navy3);outline:none;box-shadow:0 0 0 3px rgba(27,60,115,.15)}
+@media (min-width:761px){.cols2.bank{grid-template-columns:1.4fr 1fr}}

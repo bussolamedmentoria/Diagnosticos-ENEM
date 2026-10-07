@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Natureza 40+ · Mentoria Mário Machado</title>
+<meta name="description" content="Diagnóstico, trilha de estudo e banco com 720 questões reais de Ciências da Natureza do ENEM, com tutor de IA.">
+<meta property="og:title" content="Natureza 40+ · Mentoria Mário Machado">
+<meta property="og:description" content="Faça o diagnóstico de 40 questões e receba sua trilha de estudo para o ENEM, com data de término.">
+<meta property="og:image" content="img/logo.png">
+<meta name="theme-color" content="#0A1C44">
+<link rel="icon" href="img/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Oswald:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="css/doc.css">
+<link rel="stylesheet" href="css/app.css">
+<link rel="stylesheet" href="css/auth.css">
+</head>
+<body>
+<div id="auth"><div class="empty">Carregando…</div></div>
+<div id="appshell" hidden>
+<div class="top"><button data-act="menu" aria-label="Abrir menu"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><span class="t">Natureza <em>40+</em></span></div>
+<div class="shell">
+<nav class="sidebar" aria-label="Seções">
+<img class="logo" src="img/logo.png" alt="Mentoria Mário Machado">
+<div class="brand">Supermaterial<br>Natureza <em>40+</em></div>
+<div class="nav"><a href="#inicio" data-r="inicio"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg><span>Início</span></a><a href="#diag" data-r="diag"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r=".8"/></svg><span>Diagnóstico</span></a><a href="#trilha" data-r="trilha"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19c4 0 3-6 7-6s3 6 7 6"/><circle cx="5" cy="19" r="1.6"/><circle cx="19" cy="5" r="1.6"/><path d="M12 13c0-4 7-4 7-8"/></svg><span>Minha trilha</span></a><div class="sep"></div><a href="#padroes" data-r="padroes"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="1"/><rect x="13" y="4" width="7" height="7" rx="1"/><rect x="4" y="13" width="7" height="7" rx="1"/><rect x="13" y="13" width="7" height="7" rx="1"/></svg><span>Padrões</span></a><a href="#teoria" data-r="teoria"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 21V5"/><path d="M9 7h6"/></svg><span>Teoria</span></a><a href="#banco" data-r="banco"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10"/></svg><span>Banco de questões</span></a><a href="#sim" data-r="sim"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9 2h6"/></svg><span>Simulados</span></a><a href="#desempenho" data-r="desempenho"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg><span>Desempenho</span></a><div class="sep"></div><a href="#guia" data-r="guia"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/></svg><span>Guia e método</span></a></div>
+<div class="who" id="who"></div>
+<div class="count" id="sidecount"></div>
+</nav>
+<main class="main" id="view"></main>
+</div>
+</div>
+<script src="js/config.js"></script>
+<script src="js/supabase.js"></script>
+<script src="js/boot.js"></script>
+</body>
+</html>
