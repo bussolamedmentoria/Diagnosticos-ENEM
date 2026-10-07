@@ -28,7 +28,7 @@ const clock = s => { s = Math.max(0, Math.floor(s)); const h = Math.floor(s / 36
 
 // ---------------------------------------------------------------- state (local cache + conta no Supabase)
 const KEY = 'natureza40.v2.' + USER.id;
-function blank() { return { v: 2, ts: 0, diag: { ans: {}, dbt: {}, cur: 0, el: 0, step: 'intro', sabia: {} }, fila: [], sem: {}, trilha: null, hpw: null, cutP3: false, bank: {}, teo: {}, sims: {}, rev: {}, log: [] }; }
+function blank() { return { v: 2, ts: 0, diag: { ans: {}, dbt: {}, cur: 0, el: 0, step: 'intro', sabia: {} }, fila: [], sem: {}, trilha: null, hpw: null, cutP3: false, bank: {}, teo: {}, sims: {}, rev: {}, log: [], srs: {}, err: {}, day: {}, plan: {}, revDay: null }; }
 let S;
 (function () {
   let local = null; try { local = JSON.parse(localStorage.getItem(KEY)); } catch (e) { local = null; }
@@ -149,7 +149,7 @@ function markStep(cid, k, val) {
   const it = S.fila.find(x => x.cid === cid);
   if (!it || !it.steps.includes(k)) return false;
   if (!!it.done[k] === val) return false;
-  it.done[k] = val; if (val) S.log.push({ t: Date.now(), cid, k }); save(); return true;
+  it.done[k] = val; if (val) { S.log.push({ t: Date.now(), cid, k }); if (k !== 'tre' && typeof addStudy === 'function') addStudy(STEP[k].m); } save(); return true;
 }
 
 // ---------------------------------------------------------------- diagnosis scoring
@@ -268,12 +268,13 @@ function qCard(id, opt) {
   const q = Q[id]; const c = CHI[q.c]; const rec = S.bank[id];
   const annulled = !'ABCDE'.includes(q.g);
   const mode = opt && opt.mode || 'practice';
-  const mine = mode === 'review' ? opt.mine : rec && rec.a;
-  const answered = mode === 'review' || !!rec;
+  const mine = mode === 'review' ? opt.mine : mode === 'practice' ? rec && rec.a : undefined;
+  const answered = mode === 'review' || (mode === 'practice' && !!rec);
+  const pickAct = mode === 'srs' ? 'srs-pick' : 'q-pick';
   const btns = 'ABCDE'.split('').map(L => {
     let cls = 'opt';
     if (answered) { if (L === q.g) cls += ' right'; else if (L === mine) cls += ' wrong'; }
-    return `<button class="${cls}" data-act="q-pick" data-q="${id}" data-l="${L}" ${answered || annulled ? 'disabled' : ''} aria-label="Alternativa ${L}">${L}</button>`;
+    return `<button class="${cls}" data-act="${pickAct}" data-q="${id}" data-l="${L}" ${answered || annulled ? 'disabled' : ''} aria-label="Alternativa ${L}">${L}</button>`;
   }).join('');
   let fb = '';
   if (annulled) fb = '<div class="fb na">Esta questão foi anulada pelo Inep. Use-a só para estudo.</div>';
@@ -281,6 +282,8 @@ function qCard(id, opt) {
     const ok = mine === q.g;
     fb = `<div class="fb ${ok ? 'ok' : 'no'}">${mine ? (ok ? `<b>Certo.</b> Gabarito ${q.g}.` : `<b>Você marcou ${mine}.</b> O gabarito é ${q.g}.`) : `<b>Sem resposta.</b> O gabarito é ${q.g}.`}${(mode === 'review' ? opt.dbt : rec && rec.d) && ok ? ' Você marcou dúvida: conte como ponto a revisar.' : ''}</div>`;
     if (q.k) fb += `<div class="com"><b class="l">Comentário do material</b>${q.k}</div>`;
+    const dbtFlag = mode === 'review' ? opt.dbt : rec && rec.d;
+    if ((!ok || dbtFlag) && opt && opt.noMot !== true) fb += motivoBox(id);
     fb += aiBox('Explicação com IA', 'Passo a passo no método do material, com o motivo de cada alternativa errada.', 'Explicar esta questão', 'ai-explain', `data-q="${id}" data-mine="${mine || ''}"`);
   }
   return `<div class="qc" data-qc="${id}" data-label="${esc(opt && opt.label || '')}">
@@ -294,8 +297,11 @@ function qCard(id, opt) {
 function pickPractice(id, L, card) {
   const q = Q[id];
   const d = !!(card.querySelector(`[data-dbt="${id}"]`) || {}).checked;
-  S.bank[id] = { a: L, ok: L === q.g, d, t: Date.now() };
-  logAnswers([{ qid: id, source: card.closest('#treino') ? 'treino' : 'banco', letter: L, correct: L === q.g, doubt: d }]);
+  const secs = takeSeconds(id), src = card.closest('#treino') ? 'treino' : 'banco';
+  S.bank[id] = { a: L, ok: L === q.g, d, t: Date.now(), s: secs };
+  if (L !== q.g || d) registerMiss(id, src, L, d);
+  addStudy((secs || 90) / 60);
+  logAnswers([{ qid: id, source: src, letter: L, correct: L === q.g, doubt: d, seconds: secs }]);
   save(); autoCredit(q.c);
   const html = qCard(id, { label: card.dataset.label || '' });
   const tmp = document.createElement('div'); tmp.innerHTML = html; const nc = tmp.firstElementChild;
@@ -331,7 +337,8 @@ function startTick(st) {
   stopTick();
   let last = Date.now();
   TICK = setInterval(() => {
-    const now = Date.now(); st.el += (now - last) / 1000; last = now;
+    const now = Date.now(), dt = (now - last) / 1000; st.el += dt; last = now;
+    st.tq = st.tq || {}; st.tq[st.cur || 0] = (st.tq[st.cur || 0] || 0) + dt; addStudy(dt / 60);
     const t = document.getElementById('timer'); if (t) t.textContent = clock(st.el); else stopTick();
     save();
   }, 1000);
@@ -343,7 +350,7 @@ const app = () => document.getElementById('view');
 function setView(html, after) {
   stopTick();
   const el = app(); el.innerHTML = `<div class="wrap">${html}</div>`;
-  hydrate(el); if (after) after(el);
+  hydrate(el); watchCards(el); if (after) after(el);
 }
 
 // ---- início
@@ -676,7 +683,9 @@ function finishSim(k) {
   const per = {}; let score = 0;
   ids.forEach((id, i) => { const q = Q[id]; const hit = r.ans[i] === q.g && !r.dbt[i]; if (hit) score++; const p = per[q.c] = per[q.c] || { n: 0, err: 0 }; p.n++; if (!hit) p.err++; });
   r.done = true; r.score = score; r.per = per; r.at = Date.now();
-  logAnswers(ids.map((id, i) => ({ qid: id, source: 'simulado', letter: r.ans[i] || null, correct: r.ans[i] === Q[id].g, doubt: !!r.dbt[i] })));
+  const tq = r.tq || {};
+  logAnswers(ids.map((id, i) => ({ qid: id, source: 'simulado', letter: r.ans[i] || null, correct: r.ans[i] === Q[id].g, doubt: !!r.dbt[i], seconds: tq[i] ? Math.min(7200, Math.round(tq[i])) : null })));
+  ids.forEach((id, i) => { if (r.ans[i] !== Q[id].g || r.dbt[i]) registerMiss(id, 'simulado', r.ans[i], r.dbt[i]); });
   const changes = [];
   if (S.trilha) {
     for (const cid in per) {
@@ -708,6 +717,14 @@ function simResult(k) {
     .map(([cid, p]) => `<tr><td><span class="dot ${S.sem[cid] || ''}"></span> <a href="#p-${cid}"><b>${esc(CHI[cid].name)}</b></a></td><td class="tnum">${p.n}</td><td class="tnum" style="${p.err >= 2 ? 'color:var(--red-ink);font-weight:800' : ''}">${p.err}</td></tr>`).join('');
   const grid = ids.map((id, i) => `<button class="${r.ans[i] === Q[id].g && !r.dbt[i] ? 'right' : 'wrong'}" data-act="scroll" data-t="sq${i}">${d.a + i}</button>`).join('');
   const wrong = ids.map((id, i) => [id, i]).filter(([id, i]) => !(r.ans[i] === Q[id].g && !r.dbt[i]));
+  const tq = r.tq || {}, hasT = Object.keys(tq).length > 0;
+  const slow = ids.map((id, i) => [id, i, tq[i] || 0]).filter(x => x[2] >= 240).sort((a, b) => b[2] - a[2]);
+  const skip = ids.map((id, i) => [id, i, tq[i] || 0]).filter(([id, i, t]) => t >= 180 && !(r.ans[i] === Q[id].g && !r.dbt[i]));
+  const timeBox = hasT ? `<section class="panel stack"><h2 class="v">Tempo por questão</h2>
+      <p class="small muted" style="margin:0">Meta do ENEM: cerca de 3 minutos por questão, deixando tempo para Matemática.</p>
+      <div class="row"><span class="badge">${slow.length} acima de 4 min</span><span class="badge ${skip.length ? 'warn' : 'ok'}">${skip.length} para pular na 1ª volta</span></div>
+      ${skip.length ? `<p style="margin:0"><b>Deveria ter pulado na primeira volta:</b> você gastou mais de 3 minutos e errou. Na prova, marque e volte no fim.</p><div class="chips2">${skip.map(([id, i, t]) => `<button class="chip2" data-act="scroll" data-t="sq${i}">Q${d.a + i} · ${Math.round(t / 60)} min</button>`).join('')}</div>` : '<p style="margin:0">Você não perdeu tempo demais em questões que errou.</p>'}
+      ${slow.length ? `<div class="small muted">Mais demoradas: ${slow.slice(0, 6).map(([id, i, t]) => `Q${d.a + i} (${Math.round(t / 60)} min${r.ans[i] === Q[id].g && !r.dbt[i] ? ', acertou' : ', errou'})`).join(' · ')}</div>` : ''}</section>` : '';
   setView(`<div class="crumb"><a href="#sim">← Simulados</a></div><div><div class="eyebrow">${d.sub}</div><h1 class="v">${d.name}: <em>${r.score}/${ids.length}</em></h1></div>
     <div class="tiles"><div class="tile"><div class="k">Acertos sem dúvida</div><div class="v">${r.score}</div><div class="s">de ${ids.length}</div></div>
       <div class="tile"><div class="k">Tempo</div><div class="v">${clock(r.el)}</div><div class="s">${Math.round(r.el / ids.length / 60 * 10) / 10} min por questão</div></div>
@@ -716,6 +733,7 @@ function simResult(k) {
     <div class="cols2"><section class="panel stack"><h2 class="v">Erros por padrão</h2><div class="tw"><table class="ui"><tr><th>Padrão</th><th>Questões</th><th>Erros</th></tr>${rows}</table></div></section>
       <section class="stack">${aiBox('Análise do simulado com IA', 'O tutor lê seus erros por padrão e o tempo e diz o que fazer antes do próximo simulado.', 'Analisar meu simulado', 'ai-sim', `data-k="${k}"`)}
       <div class="panel"><h3 class="v" style="margin-bottom:10px">Gabarito</h3><div class="qgrid">${grid}</div></div></section></div>
+    ${timeBox}
     <section class="stack"><h2 class="v">Correção das erradas e com dúvida</h2>
       ${wrong.map(([id, i]) => `<div id="sq${i}">${qCard(id, { mode: 'review', mine: r.ans[i], dbt: r.dbt[i], label: String(d.a + i) })}</div>`).join('') || '<div class="panel">Nenhuma. Excelente.</div>'}</section>`);
 }
@@ -728,10 +746,17 @@ function accuracy() {
   for (const k in S.sims) { const r = S.sims[k]; if (r.done) simIds(k).forEach((id, i) => add(id, r.ans[i] === Q[id].g && !r.dbt[i])); }
   return acc;
 }
+function timeByPattern() {
+  const t = {}; const add = (id, s) => { if (!s) return; const c = Q[id].c; const a = t[c] = t[c] || { s: 0, n: 0 }; a.s += s; a.n++; };
+  for (const id in S.bank) add(id, S.bank[id].s);
+  if (S.diag.tq) META.diag.forEach((id, i) => add(id, S.diag.tq[i]));
+  for (const k in S.sims) { const r = S.sims[k]; if (r.done && r.tq) simIds(k).forEach((id, i) => add(id, r.tq[i])); }
+  return t;
+}
 V.desempenho = () => {
-  const acc = accuracy();
+  const acc = accuracy(), tbp = timeByPattern();
   const rows = CH.map(c => { const a = acc[c.id]; const pct = a && a.n ? Math.round(a.ok / a.n * 100) : null;
-    return `<tr><td><span class="dot ${S.sem[c.id] || ''}"></span> <a href="#p-${c.id}"><b>${esc(c.name)}</b></a></td><td>O${c.onda}</td><td class="tnum">${a ? a.n : 0}</td>
+    return `<tr><td><span class="dot ${S.sem[c.id] || ''}"></span> <a href="#p-${c.id}"><b>${esc(c.name)}</b></a></td><td>O${c.onda}</td><td class="tnum">${a ? a.n : 0}</td><td class="tnum">${tbp[c.id] && tbp[c.id].n ? (Math.round(tbp[c.id].s / tbp[c.id].n / 6) / 10).toString().replace('.', ',') + ' min' : '—'}</td>
       <td style="min-width:140px">${pct === null ? '<span class="muted small">sem dados</span>' : `<div class="row" style="gap:8px;flex-wrap:nowrap"><div class="pbar" style="flex:1"><i style="width:${pct}%;background:${pct >= 80 ? 'var(--green)' : pct >= 50 ? 'var(--amber)' : 'var(--red)'}"></i></div><b class="tnum">${pct}%</b></div>`}</td></tr>`; }).join('');
   const sims = Object.entries(S.sims).filter(([, r]) => r.done).sort((a, b) => a[1].at - b[1].at);
   setView(`<div><div class="eyebrow">Desempenho</div><h1 class="v">Onde estão os <em>seus pontos</em></h1></div>
@@ -739,7 +764,7 @@ V.desempenho = () => {
       ${sims.map(([k, r]) => `<div class="tile"><div class="k">${SIMDEF[k].name}</div><div class="v">${r.score}/${simIds(k).length}</div><div class="s">${clock(r.el)}</div></div>`).join('')}
       <div class="tile"><div class="k">Banco e treinos</div><div class="v">${Object.keys(S.bank).length}</div><div class="s">questões resolvidas</div></div></div>
     <section class="panel stack"><h2 class="v">Acerto por padrão</h2><p class="small muted" style="margin:0">Soma diagnóstico, simulados, treinos e banco. Acerto com dúvida conta como erro.</p>
-      <div class="tw"><table class="ui"><tr><th>Padrão</th><th>Onda</th><th>Questões</th><th>Acerto</th></tr>${rows}</table></div></section>
+      <div class="tw"><table class="ui"><tr><th>Padrão</th><th>Onda</th><th>Questões</th><th>Tempo médio</th><th>Acerto</th></tr>${rows}</table></div></section>
     ${aiBox('Análise do seu desempenho', 'O tutor cruza seus números com o peso de cada padrão no ENEM e aponta onde estão os pontos mais baratos.', 'Analisar meu desempenho', 'ai-coach')}`);
 };
 
@@ -810,10 +835,302 @@ async function tutorSend(sec, text) {
   } finally { stop.hidden = true; }
 }
 
+// ---------------------------------------------------------------- estudo do dia, revisão espaçada e caderno de erros
+const dstr = d => { d = d || new Date(); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); };
+const addDays = n => { const d = today(); d.setDate(d.getDate() + n); return dstr(d); };
+const fmtD = s => { const [y, m, d] = s.split('-'); return `${d}/${m}`; };
+function addStudy(min) { if (!(min > 0)) return; const k = dstr(); S.day[k] = Math.round(((S.day[k] || 0) + min) * 10) / 10; }
+function streak() {
+  let n = 0; const d = today();
+  if (!S.day[dstr(d)]) d.setDate(d.getDate() - 1);
+  while (S.day[dstr(d)]) { n++; d.setDate(d.getDate() - 1); }
+  return n;
+}
+const SRS_GAP = [1, 3, 7, 14];
+const MOT = {
+  padrao: { l: 'Não reconheci o padrão', g: 'Você sabia o conteúdo, mas não percebeu o que a questão pedia.', r: c => `Releia os gatilhos e as armadilhas do <a href="#p-${c}">capítulo do padrão</a> e faça mais questões dele no banco.` },
+  conteudo: { l: 'Faltou o conteúdo', g: 'O conceito não estava firme.', r: c => `Comece pelo <a href="#t-${c}">resumo teórico</a> e faça os exercícios diretos antes de voltar às questões.` },
+  conta: { l: 'Errei a conta', g: 'O raciocínio estava certo, mas a conta parou numa alternativa errada.', r: () => `Refaça com o <a href="#g-p2">protocolo da conta</a> e anote a etapa esquecida: unidade, proporção, rendimento ou pureza.` },
+  atencao: { l: 'Li errado ou me distraí', g: 'Você sabia, mas leu errado o comando ou uma palavra.', r: () => 'Releia o comando, marque a palavra que te derrubou e repita a questão na revisão sem pressa.' },
+  chute: { l: 'Chutei', g: 'Não sabia por onde começar.', r: c => `Estude o <a href="#t-${c}">resumo teórico</a> antes da revisão. A questão volta para você nos próximos dias.` },
+};
+function registerMiss(id, src, letter, doubt) {
+  const prev = S.srs[id];
+  S.srs[id] = { box: 0, due: addDays(1), src, n: (prev ? prev.n : 0) + 1 };
+  const e = S.err[id] || { m: null, first: Date.now(), n: 0 };
+  Object.assign(e, { t: Date.now(), src, a: letter || null, d: !!doubt, ok: false }); e.n++;
+  S.err[id] = e;
+}
+function srsHit(id) {
+  const s = S.srs[id]; if (!s) return;
+  s.box++;
+  if (s.box >= SRS_GAP.length) { delete S.srs[id]; if (S.err[id]) S.err[id].ok = true; }
+  else s.due = addDays(SRS_GAP[s.box]);
+}
+function dueList() { const t = dstr(); return Object.entries(S.srs).filter(([, s]) => s.due <= t).sort((a, b) => a[1].due.localeCompare(b[1].due)).map(([id]) => id); }
+function nextDue() { const f = Object.values(S.srs).map(s => s.due).sort()[0]; return f || null; }
+function motivoBox(id) {
+  const e = S.err[id]; const m = e && e.m; const c = Q[id].c; const s = S.srs[id];
+  return `<div class="mot" data-mot="${id}"><b class="l">Por que você errou?</b>
+    <div class="chips2">${Object.entries(MOT).map(([k, v]) => `<button class="chip2 ${m === k ? 'on' : ''}" data-act="motivo" data-q="${id}" data-m="${k}">${v.l}</button>`).join('')}</div>
+    ${m ? `<div class="rem">${MOT[m].r(c)}</div>` : ''}
+    ${s ? `<div class="small muted">Essa questão volta na sua revisão em ${fmtD(s.due)}.</div>` : ''}</div>`;
+}
+// tempo por questão no modo prática: começa a contar quando o cartão aparece na tela
+const QSTART = {};
+const QOBS = 'IntersectionObserver' in window ? new IntersectionObserver(es => {
+  for (const e of es) if (e.isIntersecting) { const id = e.target.dataset.qc; if (id && !QSTART[id]) QSTART[id] = Date.now(); QOBS.unobserve(e.target); }
+}, { threshold: 0.4 }) : null;
+function watchCards(root) {
+  root.querySelectorAll('.qc[data-qc]').forEach(el => { if (el.querySelector('.opt:not([disabled])')) { if (QOBS) QOBS.observe(el); else QSTART[el.dataset.qc] = QSTART[el.dataset.qc] || Date.now(); } });
+}
+function takeSeconds(id) { const t0 = QSTART[id]; delete QSTART[id]; return t0 ? Math.min(900, Math.round((Date.now() - t0) / 1000)) : null; }
+
+// ---- revisão do dia
+let RV = null;
+V.revisao = () => {
+  const due = dueList();
+  if (!RV || RV.date !== dstr()) RV = { date: dstr(), ids: [], i: 0, res: {} };
+  for (const id of due) if (!RV.ids.includes(id)) RV.ids.push(id);
+  const done = Object.keys(RV.res).length, total = RV.ids.length;
+  const nd = nextDue();
+  if (!total) return setView(`<div><div class="eyebrow">Revisão espaçada</div><h1 class="v">Revisão <em>do dia</em></h1></div>
+    <div class="panel empty"><p style="margin:0 0 6px"><b>Nada para revisar hoje.</b></p><p class="small" style="margin:0">${nd ? `Próxima revisão em ${fmtD(nd)} (${Object.values(S.srs).filter(s => s.due === nd).length} questões).` : 'Toda questão que você errar ou marcar com dúvida volta aqui em 1, 3, 7 e 14 dias, até você acertar com segurança.'}</p></div>
+    <div><a class="btn ghost" href="#erros">Abrir o caderno de erros</a></div>`);
+  if (RV.i >= total) return setView(`<div><div class="eyebrow">Revisão espaçada</div><h1 class="v">Revisão concluída: <em>${Object.values(RV.res).filter(x => x.ok).length}/${total}</em></h1></div>
+    <div class="panel stack"><p style="margin:0">As que você acertou voltam mais espaçadas. As que errou voltam amanhã.</p>
+    ${Object.values(RV.res).some(x => !x.ok) ? '<p class="small muted" style="margin:0">Dica: marque o motivo de cada erro no caderno. É ele que diz o que estudar.</p>' : ''}
+    <div class="row"><a class="btn" href="#hoje">Voltar para Hoje</a><a class="btn ghost" href="#erros">Caderno de erros</a></div></div>`);
+  const id = RV.ids[RV.i], r = RV.res[id];
+  const box = S.srs[id] ? S.srs[id].box : 0;
+  const card = r ? qCard(id, { mode: 'review', mine: r.a, dbt: r.d, label: `${RV.i + 1}/${total}` }) : qCard(id, { mode: 'srs', label: `${RV.i + 1}/${total}` });
+  setView(`<div><div class="eyebrow">Revisão espaçada · ${done} de ${total} feitas</div><h1 class="v">Revisão <em>do dia</em></h1></div>
+    <div class="pbar"><i style="width:${Math.round(done / total * 100)}%"></i></div>
+    <p class="small muted" style="margin:0">${r ? '' : `Antes de marcar, explique para você mesmo por que a resposta é aquela. ${box ? `Esta é a ${box + 1}ª revisão desta questão.` : 'Você errou esta questão antes.'}`}</p>
+    ${card}
+    ${r ? `<div class="row"><button class="btn lime" data-act="rv-next">${RV.i + 1 < total ? 'Próxima questão →' : 'Concluir revisão'}</button></div>` : ''}`, el => watchCards(el));
+};
+function pickSrs(id, L, card) {
+  const q = Q[id], d = !!(card.querySelector(`[data-dbt="${id}"]`) || {}).checked, ok = L === q.g && !d;
+  const secs = takeSeconds(id);
+  RV.res[id] = { a: L, d, ok };
+  if (ok) srsHit(id); else registerMiss(id, 'revisao', L, d);
+  S.revDay = S.revDay && S.revDay.date === dstr() ? S.revDay : { date: dstr(), n: 0 }; S.revDay.n++;
+  addStudy((secs || 90) / 60);
+  logAnswers([{ qid: id, source: 'revisao', letter: L, correct: L === q.g, doubt: d, seconds: secs }]);
+  save(); refreshSide(); V.revisao();
+}
+
+// ---- caderno de erros
+let EF = 'todos';
+V.erros = () => {
+  const all = Object.entries(S.err);
+  const open = all.filter(([, e]) => !e.ok), mastered = all.filter(([, e]) => e.ok);
+  const noMot = open.filter(([, e]) => !e.m).length;
+  const byMot = {}; for (const [, e] of open) if (e.m) byMot[e.m] = (byMot[e.m] || 0) + 1;
+  const byPat = {}; for (const [id] of open) { const c = Q[id].c; byPat[c] = (byPat[c] || 0) + 1; }
+  const topPat = Object.entries(byPat).sort((a, b) => b[1] - a[1]).slice(0, 5);
+  const maxMot = Math.max(1, ...Object.values(byMot));
+  const motRows = Object.entries(MOT).map(([k, v]) => `<div class="mrow"><div class="ml"><b>${v.l}</b><span class="small muted">${v.g}</span></div>
+      <div class="pbar" style="flex:1"><i style="width:${Math.round((byMot[k] || 0) / maxMot * 100)}%;background:var(--navy3)"></i></div><b class="tnum">${byMot[k] || 0}</b></div>`).join('');
+  const top = Object.entries(byMot).sort((a, b) => b[1] - a[1])[0];
+  let list = EF === 'dominadas' ? mastered : EF === 'sem' ? open.filter(([, e]) => !e.m) : EF === 'todos' ? open : open.filter(([, e]) => e.m === EF);
+  list = list.sort((a, b) => b[1].t - a[1].t);
+  const chip = (k, l, n) => `<button class="chip2 ${EF === k ? 'on' : ''}" data-act="ef" data-f="${k}">${l}${n !== undefined ? ` · ${n}` : ''}</button>`;
+  const rows = list.slice(0, 150).map(([id, e]) => { const c = CHI[Q[id].c], s = S.srs[id];
+    return `<div class="erow" data-erow="${id}"><button class="ehead" data-act="er-open" data-q="${id}"><span class="dtag ${Q[id].d}">${DSHORT[Q[id].d]}</span>
+      <span class="eid">${esc(qLabel(id))}</span><span class="muted small eth">${esc(c.name)}${Q[id].t ? ' · ' + esc(Q[id].t) : ''}</span>
+      <span class="emeta">${e.m ? `<span class="badge">${MOT[e.m].l}</span>` : '<span class="badge warn">sem motivo</span>'}${e.ok ? '<span class="badge ok">dominada</span>' : s ? `<span class="small muted">revisão ${fmtD(s.due)}</span>` : ''}</span></button><div class="ebody"></div></div>`; }).join('');
+  setView(`<div><div class="eyebrow">Caderno de erros</div><h1 class="v">Seus erros, <em>organizados</em></h1></div>
+    <div class="tiles">
+      <div class="tile"><div class="k">Erros em aberto</div><div class="v">${open.length}</div><div class="s">${mastered.length} já dominados</div></div>
+      <div class="tile"><div class="k">Para revisar hoje</div><div class="v">${dueList().length}</div><div class="s">${dueList().length ? '<a href="#revisao">fazer a revisão</a>' : 'nada pendente'}</div></div>
+      <div class="tile"><div class="k">Sem motivo marcado</div><div class="v">${noMot}</div><div class="s">marque para receber o remédio certo</div></div></div>
+    <div class="cols2"><section class="panel stack"><h2 class="v">Por que você erra</h2>${motRows}
+        ${top ? `<div class="chg"><b>Seu erro mais comum: ${MOT[top[0]].l.toLowerCase()}.</b> ${MOT[top[0]].r(topPat[0] ? topPat[0][0] : 'c01')}</div>` : '<p class="small muted" style="margin:0">Marque o motivo dos seus erros para ver o padrão aqui.</p>'}</section>
+      <section class="panel stack"><h2 class="v">Padrões com mais erros</h2>${topPat.length ? topPat.map(([c, n]) => `<div class="row" style="justify-content:space-between"><a href="#p-${c}"><b>${esc(CHI[c].name)}</b></a><span class="tnum">${n} ${n > 1 ? 'erros' : 'erro'}</span></div>`).join('') : '<p class="small muted" style="margin:0">Ainda sem erros registrados.</p>'}</section></div>
+    <section class="stack"><div class="chips2">${chip('todos', 'Em aberto', open.length)}${chip('sem', 'Sem motivo', noMot)}${Object.entries(MOT).map(([k, v]) => chip(k, v.l, byMot[k] || 0)).join('')}${chip('dominadas', 'Dominadas', mastered.length)}</div>
+      <div class="elist">${rows || '<div class="panel empty">Nenhuma questão aqui. Toda questão errada ou com dúvida entra automaticamente no caderno.</div>'}</div></section>`);
+};
+
+// ---- hoje
+const TODAY_MIN = [30, 45, 60, 90, 120];
+function todayTasks(min) {
+  const tasks = []; let left = min;
+  if (S.diag.score === undefined) return [{ type: 'diag', m: Math.min(min, 120) }];
+  const due = dueList();
+  if (due.length) { const n = Math.min(due.length, Math.max(3, Math.floor(min * 0.35 / 2.5))); const m = Math.ceil(n * 2.5); tasks.push({ type: 'rev', n, m }); left -= m; }
+  const simPend = S.trilha ? TRILHAS[S.trilha].sims.find(k => !(S.sims[k] && S.sims[k].done)) : null;
+  const stepsLeft = activeItems().some(it => !itemDone(it));
+  if (simPend && (min >= 120 || !stepsLeft) && left >= SIMDEF[simPend].m * 0.6) { tasks.push({ type: 'sim', k: simPend, m: SIMDEF[simPend].m }); left -= SIMDEF[simPend].m; }
+  let full = false;
+  for (const it of activeItems()) {
+    for (const k of it.steps) {
+      if (it.done[k]) continue;
+      if (left < 15 || STEP[k].m > left + 10) { full = true; break; }
+      tasks.push({ type: 'step', cid: it.cid, k, m: STEP[k].m }); left -= STEP[k].m;
+    }
+    if (full) break;
+  }
+  if (left >= 15) {
+    const acc = accuracy();
+    const cands = (S.fila.length ? S.fila.map(i => i.cid) : CH.map(c => c.id));
+    const weak = cands.sort((a, b) => ((acc[a] ? acc[a].ok / acc[a].n : 0.5) - (acc[b] ? acc[b].ok / acc[b].n : 0.5)) || CHI[a].i - CHI[b].i)[0];
+    const n = Math.max(3, Math.floor(left / 3));
+    tasks.push({ type: 'treino', cid: weak, n, m: n * 3 });
+  }
+  return tasks;
+}
+function answeredToday() { const t0 = today().getTime(); return Object.values(S.bank).filter(r => r.t >= t0).length; }
+function taskDone(t) {
+  if (t.type === 'diag') return S.diag.score !== undefined;
+  if (t.type === 'rev') return (S.revDay && S.revDay.date === dstr() ? S.revDay.n : 0) >= t.n || !dueList().length;
+  if (t.type === 'sim') return !!(S.sims[t.k] && S.sims[t.k].done);
+  if (t.type === 'step') { const it = S.fila.find(x => x.cid === t.cid); return !!(it && it.done[t.k]); }
+  if (t.type === 'treino') return answeredToday() - (S.plan.base || 0) >= t.n;
+  return false;
+}
+V.hoje = () => {
+  const def = S.hpw ? TODAY_MIN.reduce((a, b) => Math.abs(b - S.hpw * 60 / 6) < Math.abs(a - S.hpw * 60 / 6) ? b : a) : 60;
+  if (!S.plan || S.plan.date !== dstr() || !S.plan.tasks) S.plan = { date: dstr(), min: (S.plan && S.plan.min) || def, base: answeredToday() };
+  const stale = S.plan.tasks && S.plan.tasks.some(t => t.type === 'diag') && S.diag.score !== undefined;
+  if (!S.plan.tasks || stale) { S.plan.tasks = todayTasks(S.plan.min); save(); }
+  const tasks = S.plan.tasks;
+  const studied = Math.round(S.day[dstr()] || 0), st = streak(), dleft = Math.max(0, daysBetween(today(), EXAM_DAY));
+  const doneN = tasks.filter(taskDone).length;
+  const nm = (PROFILE.nome || '').split(' ')[0];
+  const row = (t, k) => {
+    const dn = taskDone(t); let title = '', sub = '', href = '#', act = '';
+    if (t.type === 'diag') { title = 'Fazer o diagnóstico'; sub = '40 questões que montam a sua trilha.'; href = '#diag'; }
+    if (t.type === 'rev') { title = `Revisão do dia: ${t.n} ${t.n > 1 ? 'questões' : 'questão'}`; sub = 'Questões que você errou, de volta no momento certo para fixar.'; href = '#revisao'; }
+    if (t.type === 'sim') { title = `${SIMDEF[t.k].name}`; sub = SIMDEF[t.k].sub + ', com correção.'; href = '#sim-' + t.k; }
+    if (t.type === 'step') { title = `${CHI[t.cid].name}: ${STEP[t.k].l.charAt(0).toLowerCase() + STEP[t.k].l.slice(1)}`; sub = 'Próxima etapa da sua fila.'; href = STEP[t.k].to(t.cid); }
+    if (t.type === 'treino') { title = `Treino: ${t.n} questões de ${CHI[t.cid].name}`; sub = 'Seu padrão com menor acerto, só questões novas.'; href = '#banco'; act = `data-act="bank-pat" data-c="${t.cid}"`; }
+    const chk = t.type === 'step' ? `<input type="checkbox" data-act="step" data-c="${t.cid}" data-k="${t.k}" ${dn ? 'checked' : ''} aria-label="Marcar como feito">` : `<span class="tchk ${dn ? 'on' : ''}" aria-hidden="true">${dn ? '✓' : ''}</span>`;
+    return `<div class="task ${dn ? 'done' : ''}"><span class="tn">${k + 1}</span>${chk}<div class="tt"><b>${esc(title)}</b><span class="small muted">${esc(sub)}</span></div>
+      <span class="m">${hm(t.m)}</span><a class="btn sm ${dn ? 'ghost' : ''}" href="${href}" ${act}>${dn ? 'Rever' : 'Começar'}</a></div>`;
+  };
+  const total = tasks.reduce((a, t) => a + t.m, 0);
+  setView(`<div><div class="eyebrow">${esc(fmtLong(today()))}</div><h1 class="v">${nm ? esc(nm) + ', sua' : 'Sua'} sessão de <em>hoje</em></h1></div>
+    <div class="tiles">
+      <div class="tile"><div class="k">Estudado hoje</div><div class="v">${hm(studied)}</div><div class="s">de ${hm(S.plan.min)} planejados</div></div>
+      <div class="tile"><div class="k">Sequência</div><div class="v">${st}</div><div class="s">${st === 1 ? 'dia seguido' : 'dias seguidos'} estudando</div></div>
+      <div class="tile"><div class="k">Revisões</div><div class="v">${dueList().length}</div><div class="s">pendentes hoje</div></div>
+      <div class="tile"><div class="k">Até a prova</div><div class="v">${dleft}</div><div class="s">dias até 15/11</div></div></div>
+    <section class="panel stack"><div class="row"><h2 class="v">Quanto tempo você tem hoje?</h2></div>
+      <div class="chips2">${TODAY_MIN.map(m => `<button class="chip2 ${S.plan.min === m ? 'on' : ''}" data-act="today-min" data-m="${m}">${hm(m)}</button>`).join('')}</div>
+      <p class="small muted" style="margin:0">A sessão é montada nesta ordem: primeiro as revisões que venceram, depois a próxima etapa da sua fila e, se sobrar tempo, um treino no seu padrão mais fraco.</p></section>
+    <section class="stack"><div class="row"><h2 class="v">Plano de hoje · ${hm(total)}</h2><span class="badge ${doneN === tasks.length ? 'ok' : ''}" style="margin-left:auto">${doneN}/${tasks.length} feitas</span></div>
+      <div class="tasks">${tasks.map(row).join('')}</div>
+      ${doneN === tasks.length && tasks.length ? '<div class="chg" style="border-color:var(--green);background:#E3F8EA"><b>Sessão concluída.</b> Se ainda tiver tempo, faça questões novas no banco ou adiante a próxima etapa da trilha.</div>' : ''}
+      <div><button class="btn sm ghost" data-act="today-redo">Montar o plano de novo</button></div></section>`);
+};
+
+// ---- painel do mentor
+let MT = { tab: 'alunos', q: '', f: 'todos', data: null };
+async function mentorLoad(force) {
+  if (MT.data && !force) return MT.data;
+  const [st, qs, mo] = await Promise.all([SB.rpc('mentor_students'), SB.rpc('mentor_questions'), SB.rpc('mentor_motivos')]);
+  if (st.error || qs.error || mo.error) throw (st.error || qs.error || mo.error);
+  MT.data = { st: st.data || [], qs: qs.data || [], mo: mo.data || [], at: Date.now() };
+  return MT.data;
+}
+const ago = iso => { if (!iso) return null; return Math.floor((Date.now() - new Date(iso).getTime()) / DAY); };
+function stStatus(s) {
+  const d = ago(s.ultima);
+  if (s.diag_score === null || s.diag_score === undefined) return ['warn', 'Sem diagnóstico', 1];
+  if (d === null || d >= 7) return ['bad', d === null ? 'Sem atividade' : `Parado há ${d} dias`, 0];
+  if (d >= 3) return ['warn', `Parado há ${d} dias`, 1];
+  return ['ok', 'Ativo', 2];
+}
+V.mentor = async () => {
+  if (!window.__ADMIN) return setView('<div class="panel empty">Esta área é só para mentores.</div>');
+  setView('<div><div class="eyebrow">Painel do mentor</div><h1 class="v">Sua <em>turma</em></h1></div><div class="panel empty" id="mt">Carregando os dados da turma…</div>');
+  let D;
+  try { D = await mentorLoad(); } catch (e) { const el = document.getElementById('mt'); if (el) el.textContent = 'Não foi possível carregar os dados. Verifique se sua conta está cadastrada como mentora.'; return; }
+  if (location.hash !== '#mentor') return;
+  const st = D.st, active = st.filter(s => s.respostas_7d > 0).length, diag = st.filter(s => s.diag_score !== null);
+  const avgDiag = diag.length ? (diag.reduce((a, s) => a + s.diag_score, 0) / diag.length).toFixed(1).replace('.', ',') : '—';
+  const tabs = [['alunos', 'Alunos'], ['questoes', 'Questões que mais derrubam'], ['padroes', 'Padrões'], ['motivos', 'Motivos de erro']];
+  let body = '';
+  if (MT.tab === 'alunos') {
+    const q = norm(MT.q);
+    let rows = st.map(s => ({ s, stt: stStatus(s) })).filter(({ s, stt }) => (!q || norm(`${s.nome} ${s.email} ${s.whatsapp} ${s.cidade || ''}`).includes(q))
+      && (MT.f === 'todos' || (MT.f === 'parados' && stt[2] === 0) || (MT.f === 'atencao' && stt[2] === 1) || (MT.f === 'semdiag' && (s.diag_score === null)) || (MT.f === 'contato' && s.aceite_contato)));
+    rows.sort((a, b) => a.stt[2] - b.stt[2] || (new Date(b.s.cadastro) - new Date(a.s.cadastro)));
+    body = `<div class="filters" style="grid-template-columns:2fr 1fr auto"><label>Buscar<input type="text" id="mt-q" data-act="mt-q" value="${esc(MT.q)}" placeholder="Nome, e-mail, celular ou cidade"></label>
+      <label>Mostrar<select id="mt-f" data-act="mt-f">${[['todos', 'Todos'], ['parados', 'Parados (7+ dias)'], ['atencao', 'Precisam de atenção'], ['semdiag', 'Sem diagnóstico'], ['contato', 'Aceitam contato']].map(([v, l]) => `<option value="${v}" ${MT.f === v ? 'selected' : ''}>${l}</option>`).join('')}</select></label>
+      <label>&nbsp;<button class="btn sm ghost" data-act="mt-csv">Exportar planilha</button></label></div>
+      <div class="tw"><table class="ui"><tr><th>Aluno</th><th>Celular</th><th>Trilha</th><th>Diag.</th><th>Progresso</th><th>Últ. atividade</th><th>7 dias</th><th>Situação</th></tr>
+      ${rows.map(({ s, stt }) => { const d = ago(s.ultima); const w = (s.whatsapp || '').replace(/\D/g, '');
+        return `<tr><td><button class="lnkbtn" data-act="mt-open" data-id="${s.id}"><b>${esc(s.nome)}</b></button><div class="small muted">${esc(s.email || '')}${s.cidade ? ' · ' + esc(s.cidade) + (s.uf ? '/' + esc(s.uf) : '') : ''}</div></td>
+        <td>${w ? `<a href="https://wa.me/55${w}" target="_blank" rel="noopener">${esc(s.whatsapp)}</a>${s.aceite_contato ? '' : '<div class="small muted">sem aceite</div>'}` : '—'}</td>
+        <td>${s.trilha ? esc(TRILHAS[s.trilha] ? TRILHAS[s.trilha].name.replace('Trilha ', '') : s.trilha) : '—'}</td><td class="tnum">${s.diag_score ?? '—'}</td>
+        <td style="min-width:90px">${s.pct !== null && s.pct !== undefined ? `<div class="row" style="gap:6px;flex-wrap:nowrap"><div class="pbar" style="flex:1"><i style="width:${s.pct}%"></i></div><span class="tnum small">${s.pct}%</span></div>` : '—'}</td>
+        <td class="small">${d === null ? '—' : d === 0 ? 'hoje' : d === 1 ? 'ontem' : `há ${d} dias`}</td><td class="tnum small">${s.respostas_7d} q · ${s.minutos_7d} min</td><td><span class="badge ${stt[0]}">${stt[1]}</span></td></tr>`; }).join('') || '<tr><td colspan="8" class="muted">Nenhum aluno neste filtro.</td></tr>'}</table></div>
+      <div id="mt-detail"></div>`;
+  } else if (MT.tab === 'questoes') {
+    const rows = D.qs.filter(x => x.n >= 3 && Q[x.qid]).map(x => ({ ...x, r: x.erros / x.n })).sort((a, b) => b.r - a.r || b.n - a.n).slice(0, 25);
+    body = `<p class="small muted" style="margin:0">Questões com pelo menos 3 respostas, ordenadas pela taxa de erro (dúvida conta como erro).</p>
+      <div class="tw"><table class="ui"><tr><th>Questão</th><th>Padrão</th><th>Respostas</th><th>Erro</th><th>Tempo médio</th><th></th></tr>
+      ${rows.map(x => `<tr><td><b>${esc(qLabel(x.qid))}</b>${Q[x.qid].t ? `<div class="small muted">${esc(Q[x.qid].t)}</div>` : ''}</td><td>${esc(CHI[Q[x.qid].c].name)}</td><td class="tnum">${x.n}</td>
+        <td class="tnum" style="font-weight:800;color:${x.r >= .6 ? 'var(--red-ink)' : 'inherit'}">${Math.round(x.r * 100)}%</td><td class="tnum">${x.seg_medio ? clock(x.seg_medio).replace(/^0:/, '') : '—'}</td>
+        <td><button class="btn sm ghost" data-act="mt-q-open" data-q="${x.qid}">Ver</button></td></tr><tr class="mt-qrow" data-qrow="${x.qid}" hidden><td colspan="6"></td></tr>`).join('') || '<tr><td colspan="6" class="muted">Ainda não há respostas suficientes.</td></tr>'}</table></div>`;
+  } else if (MT.tab === 'padroes') {
+    const agg = {}; for (const x of D.qs) { if (!Q[x.qid]) continue; const c = Q[x.qid].c; const a = agg[c] = agg[c] || { n: 0, e: 0, s: 0, sn: 0 }; a.n += x.n; a.e += x.erros; if (x.seg_medio) { a.s += x.seg_medio * x.n; a.sn += x.n; } }
+    const rows = CH.map(c => ({ c, a: agg[c.id] })).filter(x => x.a).sort((x, y) => (y.a.e / y.a.n) - (x.a.e / x.a.n));
+    body = `<p class="small muted" style="margin:0">Acerto da turma por padrão, somando diagnóstico, banco, treinos e simulados. Use para escolher o tema das próximas aulas ao vivo.</p>
+      <div class="tw"><table class="ui"><tr><th>Padrão</th><th>Onda</th><th>Respostas</th><th>Acerto da turma</th><th>Tempo médio</th></tr>
+      ${rows.map(({ c, a }) => { const p = Math.round((1 - a.e / a.n) * 100); return `<tr><td><b>${esc(c.name)}</b></td><td>O${c.onda}</td><td class="tnum">${a.n}</td>
+        <td style="min-width:160px"><div class="row" style="gap:8px;flex-wrap:nowrap"><div class="pbar" style="flex:1"><i style="width:${p}%;background:${p >= 70 ? 'var(--green)' : p >= 50 ? 'var(--amber)' : 'var(--red)'}"></i></div><b class="tnum">${p}%</b></div></td>
+        <td class="tnum">${a.sn ? clock(a.s / a.sn).replace(/^0:/, '') : '—'}</td></tr>`; }).join('') || '<tr><td colspan="5" class="muted">Ainda sem respostas.</td></tr>'}</table></div>`;
+  } else {
+    const tot = D.mo.reduce((a, x) => a + Number(x.n), 0) || 1;
+    body = `<p class="small muted" style="margin:0">O que os alunos marcam quando erram. Muito “faltou o conteúdo” pede aula de teoria; muito “não reconheci o padrão” pede resolução comentada de questões.</p>
+      ${Object.entries(MOT).map(([k, v]) => { const n = Number((D.mo.find(x => x.motivo === k) || {}).n || 0); return `<div class="mrow"><div class="ml"><b>${v.l}</b></div><div class="pbar" style="flex:1"><i style="width:${Math.round(n / tot * 100)}%;background:var(--navy3)"></i></div><b class="tnum">${n}</b></div>`; }).join('')}`;
+  }
+  setView(`<div class="row"><div><div class="eyebrow">Painel do mentor</div><h1 class="v">Sua <em>turma</em></h1></div><button class="btn sm ghost" data-act="mt-reload" style="margin-left:auto">Atualizar dados</button></div>
+    <div class="tiles"><div class="tile"><div class="k">Alunos</div><div class="v">${st.length}</div><div class="s">cadastrados</div></div>
+      <div class="tile"><div class="k">Ativos</div><div class="v">${active}</div><div class="s">responderam questões nos últimos 7 dias</div></div>
+      <div class="tile"><div class="k">Diagnóstico</div><div class="v">${diag.length}</div><div class="s">feitos · média ${avgDiag}/40</div></div>
+      <div class="tile"><div class="k">Parados</div><div class="v">${st.filter(s => stStatus(s)[2] === 0).length}</div><div class="s">há 7 dias ou mais</div></div></div>
+    <div class="tabs">${tabs.map(([k, l]) => `<a href="#" class="${MT.tab === k ? 'on' : ''}" data-act="mt-tab" data-t="${k}">${l}</a>`).join('')}</div>
+    <section class="panel stack">${body}</section>`, el => { const i = el.querySelector('#mt-q'); if (i && MT.q) { i.focus(); i.setSelectionRange(MT.q.length, MT.q.length); } });
+};
+async function mentorDetail(id) {
+  const box = document.getElementById('mt-detail'); if (!box) return;
+  const s = MT.data.st.find(x => x.id === id);
+  box.innerHTML = '<div class="panel empty">Carregando o aluno…</div>'; box.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  const { data, error } = await SB.from('progress').select('state').eq('user_id', id).maybeSingle();
+  const g = (data && data.state) || {};
+  if (error) { box.innerHTML = '<div class="panel empty">Não foi possível abrir este aluno.</div>'; return; }
+  const sem = g.sem || {}, fila = g.fila || [], sims = g.sims || {}, err = g.err || {}, srs = g.srs || {};
+  const doneItems = fila.filter(it => it.steps && it.steps.every(k => it.done && it.done[k])).length;
+  const days = g.day || {}; const last7 = Array.from({ length: 7 }, (_, i) => { const d = today(); d.setDate(d.getDate() - 6 + i); return [d, days[dstr(d)] || 0]; });
+  const mx = Math.max(30, ...last7.map(x => x[1]));
+  const errOpen = Object.values(err).filter(e => !e.ok); const mot = {}; errOpen.forEach(e => { if (e.m) mot[e.m] = (mot[e.m] || 0) + 1; });
+  box.innerHTML = `<div class="panel stack" style="border-color:var(--navy3)"><div class="row"><h2 class="v">${esc(s ? s.nome : 'Aluno')}</h2><button class="btn sm ghost" data-act="mt-close" style="margin-left:auto">Fechar</button></div>
+    <div class="small muted">${esc(s ? [s.email, s.escolaridade, s.curso, s.origem ? 'origem: ' + s.origem : ''].filter(Boolean).join(' · ') : '')}</div>
+    <div class="tiles"><div class="tile"><div class="k">Diagnóstico</div><div class="v">${g.diag && g.diag.score !== undefined ? g.diag.score + '/40' : '—'}</div><div class="s">${g.trilha && TRILHAS[g.trilha] ? TRILHAS[g.trilha].name : 'sem trilha'}</div></div>
+      <div class="tile"><div class="k">Fila</div><div class="v">${doneItems}/${fila.length}</div><div class="s">padrões concluídos</div></div>
+      <div class="tile"><div class="k">Erros em aberto</div><div class="v">${errOpen.length}</div><div class="s">${Object.keys(srs).length} na revisão espaçada</div></div>
+      <div class="tile"><div class="k">Simulados</div><div class="v">${Object.values(sims).filter(r => r.done).length}</div><div class="s">${Object.entries(sims).filter(([, r]) => r.done).map(([k, r]) => `${k}: ${r.score}`).join(' · ') || 'nenhum feito'}</div></div></div>
+    <div class="cols2"><div class="stack"><h3 class="v">Semáforo</h3><div class="sema">${CH.map(c => `<a href="#p-${c.id}"><span class="dot ${sem[c.id] || ''}"></span>${esc(c.name)}</a>`).join('')}</div></div>
+      <div class="stack"><h3 class="v">Minutos estudados (7 dias)</h3><div class="bars7">${last7.map(([d, v]) => `<div><i style="height:${Math.round(v / mx * 100)}%"></i><span>${d.toLocaleDateString('pt-BR', { weekday: 'short' }).slice(0, 3)}</span><b class="tnum">${Math.round(v)}</b></div>`).join('')}</div>
+        <h3 class="v">Motivos de erro</h3><div class="small">${Object.entries(mot).map(([k, n]) => `${MOT[k].l}: <b>${n}</b>`).join(' · ') || '<span class="muted">nenhum marcado</span>'}</div></div></div></div>`;
+}
+function mentorCSV() {
+  const cols = ['nome', 'email', 'whatsapp', 'cidade', 'uf', 'escolaridade', 'curso', 'aceite_contato', 'origem', 'cadastro', 'trilha', 'diag_score', 'pct', 'ultima', 'respostas_7d', 'minutos_7d'];
+  const q = v => { v = v === null || v === undefined ? '' : String(v); return /[";\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; };
+  const csv = '﻿' + cols.join(';') + '\n' + MT.data.st.map(s => cols.map(c => q(s[c])).join(';')).join('\n');
+  const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' }));
+  a.download = `alunos-natureza40-${dstr()}.csv`; document.body.append(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+}
+
 // ---------------------------------------------------------------- router
 function go(h) { location.hash = '#' + h; }
 function route() {
-  const h = (location.hash || '#inicio').slice(1);
+  const h = (location.hash || '#hoje').slice(1) || 'hoje';
   document.querySelectorAll('.nav a').forEach(a => a.classList.toggle('on', h === a.dataset.r || h.startsWith(a.dataset.r + '-') || (a.dataset.r === 'padroes' && /^p-/.test(h)) || (a.dataset.r === 'teoria' && /^t-/.test(h)) || (a.dataset.r === 'guia' && /^g-/.test(h)) || (a.dataset.r === 'diag' && h === 'diag-rev')));
   document.querySelector('.sidebar').classList.remove('open'); const sc = document.querySelector('.scrim'); if (sc) sc.remove();
   let m;
@@ -824,10 +1141,12 @@ function route() {
   if ((m = h.match(/^sim-(A1|A2|A|B|C)$/))) return V.sim(m[1]);
   if (h === 'sim') return V.sim();
   if (V[h]) return V[h]();
-  return V.inicio();
+  return V.hoje();
 }
 function refreshSide() {
   const who = document.getElementById('who'); if (who) who.innerHTML = `<span>${esc((PROFILE.nome || USER.email || '').split(' ')[0])}</span><button data-act="logout">Sair</button>`;
+  const nb = document.getElementById('nb-rev'); if (nb) { const n = dueList().length; nb.textContent = n || ''; nb.hidden = !n; }
+  const mn = document.querySelector('.nav [data-r=mentor]'); if (mn) mn.hidden = !window.__ADMIN;
   const el = document.getElementById('sidecount'); if (!el) return;
   const dleft = Math.max(0, daysBetween(today(), EXAM_DAY));
   if (S.trilha) { const p = plan(); el.innerHTML = `<b>${p.pct}%</b>da ${TRILHAS[S.trilha].name}<br>${p.rem ? `término previsto ${fmt(p.end)}` : 'concluída'} · ${dleft} dias até 15/11`; }
@@ -850,6 +1169,26 @@ document.addEventListener('click', e => {
   const H = {
     menu() { const sb = document.querySelector('.sidebar'); sb.classList.add('open'); const s = document.createElement('div'); s.className = 'scrim'; s.onclick = () => { sb.classList.remove('open'); s.remove(); }; document.body.append(s); },
     'q-pick'() { pickPractice(t.dataset.q, t.dataset.l, t.closest('.qc')); },
+    'srs-pick'() { pickSrs(t.dataset.q, t.dataset.l, t.closest('.qc')); },
+    'rv-next'() { RV.i++; V.revisao(); window.scrollTo(0, 0); },
+    motivo() { const id = t.dataset.q, m = t.dataset.m; const e = S.err[id] || (S.err[id] = { first: Date.now(), t: Date.now(), n: 1, ok: false });
+      const changed = e.m !== m; e.m = m; save();
+      if (changed) SB.from('error_log').insert({ user_id: USER.id, qid: id, source: e.src || null, motivo: m }).then(({ error }) => { if (error) console.warn('error_log', error.message); });
+      const box = t.closest('.mot'); if (box) { const tmp = document.createElement('div'); tmp.innerHTML = motivoBox(id); box.replaceWith(tmp.firstElementChild); }
+      const er = document.querySelector(`[data-erow="${id}"] .emeta`); if (er && location.hash === '#erros') { /* lista atualiza ao reabrir */ } },
+    ef() { EF = t.dataset.f; V.erros(); },
+    'er-open'() { const row = t.closest('.erow'), body = row.querySelector('.ebody'), id = t.dataset.q;
+      if (body.innerHTML) { body.innerHTML = ''; return; }
+      const e = S.err[id] || {}; body.innerHTML = qCard(id, { mode: 'review', mine: e.a, dbt: e.d }); hydrate(body); },
+    'today-min'() { S.plan = { date: dstr(), min: +t.dataset.m, base: answeredToday() }; S.plan.tasks = todayTasks(S.plan.min); save(); V.hoje(); },
+    'today-redo'() { S.plan = { date: dstr(), min: S.plan.min || 60, base: answeredToday() }; S.plan.tasks = todayTasks(S.plan.min); save(); V.hoje(); },
+    'mt-tab'() { e.preventDefault(); MT.tab = t.dataset.t; V.mentor(); },
+    async 'mt-reload'() { await mentorLoad(true).catch(() => {}); V.mentor(); },
+    'mt-csv'() { if (MT.data) mentorCSV(); },
+    'mt-open'() { mentorDetail(t.dataset.id); },
+    'mt-close'() { const b = document.getElementById('mt-detail'); if (b) b.innerHTML = ''; },
+    'mt-q-open'() { const row = document.querySelector(`[data-qrow="${t.dataset.q}"]`); if (!row) return; row.hidden = !row.hidden;
+      if (!row.hidden && !row.firstElementChild.innerHTML) { const id = t.dataset.q; row.firstElementChild.innerHTML = `<div class="qimgbox"><img data-q="${id}" alt="Questão"></div><p class="small" style="margin:8px 0 0">Gabarito: <b>${Q[id].g}</b> · Padrão ${esc(CHI[Q[id].c].name)} · ${COB[Q[id].m] || ''}</p>`; hydrate(row); } },
     'diag-start'() { S.diag.step = 'run'; save(); diagRun(); },
     'run-go'() { const i = +t.dataset.i; const ctx = curRun(); if (!ctx || i < 0 || i >= ctx.n) return; ctx.st.cur = i; save(); rerun(); },
     'run-pick'() { const ctx = curRun(); ctx.st.ans[ctx.st.cur] = t.dataset.l; save(); rerun(); },
@@ -861,8 +1200,9 @@ document.addEventListener('click', e => {
     sabia() { S.diag.sabia[t.dataset.c] = t.dataset.v === '1'; save(); const y = window.scrollY; diagSabia(); window.scrollTo(0, y); },
     'diag-peek'() { e.preventDefault(); const box = document.querySelector(`[data-peek="${t.dataset.c}"]`); if (box.innerHTML) { box.innerHTML = ''; return; }
       const { per } = diagScore(); box.innerHTML = `<div class="stack" style="margin-bottom:10px">${per[t.dataset.c].idx.map(i => qCard(META.diag[i], { mode: 'review', mine: S.diag.ans[i], dbt: S.diag.dbt[i], label: 'D' + String(i + 1).padStart(2, '0') })).join('')}</div>`; hydrate(box); },
-    'diag-build'() { logAnswers(META.diag.map((id, i) => ({ qid: id, source: 'diag', letter: S.diag.ans[i] || null, correct: S.diag.ans[i] === Q[id].g, doubt: !!S.diag.dbt[i] }))); buildTrail(); S.diag.step = 'result'; save(true); refreshSide(); diagResult(); window.scrollTo(0, 0); },
-    step() { const changed = markStep(t.dataset.c, t.dataset.k, t.checked); if (changed) { refreshSide(); const h = location.hash; if (h === '#trilha' || h === '#inicio' || h === '') { const y = window.scrollY; route(); window.scrollTo(0, y); } } },
+    'diag-build'() { const tq = S.diag.tq || {}; logAnswers(META.diag.map((id, i) => ({ qid: id, source: 'diag', letter: S.diag.ans[i] || null, correct: S.diag.ans[i] === Q[id].g, doubt: !!S.diag.dbt[i], seconds: tq[i] ? Math.min(7200, Math.round(tq[i])) : null })));
+      META.diag.forEach((id, i) => { if (S.diag.ans[i] !== Q[id].g || S.diag.dbt[i]) registerMiss(id, 'diag', S.diag.ans[i], S.diag.dbt[i]); }); buildTrail(); S.diag.step = 'result'; save(true); refreshSide(); diagResult(); window.scrollTo(0, 0); },
+    step() { const changed = markStep(t.dataset.c, t.dataset.k, t.checked); if (changed) { refreshSide(); const h = location.hash; if (h === '#trilha' || h === '#inicio' || h === '#hoje' || h === '') { const y = window.scrollY; route(); window.scrollTo(0, y); } } },
     cutp3() { S.cutP3 = t.checked; save(); const y = window.scrollY; V.trilha(); window.scrollTo(0, y); refreshSide(); },
     fw() { S.rev[t.dataset.k] = t.checked; save(); },
     async logout() { await pushRemote(); await SB.auth.signOut(); location.hash = ''; location.reload(); },
@@ -887,9 +1227,12 @@ document.addEventListener('click', e => {
 document.addEventListener('change', e => {
   const t = e.target;
   if (t.dataset.act === 'bf') { BF[t.dataset.f] = t.value; BF.i = 0; V.banco(); }
+  if (t.dataset.act === 'mt-f') { MT.f = t.value; V.mentor(); }
   if (t.dataset.act === 'hpw') { S.hpw = +t.value; save(); const y = window.scrollY; V.trilha(); window.scrollTo(0, y); refreshSide(); }
 });
-document.addEventListener('input', e => { if (e.target.dataset.act === 'hpw') { const v = document.getElementById('hpwv'); if (v) v.textContent = e.target.value + ' h'; } });
+let MTQ = null;
+document.addEventListener('input', e => {
+  if (e.target.dataset.act === 'mt-q') { MT.q = e.target.value; clearTimeout(MTQ); MTQ = setTimeout(() => V.mentor(), 350); } if (e.target.dataset.act === 'hpw') { const v = document.getElementById('hpwv'); if (v) v.textContent = e.target.value + ' h'; } });
 document.addEventListener('keydown', e => {
   if (e.key === 'Enter' && e.target.id === 'tut-in') { e.preventDefault(); const sec = e.target.closest('[data-tutor]'); const v = e.target.value; e.target.value = ''; tutorSend(sec, v); }
   const ctx = curRun(); if (!ctx || /INPUT|TEXTAREA|SELECT/.test(e.target.tagName)) return;

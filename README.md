@@ -40,3 +40,18 @@ O tutor envia só o trecho do capítulo ligado à pergunta e as últimas 6 mensa
 ## Origem do cadastro
 
 Links com `?origem=instagram` (ou `?utm_source=...`) gravam a origem no perfil do aluno.
+
+## Recursos de estudo (v2)
+
+- **Hoje**: o aluno escolhe quanto tempo tem e recebe a sessão do dia (revisões vencidas → próxima etapa da fila → treino no padrão mais fraco), com minutos estudados e dias seguidos.
+- **Revisão espaçada**: toda questão errada ou com dúvida volta em 1, 3, 7 e 14 dias até ser acertada com segurança.
+- **Caderno de erros**: o aluno marca o motivo de cada erro (padrão, conteúdo, conta, atenção, chute) e recebe o remédio; tudo vai para `error_log`.
+- **Tempo por questão**: cronometrado em banco, treino, revisão, diagnóstico e simulados (`answers.seconds`); o simulado mostra as questões que deveriam ter sido puladas.
+
+## Painel do mentor
+
+Aparece no menu só para e-mails cadastrados como mentor. Para liberar uma conta:
+
+```sql
+insert into public.admins (email) values ('email.da.conta@exemplo.com');
+```
