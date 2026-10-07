@@ -1,4 +1,4 @@
-/* Natureza 40+ — entrada: login, cadastro, perfil e carregamento do app. */
+/* Rota Natureza 40+ — entrada: login, cadastro, perfil e carregamento do app. */
 (function () {
 'use strict';
 const CFG = window.__CFG;
@@ -29,6 +29,7 @@ function shell(inner) {
   auth.hidden = false;
   auth.innerHTML = `<div class="authwrap">
     <section class="authbrand"><img src="img/logo.png" alt="Mentoria Mário Machado" class="alogo">
+      <div class="eyebrow" style="color:var(--lime)">Rota Natureza 40+</div>
       <div class="big40">40+</div><h1 class="v">em Ciências da Natureza</h1>
       <p class="lede">Diagnóstico de 40 questões reais, trilha de estudo com data de término, os 20 padrões do ENEM, 720 questões de 2018 a 2025 e um tutor de IA.</p>
       <ul class="authlist"><li>Sua trilha montada automaticamente</li><li>Progresso salvo em qualquer aparelho</li><li>Explicações com IA no método do material</li></ul></section>

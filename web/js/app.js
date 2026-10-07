@@ -1,4 +1,4 @@
-/* Natureza 40+ — plataforma interativa. Vanilla JS, hash routing, progress in localStorage. */
+/* Rota Natureza 40+ — plataforma interativa. Vanilla JS, hash routing, progress in localStorage. */
 (function () {
 'use strict';
 const META = window.__META;
@@ -359,7 +359,7 @@ V.inicio = () => {
   if (!S.diag.score && S.diag.score !== 0) {
     return setView(`
     <section class="hero stack" style="gap:18px">
-      <div class="eyebrow" style="color:var(--lime)">Mentoria Mário Machado · ENEM 2026</div>
+      <div class="eyebrow" style="color:var(--lime)">Rota Natureza 40+ · Mentoria Mário Machado · ENEM 2026</div>
       <div class="row" style="align-items:flex-end;gap:18px"><div class="big40">40+</div><h1 class="v" style="max-width:16ch">em Ciências da Natureza</h1></div>
       <p class="lede">Os 20 padrões que o ENEM repete em Biologia, Química e Física, 720 questões reais de 2018 a 2025 e os resumos teóricos de cada conteúdo. Tudo começa com um diagnóstico de 40 questões: ele monta a sua trilha, com a fila do que estudar e a data em que você termina.</p>
       <div class="flow3"><div><b>1</b>Faça o diagnóstico aqui mesmo, em cerca de 2 horas.</div><div><b>2</b>Responda quais conteúdos você já conhecia.</div><div><b>3</b>Receba a trilha pronta, com tempo e data de término.</div></div>
