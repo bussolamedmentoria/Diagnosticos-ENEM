@@ -103,11 +103,11 @@ const SIMDEF = {
 };
 const simIds = k => { const d = SIMDEF[k]; const out = []; for (let n = d.a; n <= d.b; n++) out.push(`${d.e}_${n}`); return out; };
 const TRILHAS = {
-  base:   { name: 'Trilha Base', rng: '0 a 17 acertos', hpw: 6, sims: ['A1', 'A2', 'B'], color: 'r',
+  base:   { name: 'Trilha Base', rng: '0 a 17 acertos', hpw: 10, sims: ['A1', 'A2', 'B'], color: 'r',
             text: 'Seu ganho está nos fundamentos. Boa parte da fila começa pela teoria: um conteúdo bem entendido rende questões em vários padrões.' },
-  avanco: { name: 'Trilha Avanço', rng: '18 a 29 acertos', hpw: 8, sims: ['A', 'B', 'C'], color: 'y',
+  avanco: { name: 'Trilha Avanço', rng: '18 a 29 acertos', hpw: 10, sims: ['A', 'B', 'C'], color: 'y',
             text: 'Você conhece boa parte do conteúdo e perde pontos no reconhecimento do padrão e nas pegadinhas. O capítulo de cada padrão é o seu principal material.' },
-  mais40: { name: 'Trilha 40+', rng: '30 a 40 acertos', hpw: 9, sims: ['A', 'B', 'C'], color: 'g',
+  mais40: { name: 'Trilha 40+', rng: '30 a 40 acertos', hpw: 10, sims: ['A', 'B', 'C'], color: 'g',
             text: 'Os seus pontos estão nos detalhes: distratores, contas com uma etapa a menos e a Onda 3. Sua fila é curta, então sobra tempo para lapidar.' },
 };
 const PRANK = { P1: 0, P2: 1, P3: 2 };
@@ -128,7 +128,7 @@ function plan() {
   for (const it of items) for (const k of it.steps) { tot += STEP[k].m; if (!it.done[k]) rem += STEP[k].m; }
   const sims = S.trilha ? TRILHAS[S.trilha].sims : [];
   for (const k of sims) { tot += SIMDEF[k].m; if (!(S.sims[k] && S.sims[k].done)) rem += SIMDEF[k].m; }
-  const hpw = S.hpw || (S.trilha ? TRILHAS[S.trilha].hpw : 8);
+  const hpw = S.hpw || (S.trilha ? TRILHAS[S.trilha].hpw : 10);
   const perDay = hpw * 60 / 7;
   const t0 = today();
   const days = rem > 0 ? Math.ceil(rem / perDay) : 0;
@@ -1013,7 +1013,8 @@ function taskDone(t) {
   return false;
 }
 V.hoje = () => {
-  const def = S.hpw ? TODAY_MIN.reduce((a, b) => Math.abs(b - S.hpw * 60 / 6) < Math.abs(a - S.hpw * 60 / 6) ? b : a) : 60;
+  const hw = S.hpw || (S.trilha ? TRILHAS[S.trilha].hpw : 0);
+  const def = hw ? TODAY_MIN.reduce((a, b) => Math.abs(b - hw * 60 / 6) < Math.abs(a - hw * 60 / 6) ? b : a) : 60;
   if (!S.plan || S.plan.date !== dstr() || !S.plan.tasks) S.plan = { date: dstr(), min: (S.plan && S.plan.min) || def, base: answeredToday() };
   const stale = S.plan.tasks && S.plan.tasks.some(t => t.type === 'diag') && S.diag.score !== undefined;
   if (!S.plan.tasks || stale) { S.plan.tasks = todayTasks(S.plan.min); save(); }
