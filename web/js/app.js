@@ -222,17 +222,39 @@ async function callAI(payload, onText, signal) {
   if (!text.trim()) throw { code: 'upstream' };
   return text;
 }
+// Fórmulas em LaTeX nas respostas da IA: $$…$$ e \[…\] (bloco), $…$ e \(…\) (na linha). Renderizadas com KaTeX (+ mhchem para \ce{}).
+function tex(src, display) {
+  src = src.trim();
+  if (!src) return '';
+  if (window.katex) {
+    // Bloco em modo "inline" com \displaystyle: mesmo visual, mas a conta quebra de linha após =, ⟹ etc. em telas estreitas
+    try { return window.katex.renderToString(display ? '\\displaystyle ' + src : src, { displayMode: false, throwOnError: false, strict: 'ignore', output: 'html', trust: false }); } catch (e) { /* cai no texto puro */ }
+  }
+  return display ? `<code class="tex">${esc(src)}</code>` : `<code>${esc(src)}</code>`;
+}
 function md(t) {
+  const math = [];
+  const keep = (src, display) => { math.push([src, display]); return `\u0000${math.length - 1}\u0000`; };
+  t = String(t)
+    .replace(/\$\$([\s\S]+?)\$\$/g, (_, m) => '\n' + keep(m, true) + '\n')
+    .replace(/\\\[([\s\S]+?)\\\]/g, (_, m) => '\n' + keep(m, true) + '\n')
+    .replace(/\\\(([\s\S]+?)\\\)/g, (_, m) => keep(m, false))
+    // $…$ na linha: abre colado ao conteúdo e fecha sem dígito logo depois (não confunde com "R$ 10" ou "R$10 e R$20")
+    .replace(/(^|[^\\$\w])\$(?![\s$])([^$\n]*?[^\s\\$])\$(?!\d)/g, (_, pre, m) => pre + keep(m, false));
   const lines = esc(t).split('\n'); let html = '', inList = false;
   const inline = s => s.replace(/\*\*(.+?)\*\*/g, '<b>$1</b>').replace(/(^|[^*])\*([^*\n]+)\*/g, '$1<i>$2</i>');
   for (let l of lines) {
+    if (/^\s*\u0000\d+\u0000\s*$/.test(l) && math[+l.trim().slice(1, -1)][1]) {
+      if (inList) { html += '</ul>'; inList = false; }
+      html += '<div class="mathb">' + l.trim() + '</div>'; continue;
+    }
     if (/^\s*[-•]\s+/.test(l)) { if (!inList) { html += '<ul>'; inList = true; } html += '<li>' + inline(l.replace(/^\s*[-•]\s+/, '')) + '</li>'; continue; }
     if (inList) { html += '</ul>'; inList = false; }
     if (/^#{1,4}\s+/.test(l)) html += '<h4>' + inline(l.replace(/^#{1,4}\s+/, '')) + '</h4>';
     else if (l.trim()) html += '<p>' + inline(l) + '</p>';
   }
   if (inList) html += '</ul>';
-  return html;
+  return html.replace(/\u0000(\d+)\u0000/g, (_, i) => tex(math[i][0], math[i][1]));
 }
 const AI_ICON = '<svg viewBox="0 0 24 24"><path d="M12 3l1.8 4.6L18.5 9l-4.7 1.4L12 15l-1.8-4.6L5.5 9l4.7-1.4z"/><path d="M19 15l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"/></svg>';
 function aiBox(title, intro, btn, action, attrs) {
