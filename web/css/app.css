@@ -306,3 +306,8 @@ code.tex{display:block;white-space:pre-wrap;word-break:break-word}
 .badge.bad{background:#FBDADB;color:var(--red-ink)}
 tr.mt-qrow td{background:#FBFCFF}
 @media (max-width:760px){.filters{grid-template-columns:1fr!important}}
+
+.promo{display:block;border-radius:14px;overflow:hidden;box-shadow:0 6px 22px rgba(10,25,60,.18);transition:transform .15s ease,box-shadow .15s ease;line-height:0}
+.promo img{display:block;width:100%;height:auto}
+.promo:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(10,25,60,.26)}
+.promo:focus-visible{outline:3px solid var(--lime);outline-offset:3px}

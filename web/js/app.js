@@ -977,6 +977,9 @@ V.erros = () => {
 
 // ---- hoje
 const TODAY_MIN = [30, 45, 60, 90, 120];
+// Banner da tela Hoje (lista de espera da Mentoria Mário Machado 2027)
+const PROMO = { url: 'https://chat.whatsapp.com/GtyB8QA9RMd4vzl0XmMpHR', img: 'img/banner-mentoria-2027.webp', img960: 'img/banner-mentoria-2027-960.webp',
+  alt: 'Entre na lista de espera da Mentoria Mário Machado 2027 — abre o grupo no WhatsApp' };
 function todayTasks(min) {
   const tasks = []; let left = min;
   if (S.diag.score === undefined) return [{ type: 'diag', m: Math.min(min, 120) }];
@@ -1035,6 +1038,8 @@ V.hoje = () => {
   };
   const total = tasks.reduce((a, t) => a + t.m, 0);
   setView(`<div><div class="eyebrow">${esc(fmtLong(today()))}</div><h1 class="v">${nm ? esc(nm) + ', sua' : 'Sua'} sessão de <em>hoje</em></h1></div>
+    <a class="promo" href="${PROMO.url}" target="_blank" rel="noopener" aria-label="${esc(PROMO.alt)}">
+      <img src="${PROMO.img}" srcset="${PROMO.img960} 960w, ${PROMO.img} 1672w" sizes="(max-width: 1000px) 100vw, 1100px" width="1672" height="941" alt="${esc(PROMO.alt)}" decoding="async"></a>
     <div class="tiles">
       <div class="tile"><div class="k">Estudado hoje</div><div class="v">${hm(studied)}</div><div class="s">de ${hm(S.plan.min)} planejados</div></div>
       <div class="tile"><div class="k">Sequência</div><div class="v">${st}</div><div class="s">${st === 1 ? 'dia seguido' : 'dias seguidos'} estudando</div></div>
