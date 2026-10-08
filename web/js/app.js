@@ -977,6 +977,23 @@ V.erros = () => {
 
 // ---- hoje
 const TODAY_MIN = [30, 45, 60, 90, 120];
+// Botão "compartilhe com um amigo" ao lado do título da tela Hoje
+const SHARE_URL = 'https://enem.mentoriamariomachado.com.br';
+const ICON_COPY = '<svg viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg>';
+const ICON_OK = '<svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+async function copyText(txt) {
+  try { await navigator.clipboard.writeText(txt); return true; } catch (e) { /* tenta o método antigo */ }
+  const ta = document.createElement('textarea'); ta.value = txt; ta.setAttribute('readonly', ''); ta.style.cssText = 'position:fixed;top:-1000px;opacity:0';
+  document.body.append(ta); ta.select(); let ok = false; try { ok = document.execCommand('copy'); } catch (e) { ok = false; } ta.remove(); return ok;
+}
+async function shareCopy(btn) {
+  const ok = await copyText(SHARE_URL);
+  toast(ok ? 'Link copiado! Agora é só colar e mandar para o seu amigo.' : 'Não deu para copiar. O link é ' + SHARE_URL.replace('https://', ''));
+  if (!ok) return;
+  const ico = btn.querySelector('.ico'), lb = btn.querySelector('.lb');
+  btn.classList.add('ok'); ico.innerHTML = ICON_OK; lb.textContent = 'Copiado!';
+  clearTimeout(btn._t); btn._t = setTimeout(() => { btn.classList.remove('ok'); ico.innerHTML = ICON_COPY; lb.textContent = 'Copiar link'; }, 2200);
+}
 // Banner da tela Hoje (lista de espera da Mentoria Mário Machado 2027)
 const PROMO = { url: 'https://chat.whatsapp.com/GtyB8QA9RMd4vzl0XmMpHR', img: 'img/banner-mentoria-2027.webp', img960: 'img/banner-mentoria-2027-960.webp',
   alt: 'Entre na lista de espera da Mentoria Mário Machado 2027 — abre o grupo no WhatsApp' };
@@ -1037,7 +1054,11 @@ V.hoje = () => {
       <span class="m">${hm(t.m)}</span><a class="btn sm ${dn ? 'ghost' : ''}" href="${href}" ${act}>${dn ? 'Rever' : 'Começar'}</a></div>`;
   };
   const total = tasks.reduce((a, t) => a + t.m, 0);
-  setView(`<div><div class="eyebrow">${esc(fmtLong(today()))}</div><h1 class="v">${nm ? esc(nm) + ', sua' : 'Sua'} sessão de <em>hoje</em></h1></div>
+  setView(`<div><div class="eyebrow">${esc(fmtLong(today()))}</div>
+      <div class="hoje-h"><h1 class="v">${nm ? esc(nm) + ', sua' : 'Sua'} sessão de <em>hoje</em></h1>
+      <button type="button" class="share" data-act="share" title="Copiar o link da plataforma">
+        <span class="t">Compartilhe a plataforma com um amigo para ele também evoluir!</span>
+        <span class="ic"><span class="ico" aria-hidden="true">${ICON_COPY}</span><span class="lb">Copiar link</span></span></button></div></div>
     <a class="promo" href="${PROMO.url}" target="_blank" rel="noopener" aria-label="${esc(PROMO.alt)}">
       <img src="${PROMO.img}" srcset="${PROMO.img960} 960w, ${PROMO.img} 1672w" sizes="(max-width: 1000px) 100vw, 1100px" width="1672" height="941" alt="${esc(PROMO.alt)}" decoding="async"></a>
     <div class="tiles">
@@ -1183,6 +1204,7 @@ function refreshSide() {
 
 // ---------------------------------------------------------------- events
 document.addEventListener('click', e => {
+  const sh = e.target.closest('[data-act=share]'); if (sh) { shareCopy(sh); return; }
   const a = e.target.closest('a[href^="#"]');
   if (a && !a.dataset.act) {
     const h = a.getAttribute('href').slice(1);
