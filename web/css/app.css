@@ -323,3 +323,17 @@ tr.mt-qrow td{background:#FBFCFF}
 .share .ic svg{display:block;width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
 .share.ok .ic{background:var(--green);color:#fff}
 @media (max-width:760px){.share{flex-basis:100%;max-width:none;min-width:0;height:auto;min-height:40px}.share .ic{padding:6px 10px}}
+
+/* tutorial em vídeo */
+body.noscroll{overflow:hidden}
+.tutm{position:fixed;inset:0;z-index:100;background:rgba(6,16,40,.78);display:flex;align-items:center;justify-content:center;padding:16px;animation:tutfade .2s ease}
+@keyframes tutfade{from{opacity:0}to{opacity:1}}
+.tutbox{width:min(1040px,100%);max-height:100%;overflow:auto;background:var(--navy);color:#fff;border-radius:16px;padding:18px 20px 16px;box-shadow:0 30px 80px rgba(0,0,0,.5);display:flex;flex-direction:column;gap:14px}
+.tuth{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.tuth h2.v{color:#fff;margin:2px 0 0}
+.tuth h2.v em{font-style:normal;color:var(--navy);background:var(--lime);padding:0 6px}
+.tutx{flex:none;width:36px;height:36px;border-radius:50%;border:0;background:rgba(255,255,255,.1);color:#fff;font-size:24px;line-height:1;cursor:pointer}
+.tutx:hover{background:rgba(255,255,255,.2)}
+.tutbox video{display:block;width:100%;aspect-ratio:16/9;background:#000;border-radius:10px}
+.tutf{display:flex;align-items:center;justify-content:space-between;gap:10px 16px;flex-wrap:wrap;color:#C9D3EA}
+@media (max-width:600px){.tutbox{padding:14px 12px 12px}.tutf .btn{width:100%}}

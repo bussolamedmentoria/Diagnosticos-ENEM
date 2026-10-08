@@ -1202,6 +1202,27 @@ function refreshSide() {
   else el.innerHTML = `<b>${dleft}</b>dias até o 2º dia do ENEM (15/11)`;
 }
 
+// ---------------------------------------------------------------- tutorial em vídeo
+const TUT = { src: 'video/tutorial.mp4', poster: 'video/tutorial-poster.jpg' };
+function openTutorial(first) {
+  if (document.getElementById('tutm')) return;
+  if (!S.tutSeen) { S.tutSeen = Date.now(); save(); }
+  const sb = document.querySelector('.sidebar.open'); if (sb) { sb.classList.remove('open'); const sc = document.querySelector('.scrim'); if (sc) sc.remove(); }
+  const m = document.createElement('div'); m.id = 'tutm'; m.className = 'tutm';
+  m.innerHTML = `<div class="tutbox" role="dialog" aria-modal="true" aria-labelledby="tut-t">
+    <div class="tuth"><div><div class="eyebrow" style="color:var(--lime)">${first ? 'Bem-vindo à Rota Natureza 40+' : 'Tutorial'}</div><h2 class="v" id="tut-t">Como usar a plataforma <em>em 3 minutos</em></h2></div>
+      <button class="tutx" data-tut="close" aria-label="Fechar o tutorial">×</button></div>
+    <video controls playsinline preload="metadata" poster="${TUT.poster}" src="${TUT.src}"></video>
+    <div class="tutf"><span class="small">Você pode rever este vídeo quando quiser em <b>Ver tutorial</b>, no menu.</span>
+      <button class="btn lime sm" data-tut="close">${first ? 'Começar a estudar' : 'Fechar'}</button></div></div>`;
+  document.body.append(m); document.body.classList.add('noscroll');
+  const close = () => { const v = m.querySelector('video'); try { v.pause(); } catch (e) { /* ok */ } m.remove(); document.body.classList.remove('noscroll'); document.removeEventListener('keydown', esc_); };
+  const esc_ = e => { if (e.key === 'Escape') close(); };
+  document.addEventListener('keydown', esc_);
+  m.addEventListener('click', e => { if (e.target === m || e.target.closest('[data-tut=close]')) close(); });
+  m.querySelector('[data-tut=close]').focus({ preventScroll: true });
+}
+
 // ---------------------------------------------------------------- events
 document.addEventListener('click', e => {
   const sh = e.target.closest('[data-act=share]'); if (sh) { shareCopy(sh); return; }
@@ -1216,6 +1237,7 @@ document.addEventListener('click', e => {
   }
   const t = e.target.closest('[data-act]'); if (!t) return;
   const act = t.dataset.act;
+  if (act === 'tutorial') { e.preventDefault(); openTutorial(false); return; }
   const H = {
     menu() { const sb = document.querySelector('.sidebar'); sb.classList.add('open'); const s = document.createElement('div'); s.className = 'scrim'; s.onclick = () => { sb.classList.remove('open'); s.remove(); }; document.body.append(s); },
     'q-pick'() { pickPractice(t.dataset.q, t.dataset.l, t.closest('.qc')); },
@@ -1307,4 +1329,6 @@ document.addEventListener('visibilitychange', () => { if (document.hidden) { sto
 window.addEventListener('hashchange', route);
 refreshSide();
 route();
+// tutorial em vídeo: abre sozinho no primeiro acesso da conta (marca fica salva no progresso, vale em qualquer aparelho)
+if (!S.tutSeen) setTimeout(() => openTutorial(true), 700);
 })();
